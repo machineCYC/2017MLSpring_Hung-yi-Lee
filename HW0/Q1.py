@@ -16,4 +16,4 @@ matrixB = np.array(matrixB)
 ans = matrixA.dot(matrixB)
 ans.sort(axis=1)
 
-np.savetxt("Q1_ans.txt", ans, fmt="%d", delimiter="\n")
+np.savetxt("Q1_ans.txt", ans, fmt="%d", newline="\n")

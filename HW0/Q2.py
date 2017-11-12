@@ -1,5 +1,4 @@
 from PIL import Image
-import numpy as np
 
 lena = Image.open("lena.png")
 lena_modified = Image.open("lena_modified.png")
@@ -12,12 +11,3 @@ for j in range(h):
 
 lena_modified.show()
 lena_modified.save("ans_two.png")
-
-
-    
-
-# print(w, h, a.shape, b.shape)
-
-# lena.show()
-# lena_modified.show()
-
