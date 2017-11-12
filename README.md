@@ -1,2 +1,2 @@
-# Hung-yi-Lee2017MLSpring
-Hung-Yi Lee ML 2017 Spring Homework
+# 2017MLSpring Hung-yi-Lee
+2017 ML Spring Homework, Hung-Yi Lee
