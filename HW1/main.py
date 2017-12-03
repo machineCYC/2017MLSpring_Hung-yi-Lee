@@ -41,27 +41,29 @@ for m in range(12):
 ###---Train---###
 arrayTrainX = np.array(listTrainX)
 arrayTrainY = np.array(listTrainY)
-
 # 增加bias項
 arrayTrainX = np.concatenate((np.ones((arrayTrainX.shape[0], 1)), arrayTrainX), axis=1) # (5652, 163)
 
-arrayW = np.zeros(arrayTrainX.shape[1]) # (163, )
-
 # Adagrad
-intLearningRate = 100
+intLearningRate = 5
 Iteration = 20000
-arrayReg = np.zeros(arrayTrainX.shape[1])
+
+arrayW = np.zeros(arrayTrainX.shape[1])  # (163, )
+arrayGradientSum = np.zeros(arrayTrainX.shape[1])
 listCost = []
 for itera in range(Iteration):
     arrayYHat = arrayTrainX.dot(arrayW)
     arrayLoss = arrayYHat - arrayTrainY
     arrayCost = np.sum(arrayLoss**2) / arrayTrainX.shape[0]
+
+    # save cost function value in process
     listCost.append(arrayCost)
 
     arrayGradient = arrayTrainX.T.dot(arrayLoss) / arrayTrainX.shape[0]
-    arrayReg += arrayGradient**2
-    Ada = np.sqrt(arrayReg)
-    arrayW -= intLearningRate * arrayGradient/Ada
+    arrayGradientSum += arrayGradient**2
+    arraySigma = np.sqrt(arrayGradientSum)
+    arrayW -= intLearningRate * arrayGradient / arraySigma
+
     if itera % 1000 == 0:
         print("iteration:{}, cost:{} ".format(itera, arrayCost))
 
@@ -71,21 +73,21 @@ textTest = open("D:/Git/2017MLSpring_Hung-yi-Lee/HW1/test.csv", "r", encoding="b
 rowTest = csv.reader(textTest)
 n_row = 0
 for r in rowTest:
-    if n_row % 18 ==0:
+    if n_row % 18 == 0:
         listTestData.append([])
         for i in range(2, 11):
-            listTestData[n_row//18].append(float(r[i]))
+            listTestData[n_row // 18].append(float(r[i]))
     else:
         for i in range(2, 11):
             if r[i] == "NR":
-                listTestData[n_row//18].append(float(0))
+                listTestData[n_row // 18].append(float(0))
             else:
-                listTestData[n_row//18].append(float(r[i]))
+                listTestData[n_row // 18].append(float(r[i]))
     n_row += 1
 textTest.close()
 
-arrayTestX = np.array(listTestData) 
-arrayTestX = np.concatenate((np.ones((arrayTestX.shape[0], 1)), arrayTestX), axis=1) # (240, 163)
+arrayTestX = np.array(listTestData)
+arrayTestX = np.concatenate((np.ones((arrayTestX.shape[0], 1)), arrayTestX), axis=1)  # (240, 163)
 arrayPredictY = np.dot(arrayTestX, arrayW)
 
 # close form
@@ -103,14 +105,14 @@ dcitD = {"Adagrad":arrayPredictY, "CloseForm":arrayPredictCloseY}
 pdResult = pd.DataFrame(dcitD)
 print(pdResult)
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(10, 4))
 plt.subplot(121)
-plt.plot(np.arange(len(arrayPredictY)),arrayPredictY, "b--")
+plt.plot(np.arange(len(arrayPredictY)), arrayPredictY, "b--")
 plt.title("Adagrad")
 plt.xlabel("Test Data Index")
 plt.ylabel("Predict Result")
 plt.subplot(122)
-plt.plot(np.arange(len(arrayPredictCloseY)),arrayPredictCloseY, "r--")
+plt.plot(np.arange(len(arrayPredictCloseY)), arrayPredictCloseY, "r--")
 plt.title("CloseForm")
 plt.xlabel("Test Data Index")
 plt.ylabel("Predict Result")
@@ -137,7 +139,3 @@ for itera in range(Iteration):
         print("iteration:{}, cost:{} ".format(itera, arrayCost))
 plt.plot(np.arange(len(listCost)),listCost, "b--")
 plt.show()
-
-
-
-
