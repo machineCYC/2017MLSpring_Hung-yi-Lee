@@ -2,7 +2,7 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-
+print(np.around([0.78, 0.68, 0.77, 0.38, 0.37]))
 
 ###---Data Processing---###
 dfData = pd.read_csv("D:/Git/2017MLSpring_Hung-yi-Lee/HW2/train.csv")
@@ -64,13 +64,12 @@ floatLearnRate = 0.1
 arrayW = np.zeros(arrayTrainX.shape[1]) # (106, )
 arrayB = np.zeros(1) # (1, )
 
-    
 arrayTrainAllX, arrayTrainAllY = getShuffleData(arrayX=arrayTrainX, arrayY=arrayTrainY)
 
 arrayTrainAllNormalX = getNormalizeData(arrayX=arrayTrainAllX)
 
 intTrainALLDataSize = len(arrayTrainAllNormalX)
-intValidDataSize = int(np.floor(intTrainALLDataSize * 0.3))
+intValidDataSize = int(np.floor(intTrainALLDataSize * 0.9))
 
 for epoch in range(1, intEpochNum):
 
@@ -80,7 +79,14 @@ for epoch in range(1, intEpochNum):
     arrayValidY = arrayTrainAllY[0:intValidDataSize]
     arrayTrainY = arrayTrainAllY[intValidDataSize:]
 
-    for batch in range(int(intTrainALLDataSize/intBatchSize)):
+    if epoch % 50 == 0:
+        print("Epoch:{}, Epoch average loss:{} ".format(epoch, floatTotalLoss / (50.0*len(arrayTrainX))))
+        floatTotalLoss = 0.0
+        z = arrayValidX.dot(arrayW) + arrayB
+        result = (np.around(getSigmoidValue(z))) == arrayValidY
+        print(float(result.sum())/ len(arrayValidY))
+
+    for batch in range(int(len(arrayTrainX)/intBatchSize)):
         X = arrayTrainX[intBatchSize*batch:intBatchSize*(batch+1)] # (intBatchSize, 163)
         Y = arrayTrainY[intBatchSize*batch:intBatchSize*(batch+1)] # (intBatchSize,)
 
@@ -91,13 +97,13 @@ for epoch in range(1, intEpochNum):
 
         floatTotalLoss += arrayCrossEntropy
 
-        arrayGradientW = X.T.dot(Y - s)
-        arrayGradientB = np.mean(Y - s)
+        arrayGradientW = -X.T.dot(s - Y)
+        arrayGradientB = -np.mean(s - Y)
 
         arrayW -= floatLearnRate * arrayGradientW
         arrayB -= floatLearnRate * arrayGradientB
 
-    print("Epoch:{}, CrossEntropy:{} ".format(epoch, arrayCrossEntropy))
+    # print("Epoch:{}, CrossEntropy:{} , TotalLoss{} ".format(epoch, arrayCrossEntropy, floatTotalLoss))
 
 print("GG")
 
