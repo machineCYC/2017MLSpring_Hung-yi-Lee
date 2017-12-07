@@ -2,7 +2,12 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-print(np.around([0.78, 0.68, 0.77, 0.38, 0.37]))
+b = np.array([[1,1,1,1,1], [2,2,2,2,2]])
+a = np.array([2, 3])
+c = np.ones(1)
+print(b.shape, a.shape)
+print(b * a.reshape(2, 1))
+# print(np.dot(b, np.transpose(a)) + c)
 
 ###---Data Processing---###
 dfData = pd.read_csv("D:/Git/2017MLSpring_Hung-yi-Lee/HW2/train.csv")
@@ -21,25 +26,14 @@ dfObjectData = pd.get_dummies(dfObjectData)
 dfTrainX = dfNonObjectData.join(dfObjectData)
 dfTrainX = dfTrainX.astype("int64")
 dfTrainY = (dfDataY==" >50K").astype("int64") # >50K 1, =<50K 0
-
-arrayTrainX = np.array(dfTrainX.values) # (32561, 106)
-arrayTrainY = np.array(dfTrainY.values) # (32561, )
-
+# dfTrainX.to_csv("D:/Git/2017MLSpring_Hung-yi-Lee/HW2/X_train_my",index=False)
+# dfTrainY.to_csv("D:/Git/2017MLSpring_Hung-yi-Lee/HW2/Y_train_my",index=False, header=True)
 
 def getShuffleData(arrayX, arrayY):
     arrayRandomIndex = np.arange(len(arrayX))
     np.random.shuffle(arrayRandomIndex)
 
-    arrayX = arrayX[arrayRandomIndex]
-    arrayY = arrayY[arrayRandomIndex]
-
-    return arrayX, arrayY
-
-# arrayRandomIndex = np.arange(len(arrayTrainX))
-# np.random.shuffle(arrayRandomIndex)
-
-# arrayTrainX = arrayTrainX[arrayRandomIndex]
-# arrayTrainY = arrayTrainY[arrayRandomIndex]
+    return arrayX[arrayRandomIndex], arrayY[arrayRandomIndex]
 
 def getNormalizeData(arrayX):
     arrayMuX = np.mean(arrayX, axis=0)
@@ -48,59 +42,74 @@ def getNormalizeData(arrayX):
     arrayNormalizeX = (arrayX - arrayMuX) / arraySigmaX
     return arrayNormalizeX
 
-# arrayTrainMuX = np.mean(arrayTrainX, axis=0)
-# arrayTrainSigmaX = np.std(arrayTrainX, axis=0)
-# arrayTrainNormalizeX = (arrayTrainX - arrayTrainMuX) / arrayTrainSigmaX
-
 def getSigmoidValue(z):
     s = 1 / (1.0 + np.exp(-z))
     return np.clip(s, 1e-8, 1 - (1e-8))
 
-intEpochNum = 1000
-intBatchSize = 32
-floatTotalLoss = 0.0
-floatLearnRate = 0.1
+def getTrainAndValidData(arrayTrainAllX, arrayTrainAllY, percentage):
+    intInputDataSize = len(arrayTrainAllX)
+    intValidDataSize = int(np.floor(intInputDataSize * percentage))
+    
+    arrayTrainAllX, arrayTrainAllY = getShuffleData(arrayTrainAllX, arrayTrainAllY)
 
-arrayW = np.zeros(arrayTrainX.shape[1]) # (106, )
-arrayB = np.zeros(1) # (1, )
-
-arrayTrainAllX, arrayTrainAllY = getShuffleData(arrayX=arrayTrainX, arrayY=arrayTrainY)
-
-arrayTrainAllNormalX = getNormalizeData(arrayX=arrayTrainAllX)
-
-intTrainALLDataSize = len(arrayTrainAllNormalX)
-intValidDataSize = int(np.floor(intTrainALLDataSize * 0.9))
-
-for epoch in range(1, intEpochNum):
-
-    arrayValidX = arrayTrainAllNormalX[0:intValidDataSize]
-    arrayTrainX = arrayTrainAllNormalX[intValidDataSize:]
+    arrayValidX = arrayTrainAllX[0:intValidDataSize]
+    arrayTrainX = arrayTrainAllX[intValidDataSize:]
 
     arrayValidY = arrayTrainAllY[0:intValidDataSize]
     arrayTrainY = arrayTrainAllY[intValidDataSize:]
+    return arrayTrainX, arrayTrainY, arrayValidX, arrayValidY
+
+
+# dfTrainX = pd.read_csv("D:/Git/2017MLSpring_Hung-yi-Lee/HW2/X_train_my", sep=',', header=0)
+# dfTrainY = pd.read_csv("D:/Git/2017MLSpring_Hung-yi-Lee/HW2/Y_train_my", sep=',', header=0)
+# dfTestX = pd.read_csv("D:/Git/2017MLSpring_Hung-yi-Lee/HW2/X_test", sep=',', header=0)
+
+arrayTrainX = np.array(dfTrainX.values) # (32561, 106)
+# arrayTestX = np.array(dfTestX.values) # (32561, 106)
+arrayTrainY = np.array(dfTrainY.values).reshape(-1, 1) # (32561, 1)
+
+
+arrayTrainAllNormalX = getNormalizeData(arrayTrainX)
+
+arrayTrainAllX, arrayTrainAllY = getShuffleData(arrayTrainAllNormalX, arrayTrainY)
+
+arrayTrainX, arrayTrainY, arrayValidX, arrayValidY = getTrainAndValidData(arrayTrainAllX, arrayTrainAllY, 0.5)
+
+intEpochNum = 1000
+intBatchSize = 32
+floatLearnRate = 0.1
+
+arrayW = np.zeros((arrayTrainX.shape[1])) # (106, )
+arrayB = np.zeros(1) # (1, )
+
+floatTotalLoss = 0.0
+for epoch in range(1, intEpochNum):
 
     if epoch % 50 == 0:
-        print("Epoch:{}, Epoch average loss:{} ".format(epoch, floatTotalLoss / (50.0*len(arrayTrainX))))
+        print("Epoch:{}, Epoch average loss:{} ".format(epoch, float(floatTotalLoss) / (50.0*len(arrayTrainX))))
         floatTotalLoss = 0.0
-        z = arrayValidX.dot(arrayW) + arrayB
-        result = (np.around(getSigmoidValue(z))) == arrayValidY
+        z = np.dot(arrayValidX, arrayW) + arrayB
+        result = ((np.around(getSigmoidValue(z))) == np.squeeze(arrayValidY))
         print(float(result.sum())/ len(arrayValidY))
 
-    for batch in range(int(len(arrayTrainX)/intBatchSize)):
-        X = arrayTrainX[intBatchSize*batch:intBatchSize*(batch+1)] # (intBatchSize, 163)
-        Y = arrayTrainY[intBatchSize*batch:intBatchSize*(batch+1)] # (intBatchSize,)
+    arrayTrainX, arrayTrainY = getShuffleData(arrayX=arrayTrainX, arrayY=arrayTrainY)
 
-        z = X.dot(arrayW) + arrayB
+    for batch in range(int(len(arrayTrainX)/intBatchSize)):
+        X = arrayTrainX[intBatchSize*batch:intBatchSize*(batch+1)] # (intBatchSize, 106)
+        Y = arrayTrainY[intBatchSize*batch:intBatchSize*(batch+1)] # (intBatchSize, 1)
+
+        z = np.dot(X, arrayW) + arrayB
         s = getSigmoidValue(z)
 
-        arrayCrossEntropy = -1 * (Y.dot(np.log(s)) + (1-Y).dot(np.log(1-s)))
+        arrayCrossEntropy = -1 * (np.dot(np.transpose(Y), np.log(s)) + np.dot((1-np.transpose(Y)), np.log(1-s)))
 
         floatTotalLoss += arrayCrossEntropy
 
-        arrayGradientW = -X.T.dot(s - Y)
-        arrayGradientB = -np.mean(s - Y)
-
-        arrayW -= floatLearnRate * arrayGradientW
+        # arrayGradientW = np.mean(-1 * X * (np.squeeze(Y) - s).reshape((intBatchSize,1)), axis=0) # need check
+        arrayGradientW = -1 * np.dot(np.transpose(X), (np.squeeze(Y) - s).reshape((intBatchSize,1))) 
+        arrayGradientB = np.mean(-1 * (np.squeeze(Y) - s))
+    
+        arrayW -= floatLearnRate * np.squeeze(arrayGradientW)
         arrayB -= floatLearnRate * arrayGradientB
 
     # print("Epoch:{}, CrossEntropy:{} , TotalLoss{} ".format(epoch, arrayCrossEntropy, floatTotalLoss))
