@@ -1,39 +1,30 @@
-import csv
+import csv, os
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-b = np.array([[1,1,1,1,1], [2,2,2,2,2]])
-a = np.array([2, 3])
-c = np.ones(1)
-print(b.shape, a.shape)
-print(b * a.reshape(2, 1))
-# print(np.dot(b, np.transpose(a)) + c)
 
-###---Data Processing---###
-dfData = pd.read_csv("D:/Git/2017MLSpring_Hung-yi-Lee/HW2/train.csv")
-dfDataX = dfData.drop(["income", "education_num", "sex"], axis=1)
-dfDataY = dfData["income"]
+def makeDataProcessing(dfData):
+    dfDataX = dfData.drop(["education_num", "sex"], axis=1)
 
-listObjectColumnName = [col for col in dfDataX.columns if dfDataX[col].dtypes=="object"]
-listNonObjectColumnName = [col for col in dfDataX.columns if dfDataX[col].dtypes!="object"]
+    listObjectColumnName = [col for col in dfDataX.columns if dfDataX[col].dtypes=="object"]
+    listNonObjectColumnName = [col for col in dfDataX.columns if dfDataX[col].dtypes!="object"]
 
-dfNonObjectData = dfDataX[listNonObjectColumnName]
-dfNonObjectData.insert(2, "sex", (dfData["sex"]==" Male").astype(np.int)) # Male 1 Femal 0
+    dfNonObjectData = dfDataX[listNonObjectColumnName]
+    dfNonObjectData.insert(2, "sex", (dfData["sex"]==" Male").astype(np.int)) # Male 1 Femal 0
 
-dfObjectData = dfDataX[listObjectColumnName]
-dfObjectData = pd.get_dummies(dfObjectData)
+    dfObjectData = dfDataX[listObjectColumnName]
+    dfObjectData = pd.get_dummies(dfObjectData)
 
-dfTrainX = dfNonObjectData.join(dfObjectData)
-dfTrainX = dfTrainX.astype("int64")
-dfTrainY = (dfDataY==" >50K").astype("int64") # >50K 1, =<50K 0
-# dfTrainX.to_csv("D:/Git/2017MLSpring_Hung-yi-Lee/HW2/X_train_my",index=False)
-# dfTrainY.to_csv("D:/Git/2017MLSpring_Hung-yi-Lee/HW2/Y_train_my",index=False, header=True)
+    dfDataX = dfNonObjectData.join(dfObjectData)
+    dfDataX = dfDataX.astype("int64")
+    return dfDataX
+
 
 def getShuffleData(arrayX, arrayY):
     arrayRandomIndex = np.arange(len(arrayX))
     np.random.shuffle(arrayRandomIndex)
-
     return arrayX[arrayRandomIndex], arrayY[arrayRandomIndex]
+
 
 def getNormalizeData(arrayX):
     arrayMuX = np.mean(arrayX, axis=0)
@@ -42,14 +33,16 @@ def getNormalizeData(arrayX):
     arrayNormalizeX = (arrayX - arrayMuX) / arraySigmaX
     return arrayNormalizeX
 
+
 def getSigmoidValue(z):
     s = 1 / (1.0 + np.exp(-z))
     return np.clip(s, 1e-8, 1 - (1e-8))
 
+
 def getTrainAndValidData(arrayTrainAllX, arrayTrainAllY, percentage):
     intInputDataSize = len(arrayTrainAllX)
     intValidDataSize = int(np.floor(intInputDataSize * percentage))
-    
+
     arrayTrainAllX, arrayTrainAllY = getShuffleData(arrayTrainAllX, arrayTrainAllY)
 
     arrayValidX = arrayTrainAllX[0:intValidDataSize]
@@ -60,14 +53,26 @@ def getTrainAndValidData(arrayTrainAllX, arrayTrainAllY, percentage):
     return arrayTrainX, arrayTrainY, arrayValidX, arrayValidY
 
 
-# dfTrainX = pd.read_csv("D:/Git/2017MLSpring_Hung-yi-Lee/HW2/X_train_my", sep=',', header=0)
-# dfTrainY = pd.read_csv("D:/Git/2017MLSpring_Hung-yi-Lee/HW2/Y_train_my", sep=',', header=0)
-# dfTestX = pd.read_csv("D:/Git/2017MLSpring_Hung-yi-Lee/HW2/X_test", sep=',', header=0)
+###---Data Processing---###
+dfDataTrain = pd.read_csv(os.path.join(os.path.dirname(__file__), "train.csv"))
+dfDataTest = pd.read_csv(os.path.join(os.path.dirname(__file__), "test.csv"))
+
+intTrainSize = len(dfDataTrain)
+intTestSize = len(dfDataTest)
+
+dfDataTrainY = dfDataTrain["income"]
+dfTrainY = (dfDataTrainY==" >50K").astype("int64") # >50K 1, =<50K 0
+print(dfTrainY.value_counts())
+dfDataTrain = dfDataTrain.drop(["income"], axis=1)
+dfAllData = pd.concat([dfDataTrain, dfDataTest], axis=0, ignore_index=True)
+dfAllData = makeDataProcessing(dfData=dfAllData)
+
+dfTrainX = dfAllData[0:intTrainSize]
+dfTestX = dfAllData[intTrainSize:(intTrainSize + intTestSize)]
 
 arrayTrainX = np.array(dfTrainX.values) # (32561, 106)
-# arrayTestX = np.array(dfTestX.values) # (32561, 106)
+arrayTestX = np.array(dfTestX.values) # (16281, 106)
 arrayTrainY = np.array(dfTrainY.values).reshape(-1, 1) # (32561, 1)
-
 
 arrayTrainAllNormalX = getNormalizeData(arrayTrainX)
 
@@ -75,6 +80,8 @@ arrayTrainAllX, arrayTrainAllY = getShuffleData(arrayTrainAllNormalX, arrayTrain
 
 arrayTrainX, arrayTrainY, arrayValidX, arrayValidY = getTrainAndValidData(arrayTrainAllX, arrayTrainAllY, 0.5)
 
+
+###---Train(mini batch gradient descent)---###
 intEpochNum = 1000
 intBatchSize = 32
 floatLearnRate = 0.1
@@ -105,8 +112,8 @@ for epoch in range(1, intEpochNum):
 
         floatTotalLoss += arrayCrossEntropy
 
-        # arrayGradientW = np.mean(-1 * X * (np.squeeze(Y) - s).reshape((intBatchSize,1)), axis=0) # need check
-        arrayGradientW = -1 * np.dot(np.transpose(X), (np.squeeze(Y) - s).reshape((intBatchSize,1))) 
+        arrayGradientW = np.mean(-1 * X * (np.squeeze(Y) - s).reshape((intBatchSize,1)), axis=0) # need check
+        # arrayGradientW = -1 * np.dot(np.transpose(X), (np.squeeze(Y) - s).reshape((intBatchSize,1))) 
         arrayGradientB = np.mean(-1 * (np.squeeze(Y) - s))
     
         arrayW -= floatLearnRate * np.squeeze(arrayGradientW)
@@ -114,42 +121,17 @@ for epoch in range(1, intEpochNum):
 
     # print("Epoch:{}, CrossEntropy:{} , TotalLoss{} ".format(epoch, arrayCrossEntropy, floatTotalLoss))
 
-print("GG")
 
+###---Test---###
+ans = pd.read_csv(os.path.join(os.path.dirname(__file__), "correct_answer.csv"))
+z = np.dot(arrayTestX, arrayW) + arrayB
+predict = np.around(getSigmoidValue(z))
 
+dictD = {"Predict":predict, "Target":ans["label"]}
+ResultTable = pd.DataFrame(dictD, columns=dictD.keys())
+print(ResultTable)
 
-
-
-
-# TrainDataSize = len(arrayTrainNormalizeX)
-# ValidDataSize = int(floor(TrainDataSize * 0.3))
-
-# arrayValidX = arrayTrainNormalizeX[0:ValidDataSize, :]
-# arrayTrainNormalizeX2 = arrayTrainNormalizeX[ValidDataSize:, :]
-
-# arrayValidY = arrayTrainY[0:ValidDataSize, :]
-# arrayTrainY2 = arrayTrainY[ValidDataSize:, :]
-
-
-
-
-
-
-
-
-# dfTrainX.to_csv("D:/Git/2017MLSpring_Hung-yi-Lee/HW2/X_train_my")
-
-
-
-# print(dfTrainX)
-# data = pd.read_csv("D:/Git/2017MLSpring_Hung-yi-Lee/HW2/X_train")
-# for c in data.columns:
-#     print(c)
-
-# print(data["?_occupation"])
-
-# ?_native_country
-# ?_workclass
-
-
+print(ans["label"].value_counts())
+result = ((predict) == np.squeeze(ans["label"]))
+print(float(result.sum())/ len(ans))
 
