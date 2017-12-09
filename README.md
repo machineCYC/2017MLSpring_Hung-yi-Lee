@@ -8,6 +8,6 @@ The detail of each homework is in the below.
 
 [HW1](https://github.com/machineCYC/2017MLSpring_Hung-yi-Lee/tree/master/HW1)
 
-
+[HW2](https://github.com/machineCYC/2017MLSpring_Hung-yi-Lee/tree/master/HW2)
 
 
