@@ -59,7 +59,7 @@ if __name__ == "__main__":
     arrayTrainAllX, arrayTrainAllY = getShuffleData(arrayNormalizeTrainX, arrayTrainY)
 
     # take some training data to be validation data
-    arrayTrainX, arrayTrainY, arrayValidX, arrayValidY = getTrainAndValidData(arrayTrainAllX, arrayTrainAllY, 0.5)
+    arrayTrainX, arrayTrainY, arrayValidX, arrayValidY = getTrainAndValidData(arrayTrainAllX, arrayTrainAllY, 0.2)
 
 
     ###---Train(mini batch gradient descent)---###
@@ -101,7 +101,7 @@ if __name__ == "__main__":
             arrayW -= floatLearnRate * np.squeeze(arrayGradientW)
             arrayB -= floatLearnRate * arrayGradientB
 
-            # print("CrossEntropy:{} , TotalLoss{} ".format(arrayCrossEntropy, floatTotalLoss))
+        print("CrossEntropy:{} , TotalLoss{} ".format(arrayCrossEntropy, floatTotalLoss))
 
 
     ###---Test---###

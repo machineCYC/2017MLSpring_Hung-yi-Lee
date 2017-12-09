@@ -15,6 +15,15 @@ Barry Becker從1994年的人口普查數據庫中進行了提取。
 
 * 共有32561筆訓練資料，16281筆測試資料，其中資料維度為106。
 
+
+## Summary 總結
+
+* Logistic Regression
+
+
+* Probabilstic Generative Model
+
+
 ## Reference
 
 * [原始課程作業說明](https://docs.google.com/presentation/d/12wP13zwBWSmmYq4DufsxiMjmXociERW7VnjPWscXZO8/edit#slide=id.g1ef9a0916d_0_0)
