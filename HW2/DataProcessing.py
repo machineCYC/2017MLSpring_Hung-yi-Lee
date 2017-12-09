@@ -42,6 +42,6 @@ if __name__ == "__main__":
     dfTestX = dfAllData[intTrainSize:(intTrainSize + intTestSize)]
 
     # save Training data, Testing data and Training label
-    dfTrainX.to_csv(os.path.join(os.path.dirname(__file__), "X_train_my.csv"), index = False)
-    dfTestX.to_csv(os.path.join(os.path.dirname(__file__), "X_Test_my.csv"), index = False)
-    dfTrainY.to_csv(os.path.join(os.path.dirname(__file__), "Y_train_my.csv"), index = False)
+    dfTrainX.to_csv(os.path.join(os.path.dirname(__file__), "X_train_my.csv"), index=False)
+    dfTestX.to_csv(os.path.join(os.path.dirname(__file__), "X_Test_my.csv"), index=False)
+    dfTrainY.to_csv(os.path.join(os.path.dirname(__file__), "Y_train_my.csv"), index=False)

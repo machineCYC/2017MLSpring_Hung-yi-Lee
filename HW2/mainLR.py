@@ -40,73 +40,80 @@ def getTrainAndValidData(arrayTrainAllX, arrayTrainAllY, percentage):
     return arrayTrainX, arrayTrainY, arrayValidX, arrayValidY
 
 
-dfTrainX = pd.read_csv(os.path.join(os.path.dirname(__file__), "X_train_my.csv"))
-dfTrainY = pd.read_csv(os.path.join(os.path.dirname(__file__), "Y_train_my.csv"))
-dfTestX = pd.read_csv(os.path.join(os.path.dirname(__file__), "X_test_my.csv"))
-
-arrayTrainX = np.array(dfTrainX.values) # (32561, 106)
-arrayTestX = np.array(dfTestX.values) # (16281, 106)
-arrayTrainY = np.array(dfTrainY.values) # (32561)
-
-arrayNormalizeTrainX, arrayNormalizeTestX = getNormalizeData(arrayTrainX, arrayTestX)
-
-arrayTrainAllX, arrayTrainAllY = getShuffleData(arrayNormalizeTrainX, arrayTrainY)
-
-arrayTrainX, arrayTrainY, arrayValidX, arrayValidY = getTrainAndValidData(arrayTrainAllX, arrayTrainAllY, 0.5)
-
-
-###---Train(mini batch gradient descent)---###
-intEpochNum = 1000
-intBatchSize = 32
-floatLearnRate = 0.1
-
-arrayW = np.zeros((arrayTrainX.shape[1])) # (106, )
-arrayB = np.zeros(1) # (1, )
-
-floatTotalLoss = 0.0
-for epoch in range(1, intEpochNum):
-
-    if epoch % 50 == 0:
-        print("Epoch:{}, Epoch average loss:{} ".format(epoch, float(floatTotalLoss) / (50.0*len(arrayTrainX))))
-        floatTotalLoss = 0.0
-        z = np.dot(arrayValidX, arrayW) + arrayB
-        result = ((np.around(getSigmoidValue(z))) == np.squeeze(arrayValidY))
-        print(float(result.sum())/ len(arrayValidY))
-
-    arrayTrainX, arrayTrainY = getShuffleData(arrayX=arrayTrainX, arrayY=arrayTrainY)
-
-    for batch in range(int(len(arrayTrainX)/intBatchSize)):
-        X = arrayTrainX[intBatchSize*batch:intBatchSize*(batch+1)] # (intBatchSize, 106)
-        Y = arrayTrainY[intBatchSize*batch:intBatchSize*(batch+1)] # (intBatchSize, 1)
-
-        z = np.dot(X, arrayW) + arrayB
-        s = getSigmoidValue(z)
-
-        arrayCrossEntropy = -1 * (np.dot(np.transpose(Y), np.log(s)) + np.dot((1-np.transpose(Y)), np.log(1-s)))
-
-        floatTotalLoss += arrayCrossEntropy
-
-        arrayGradientW = np.mean(-1 * X * (np.squeeze(Y) - s).reshape((intBatchSize,1)), axis=0) # need check
-        # arrayGradientW = -1 * np.dot(np.transpose(X), (np.squeeze(Y) - s).reshape((intBatchSize,1))) 
-        arrayGradientB = np.mean(-1 * (np.squeeze(Y) - s))
+if __name__ == "__main__":
     
-        arrayW -= floatLearnRate * np.squeeze(arrayGradientW)
-        arrayB -= floatLearnRate * arrayGradientB
+    # read Training data, Training label, Testing data
+    dfTrainX = pd.read_csv(os.path.join(os.path.dirname(__file__), "X_train_my.csv"))
+    dfTrainY = pd.read_csv(os.path.join(os.path.dirname(__file__), "Y_train_my.csv"))
+    dfTestX = pd.read_csv(os.path.join(os.path.dirname(__file__), "X_test_my.csv"))
 
-    # print("Epoch:{}, CrossEntropy:{} , TotalLoss{} ".format(epoch, arrayCrossEntropy, floatTotalLoss))
+    # transform the data to array
+    arrayTrainX = np.array(dfTrainX.values) # (32561, 106)
+    arrayTestX = np.array(dfTestX.values) # (16281, 106)
+    arrayTrainY = np.array(dfTrainY.values) # (32561)
+
+    # normalize the Training and Testing data
+    arrayNormalizeTrainX, arrayNormalizeTestX = getNormalizeData(arrayTrainX, arrayTestX)
+
+    # Shuffling data index
+    arrayTrainAllX, arrayTrainAllY = getShuffleData(arrayNormalizeTrainX, arrayTrainY)
+
+    # take some training data to be validation data
+    arrayTrainX, arrayTrainY, arrayValidX, arrayValidY = getTrainAndValidData(arrayTrainAllX, arrayTrainAllY, 0.5)
 
 
-###---Test---###
-ans = pd.read_csv(os.path.join(os.path.dirname(__file__), "correct_answer.csv"))
-Testz = (np.dot(arrayNormalizeTestX, arrayW) + arrayB)
-predict = np.around(getSigmoidValue(Testz))
+    ###---Train(mini batch gradient descent)---###
+    intBatchIterationNum = 100
+    intEpochNum = int(len(arrayTrainX)/intBatchIterationNum)
+    intBatchSize = 32
+    floatLearnRate = 0.1
+
+    arrayW = np.zeros((arrayTrainX.shape[1])) # (106, )
+    arrayB = np.zeros(1) # (1, )
+
+    floatTotalLoss = 0.0
+    for epoch in range(1, intEpochNum):
+
+        if epoch % 10 == 0:
+            print("Epoch:{}, Epoch average loss:{} ".format(epoch, float(floatTotalLoss) / (10.0*len(arrayTrainX))))
+            floatTotalLoss = 0.0
+            z = np.dot(arrayValidX, arrayW) + arrayB
+            result = ((np.around(getSigmoidValue(z))) == np.squeeze(arrayValidY))
+            print("Accuracy:{} ".format(float(result.sum())/ len(arrayValidY)))
+
+        arrayTrainX, arrayTrainY = getShuffleData(arrayX=arrayTrainX, arrayY=arrayTrainY)
+
+        for batch_iter in range(intBatchIterationNum):
+            X = arrayTrainX[intBatchSize*batch_iter:intBatchSize*(batch_iter+1)] # (intBatchSize, 106)
+            Y = arrayTrainY[intBatchSize*batch_iter:intBatchSize*(batch_iter+1)] # (intBatchSize, 1)
+
+            z = np.dot(X, arrayW) + arrayB
+            s = getSigmoidValue(z)
+
+            arrayCrossEntropy = -1 * (np.dot(np.transpose(Y), np.log(s)) + np.dot((1-np.transpose(Y)), np.log(1-s)))
+
+            floatTotalLoss += arrayCrossEntropy
+
+            # arrayGradientW = np.mean(-1 * X * (np.squeeze(Y) - s).reshape((intBatchSize,1)), axis=0) # need check
+            arrayGradientW = -1 * np.dot(np.transpose(X), (np.squeeze(Y) - s).reshape((intBatchSize,1))) 
+            arrayGradientB = np.mean(-1 * (np.squeeze(Y) - s))
+        
+            arrayW -= floatLearnRate * np.squeeze(arrayGradientW)
+            arrayB -= floatLearnRate * arrayGradientB
+
+            # print("CrossEntropy:{} , TotalLoss{} ".format(arrayCrossEntropy, floatTotalLoss))
 
 
-dictD = {"Predict":predict, "Target":ans["label"]}
-ResultTable = pd.DataFrame(dictD, columns=dictD.keys())
-print(ResultTable)
+    ###---Test---###
+    ans = pd.read_csv(os.path.join(os.path.dirname(__file__), "correct_answer.csv"))
+    Testz = (np.dot(arrayNormalizeTestX, arrayW) + arrayB)
+    predict = np.around(getSigmoidValue(Testz))
 
-print(ans["label"].value_counts())
-result = ((predict) == np.squeeze(ans["label"]))
-print(sum(result)/ len(ans))
+
+    dictD = {"Predict":predict, "Target":ans["label"]}
+    ResultTable = pd.DataFrame(dictD, columns=dictD.keys())
+    print(ResultTable)
+
+    result = ((predict) == np.squeeze(ans["label"]))
+    print("Testing Accuracy:{} ".format(sum(result)/ len(ans)))
 
