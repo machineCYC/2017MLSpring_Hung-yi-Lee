@@ -3,35 +3,22 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
-def makeDataProcessing(dfData):
-    dfDataX = dfData.drop(["education_num", "sex"], axis=1)
-
-    listObjectColumnName = [col for col in dfDataX.columns if dfDataX[col].dtypes=="object"]
-    listNonObjectColumnName = [col for col in dfDataX.columns if dfDataX[col].dtypes!="object"]
-
-    dfNonObjectData = dfDataX[listNonObjectColumnName]
-    dfNonObjectData.insert(2, "sex", (dfData["sex"]==" Male").astype(np.int)) # Male 1 Femal 0
-
-    dfObjectData = dfDataX[listObjectColumnName]
-    dfObjectData = pd.get_dummies(dfObjectData)
-
-    dfDataX = dfNonObjectData.join(dfObjectData)
-    dfDataX = dfDataX.astype("int64")
-    return dfDataX
-
-
 def getShuffleData(arrayX, arrayY):
     arrayRandomIndex = np.arange(len(arrayX))
     np.random.shuffle(arrayRandomIndex)
     return arrayX[arrayRandomIndex], arrayY[arrayRandomIndex]
 
 
-def getNormalizeData(arrayX):
+def getNormalizeData(arrayTrainX, arrayTestX):
+    arrayX = np.concatenate((arrayTrainX, arrayTestX))
+    
     arrayMuX = np.mean(arrayX, axis=0)
     arraySigmaX = np.std(arrayX, axis=0)
 
     arrayNormalizeX = (arrayX - arrayMuX) / arraySigmaX
-    return arrayNormalizeX
+
+    arrayNormalizeTrainX, arrayNormalizeTestX = arrayNormalizeX[0:arrayTrainX.shape[0]], arrayNormalizeX[arrayTrainX.shape[0]:]
+    return arrayNormalizeTrainX, arrayNormalizeTestX
 
 
 def getSigmoidValue(z):
@@ -53,30 +40,17 @@ def getTrainAndValidData(arrayTrainAllX, arrayTrainAllY, percentage):
     return arrayTrainX, arrayTrainY, arrayValidX, arrayValidY
 
 
-###---Data Processing---###
-dfDataTrain = pd.read_csv(os.path.join(os.path.dirname(__file__), "train.csv"))
-dfDataTest = pd.read_csv(os.path.join(os.path.dirname(__file__), "test.csv"))
-
-intTrainSize = len(dfDataTrain)
-intTestSize = len(dfDataTest)
-
-dfDataTrainY = dfDataTrain["income"]
-dfTrainY = (dfDataTrainY==" >50K").astype("int64") # >50K 1, =<50K 0
-print(dfTrainY.value_counts())
-dfDataTrain = dfDataTrain.drop(["income"], axis=1)
-dfAllData = pd.concat([dfDataTrain, dfDataTest], axis=0, ignore_index=True)
-dfAllData = makeDataProcessing(dfData=dfAllData)
-
-dfTrainX = dfAllData[0:intTrainSize]
-dfTestX = dfAllData[intTrainSize:(intTrainSize + intTestSize)]
+dfTrainX = pd.read_csv(os.path.join(os.path.dirname(__file__), "X_train_my.csv"))
+dfTrainY = pd.read_csv(os.path.join(os.path.dirname(__file__), "Y_train_my.csv"))
+dfTestX = pd.read_csv(os.path.join(os.path.dirname(__file__), "X_test_my.csv"))
 
 arrayTrainX = np.array(dfTrainX.values) # (32561, 106)
 arrayTestX = np.array(dfTestX.values) # (16281, 106)
-arrayTrainY = np.array(dfTrainY.values).reshape(-1, 1) # (32561, 1)
+arrayTrainY = np.array(dfTrainY.values) # (32561)
 
-arrayTrainAllNormalX = getNormalizeData(arrayTrainX)
+arrayNormalizeTrainX, arrayNormalizeTestX = getNormalizeData(arrayTrainX, arrayTestX)
 
-arrayTrainAllX, arrayTrainAllY = getShuffleData(arrayTrainAllNormalX, arrayTrainY)
+arrayTrainAllX, arrayTrainAllY = getShuffleData(arrayNormalizeTrainX, arrayTrainY)
 
 arrayTrainX, arrayTrainY, arrayValidX, arrayValidY = getTrainAndValidData(arrayTrainAllX, arrayTrainAllY, 0.5)
 
@@ -124,8 +98,9 @@ for epoch in range(1, intEpochNum):
 
 ###---Test---###
 ans = pd.read_csv(os.path.join(os.path.dirname(__file__), "correct_answer.csv"))
-z = np.dot(arrayTestX, arrayW) + arrayB
-predict = np.around(getSigmoidValue(z))
+Testz = (np.dot(arrayNormalizeTestX, arrayW) + arrayB)
+predict = np.around(getSigmoidValue(Testz))
+
 
 dictD = {"Predict":predict, "Target":ans["label"]}
 ResultTable = pd.DataFrame(dictD, columns=dictD.keys())
@@ -133,5 +108,5 @@ print(ResultTable)
 
 print(ans["label"].value_counts())
 result = ((predict) == np.squeeze(ans["label"]))
-print(float(result.sum())/ len(ans))
+print(sum(result)/ len(ans))
 
