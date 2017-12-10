@@ -1,5 +1,5 @@
 import numpy as np
-import csv
+import csv, os
 from numpy.linalg import inv
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -11,7 +11,7 @@ for i in range(18):
 	listTrainData.append([])
 
 # 將資料放進空間
-textTrain = open("D:/Git/2017MLSpring_Hung-yi-Lee/HW1/train.csv", "r", encoding="big5") 
+textTrain = open(os.path.join(os.path.dirname(__file__), "train.csv"), "r", encoding="big5") 
 rowTrain = csv.reader(textTrain)
 n_row = 0
 for r in rowTrain:
@@ -95,7 +95,7 @@ arrayCloseFormW = inv(arrayTrainX.T.dot(arrayTrainX)).dot(arrayTrainX.T.dot(arra
 arrayPredictCloseY = np.dot(arrayTestX, arrayCloseFormW)
 
 ###---Visualization---###
-plt.plot(np.arange(len(listCost[100:])),listCost[100:], "b--")
+plt.plot(np.arange(len(listCost[50:])),listCost[50:], "b--")
 plt.title("Train Process")
 plt.xlabel("Adagrad Iteration")
 plt.ylabel("Cost Function (MSE)")

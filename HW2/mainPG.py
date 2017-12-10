@@ -32,6 +32,7 @@ def getSigmoidValue(z):
 if __name__ == "__main__":
 
     np.random.seed(11)
+    
     # read Training data, Training label, Testing data
     dfTrainX = pd.read_csv(os.path.join(os.path.dirname(__file__), "X_train_my.csv"))
     dfTrainY = pd.read_csv(os.path.join(os.path.dirname(__file__), "Y_train_my.csv"))
