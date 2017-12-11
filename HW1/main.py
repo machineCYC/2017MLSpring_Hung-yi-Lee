@@ -10,6 +10,7 @@ listTrainData = []
 for i in range(18):
 	listTrainData.append([])
 
+
 # 將資料放進空間
 textTrain = open(os.path.join(os.path.dirname(__file__), "train.csv"), "r", encoding="big5") 
 rowTrain = csv.reader(textTrain)
@@ -23,6 +24,7 @@ for r in rowTrain:
                 listTrainData[(n_row-1) % 18].append(float(0))   
     n_row += 1    
 textTrain.close()
+
 
 listTrainX = []
 listTrainY = []
@@ -38,11 +40,13 @@ for m in range(12):
             for t in range(9):
                 listTrainX[471*m + i].append(listTrainData[p][480*m + i + t])
 
+
 ###---Train---###
 arrayTrainX = np.array(listTrainX)
 arrayTrainY = np.array(listTrainY)
 # 增加bias項
 arrayTrainX = np.concatenate((np.ones((arrayTrainX.shape[0], 1)), arrayTrainX), axis=1) # (5652, 163)
+
 
 # Adagrad
 intLearningRate = 5
@@ -67,9 +71,10 @@ for itera in range(Iteration):
     if itera % 1000 == 0:
         print("iteration:{}, cost:{} ".format(itera, arrayCost))
 
+
 ###---Test---###
 listTestData = []
-textTest = open("D:/Git/2017MLSpring_Hung-yi-Lee/HW1/test.csv", "r", encoding="big5")
+textTest = open(os.path.join(os.path.dirname(__file__), "test.csv"), "r", encoding="big5")
 rowTest = csv.reader(textTest)
 n_row = 0
 for r in rowTest:
@@ -86,24 +91,30 @@ for r in rowTest:
     n_row += 1
 textTest.close()
 
+
 arrayTestX = np.array(listTestData)
 arrayTestX = np.concatenate((np.ones((arrayTestX.shape[0], 1)), arrayTestX), axis=1)  # (240, 163)
 arrayPredictY = np.dot(arrayTestX, arrayW)
 
+
 # close form
 arrayCloseFormW = inv(arrayTrainX.T.dot(arrayTrainX)).dot(arrayTrainX.T.dot(arrayTrainY))
 arrayPredictCloseY = np.dot(arrayTestX, arrayCloseFormW)
+
 
 ###---Visualization---###
 plt.plot(np.arange(len(listCost[50:])),listCost[50:], "b--")
 plt.title("Train Process")
 plt.xlabel("Adagrad Iteration")
 plt.ylabel("Cost Function (MSE)")
+plt.savefig(os.path.join(os.path.dirname(__file__), "TrainProcess"))
 plt.show()
 
 dcitD = {"Adagrad":arrayPredictY, "CloseForm":arrayPredictCloseY}
 pdResult = pd.DataFrame(dcitD)
+pdResult.to_csv(os.path.join(os.path.dirname(__file__), "Predict"))
 print(pdResult)
+
 
 plt.figure(figsize=(10, 4))
 plt.subplot(121)
@@ -116,6 +127,7 @@ plt.plot(np.arange(len(arrayPredictCloseY)), arrayPredictCloseY, "r--")
 plt.title("CloseForm")
 plt.xlabel("Test Data Index")
 plt.ylabel("Predict Result")
+plt.savefig(os.path.join(os.path.dirname(__file__), "Compare"))
 plt.show()
 
 #%%

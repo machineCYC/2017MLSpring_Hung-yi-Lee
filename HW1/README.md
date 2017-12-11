@@ -16,6 +16,9 @@
 
 ## Summary 總結
 
+![](TrainProcess.png) 
+
+![](Compare.png) 
 
 
 ## Reference
