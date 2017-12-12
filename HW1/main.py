@@ -142,7 +142,7 @@ plt.title("Train Process")
 plt.xlabel("Iteration")
 plt.ylabel("Cost Function (MSE)")
 plt.legend()
-plt.savefig(os.path.join(os.path.dirname(__file__), "CompareTrainProcess"))
+plt.savefig(os.path.join(os.path.dirname(__file__), "TrainProcess"))
 plt.show()
 
 # compare predict value with different methods
