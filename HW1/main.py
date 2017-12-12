@@ -6,7 +6,7 @@ import pandas as pd
 
 
 # gradient decent
-def GD(X, Y, W, eta, Iteration):
+def GD(X, Y, W, eta, Iteration, lambdaL2):
     """
     使用gradient decent learning rate 要調很小，不然很容易爆炸
     """
@@ -14,10 +14,10 @@ def GD(X, Y, W, eta, Iteration):
     for itera in range(Iteration):
         arrayYHat = X.dot(W)
         arrayLoss = arrayYHat - Y
-        arrayCost = np.sum(arrayLoss**2) / X.shape[0]
+        arrayCost = (np.sum(arrayLoss**2) / X.shape[0])
         listCost.append(arrayCost)
 
-        arrayGradient = X.T.dot(arrayLoss) / X.shape[0]
+        arrayGradient = (X.T.dot(arrayLoss) / X.shape[0]) + (lambdaL2 * W)
         W -= eta * arrayGradient
         if itera % 1000 == 0:
             print("iteration:{}, cost:{} ".format(itera, arrayCost))
@@ -25,7 +25,7 @@ def GD(X, Y, W, eta, Iteration):
 
 
 # Adagrad
-def Adagrad(X, Y, W, eta, Iteration):
+def Adagrad(X, Y, W, eta, Iteration, lambdaL2):
     listCost = []
     arrayGradientSum = np.zeros(X.shape[1])
     for itera in range(Iteration):
@@ -36,7 +36,7 @@ def Adagrad(X, Y, W, eta, Iteration):
         # save cost function value in process
         listCost.append(arrayCost)
 
-        arrayGradient = np.dot(np.transpose(X), arrayLoss) / X.shape[0]
+        arrayGradient = (np.dot(np.transpose(X), arrayLoss) / X.shape[0]) + (lambdaL2 * W)
         arrayGradientSum += arrayGradient**2
         arraySigma = np.sqrt(arrayGradientSum)
         W -= eta * arrayGradient / arraySigma
@@ -46,7 +46,6 @@ def Adagrad(X, Y, W, eta, Iteration):
     return W, listCost
 
 
-# https://samaelchen.github.io/2017/10/11/machine_learning_hw01/
 ###---DataProcessing---###
 # 給定資料空間
 listTrainData = []
@@ -111,15 +110,17 @@ arrayTrainX = np.concatenate((np.ones((arrayTrainX.shape[0], 1)), arrayTrainX), 
 # gradient decent
 intLearningRate = 1e-6
 arrayW = np.zeros(arrayTrainX.shape[1])  # (163, )
-arrayW_gd, listCost_gd = GD(X=arrayTrainX, Y=arrayTrainY, W=arrayW, eta=intLearningRate, Iteration=20000)
-
+arrayW_gd, listCost_gd = GD(X=arrayTrainX, Y=arrayTrainY, W=arrayW, eta=intLearningRate, Iteration=20000, lambdaL2=0)
+arrayW = np.zeros(arrayTrainX.shape[1])  # (163, )
+arrayW_gd_1, listCost_gd_1 = GD(X=arrayTrainX, Y=arrayTrainY, W=arrayW, eta=intLearningRate, Iteration=20000, lambdaL2=100)
 # Adagrad
 intLearningRate = 5
 arrayW = np.zeros(arrayTrainX.shape[1])  # (163, )
-arrayW_ada, listCost_ada = Adagrad(X=arrayTrainX, Y=arrayTrainY, W=arrayW, eta=intLearningRate, Iteration=20000)
+arrayW_ada, listCost_ada = Adagrad(X=arrayTrainX, Y=arrayTrainY, W=arrayW, eta=intLearningRate, Iteration=20000, lambdaL2=0)
 
 # close form
 arrayW_cf = inv(arrayTrainX.T.dot(arrayTrainX)).dot(arrayTrainX.T.dot(arrayTrainY))
+
 
 ###---Test---###
 arrayTestX = np.concatenate((np.ones((arrayTestX.shape[0], 1)), arrayTestX), axis=1)  # (240, 163)
@@ -134,7 +135,8 @@ arrayPredictY_ada = np.dot(arrayTestX, arrayW_ada)
 arrayPredictY_cf = np.dot(arrayTestX, arrayW_cf)
 
 ###---Visualization---###
-plt.plot(np.arange(len(listCost_gd[3:])), listCost_gd[3:], "b--", label="GD")
+plt.plot(np.arange(len(listCost_gd[3:])), listCost_gd[3:], "b--", label="GD_0")
+plt.plot(np.arange(len(listCost_gd_1[3:])), listCost_gd_1[3:], "r--", label="GD_100")
 plt.plot(np.arange(len(listCost_ada[3:])), listCost_ada[3:], "g--", label="Adagrad")
 plt.title("Train Process")
 plt.xlabel("Iteration")
@@ -143,12 +145,13 @@ plt.legend()
 plt.savefig(os.path.join(os.path.dirname(__file__), "CompareTrainProcess"))
 plt.show()
 
+# compare predict value with different methods
 dcitD = {"Adagrad":arrayPredictY_ada, "CloseForm":arrayPredictY_cf, "GD":arrayPredictY_gd}
 pdResult = pd.DataFrame(dcitD)
 pdResult.to_csv(os.path.join(os.path.dirname(__file__), "Predict"))
 print(pdResult)
 
-
+# visualize predict value with different methods
 plt.figure(figsize=(12, 4))
 plt.subplot(131)
 plt.plot(np.arange(len(arrayPredictY_ada)), arrayPredictY_ada, "b--")
