@@ -24,13 +24,13 @@
 
 在Adagrad演算法的部分，收斂數度相對於GD快很多，由下圖中可以發現疊代5000次左右，參數就已經趨於平緩。GD_100(lambda=100)似乎也趨近於平緩，但cost function 相對於Adagrad來說還是比較大的。
 
-![](TrainProcess.png) 
+![](02-Output/TrainProcess.png) 
 
 Adagrad跟GD最大的差別在於Adagrad考慮了過去以往的gradient去更新參數。另外在訓練的過程中可以從cost function下降的過程中發現Adagrad更新速度會越來越慢，主要原因還是因為adagrad考慮了過去所有的gradient所導致的結果。Adagrad還有一個好處就是參數相對於GD來說好調。
 
 最後我們將GD 和Adagrad 跟公式解做預測的比較，可以發現整體的趨勢大致符合，這也說明了我們的執行的GD和Adagrad是沒有問題的。
 
-![](Compare.png) 
+![](02-Output/Compare.png) 
 
 ## Reference
 

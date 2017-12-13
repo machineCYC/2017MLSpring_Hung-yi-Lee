@@ -117,7 +117,6 @@ arrayW_gd_1, listCost_gd_1 = GD(X=arrayTrainX, Y=arrayTrainY, W=arrayW, eta=intL
 intLearningRate = 5
 arrayW = np.zeros(arrayTrainX.shape[1])  # (163, )
 arrayW_ada, listCost_ada = Adagrad(X=arrayTrainX, Y=arrayTrainY, W=arrayW, eta=intLearningRate, Iteration=20000, lambdaL2=0)
-
 # close form
 arrayW_cf = inv(arrayTrainX.T.dot(arrayTrainX)).dot(arrayTrainX.T.dot(arrayTrainY))
 
@@ -127,10 +126,8 @@ arrayTestX = np.concatenate((np.ones((arrayTestX.shape[0], 1)), arrayTestX), axi
 
 # gradient decent
 arrayPredictY_gd = np.dot(arrayTestX, arrayW_gd)
-
 # Adagrad
 arrayPredictY_ada = np.dot(arrayTestX, arrayW_ada)
-
 # close form
 arrayPredictY_cf = np.dot(arrayTestX, arrayW_cf)
 
