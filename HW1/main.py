@@ -53,7 +53,7 @@ for i in range(18):
 	listTrainData.append([])
 
 # 將資料放進空間
-textTrain = open(os.path.join(os.path.dirname(__file__), "train.csv"), "r", encoding="big5") 
+textTrain = open(os.path.join(os.path.dirname(__file__), "01-Data/train.csv"), "r", encoding="big5") 
 rowTrain = csv.reader(textTrain)
 n_row = 0
 for r in rowTrain:
@@ -81,7 +81,7 @@ for m in range(12):
                 listTrainX[471*m + i].append(listTrainData[p][480*m + i + t])
 
 listTestData = []
-textTest = open(os.path.join(os.path.dirname(__file__), "test.csv"), "r", encoding="big5")
+textTest = open(os.path.join(os.path.dirname(__file__), "01-Data/test.csv"), "r", encoding="big5")
 rowTest = csv.reader(textTest)
 n_row = 0
 for r in rowTest:
@@ -139,13 +139,13 @@ plt.title("Train Process")
 plt.xlabel("Iteration")
 plt.ylabel("Cost Function (MSE)")
 plt.legend()
-plt.savefig(os.path.join(os.path.dirname(__file__), "TrainProcess"))
+plt.savefig(os.path.join(os.path.dirname(__file__), "02-Output/TrainProcess"))
 plt.show()
 
 # compare predict value with different methods
 dcitD = {"Adagrad":arrayPredictY_ada, "CloseForm":arrayPredictY_cf, "GD":arrayPredictY_gd}
 pdResult = pd.DataFrame(dcitD)
-pdResult.to_csv(os.path.join(os.path.dirname(__file__), "Predict"))
+pdResult.to_csv(os.path.join(os.path.dirname(__file__), "02-Output/Predict"))
 print(pdResult)
 
 # visualize predict value with different methods
@@ -166,6 +166,6 @@ plt.title("GD")
 plt.xlabel("Test Data Index")
 plt.ylabel("Predict Result")
 plt.tight_layout()
-plt.savefig(os.path.join(os.path.dirname(__file__), "Compare"))
+plt.savefig(os.path.join(os.path.dirname(__file__), "02-Output/Compare"))
 plt.show()
 
