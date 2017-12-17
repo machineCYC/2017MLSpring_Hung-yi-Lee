@@ -34,9 +34,9 @@ if __name__ == "__main__":
     np.random.seed(11)
     
     # read Training data, Training label, Testing data
-    dfTrainX = pd.read_csv(os.path.join(os.path.dirname(__file__), "X_train_my.csv"))
-    dfTrainY = pd.read_csv(os.path.join(os.path.dirname(__file__), "Y_train_my.csv"))
-    dfTestX = pd.read_csv(os.path.join(os.path.dirname(__file__), "X_test_my.csv"))
+    dfTrainX = pd.read_csv(os.path.join(os.path.dirname(__file__), "01-Data/X_train_my.csv"))
+    dfTrainY = pd.read_csv(os.path.join(os.path.dirname(__file__), "01-Data/Y_train_my.csv"))
+    dfTestX = pd.read_csv(os.path.join(os.path.dirname(__file__), "01-Data/X_test_my.csv"))
 
     # transform the data to array
     arrayTrainX = np.array(dfTrainX.values) # (32561, 106)
