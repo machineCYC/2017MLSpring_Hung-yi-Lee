@@ -25,7 +25,9 @@ Barry Becker從1994年的人口普查數據庫中進行了提取。
 
 * Probabilstic Generative Model
 
-由於我們的目標是將資料進行二元分類，可以假設年收入大於50(y=1)和年收入小於50(y=0)各為106維的常態分配，且每個特徵是獨立的，其中變異數矩陣共用，最後藉由最大估計法直接計算參數<img src="https://latex.codecogs.com/gif.latex?\mu&space;_{1},&space;\mu&space;_{2},&space;\Sigma" title="\mu _{1}, \mu _{2}, \Sigma" />的最佳解。
+由於我們的目標是將資料進行二元分類，可以假設年收入大於50(y=1)和年收入小於50(y=0)各為106維的常態分配，且每個特徵是獨立的，其中變異數矩陣共用，最後藉由最大估計法直接計算參數
+
+<img src="https://latex.codecogs.com/gif.latex?\mu&space;_{1},&space;\mu&space;_{2},&space;\Sigma" title="\mu _{1}, \mu _{2}, \Sigma" />的最佳解。
 
 擁有了模型的參數，我們藉由機率的方式來決定資料是屬於哪個類別，也就是說，分別計算資料來自於第一類的機率<img src="https://latex.codecogs.com/gif.latex?P(C_{1})" title="P(C_{1})" />和第二類的機率<img src="https://latex.codecogs.com/gif.latex?P\left&space;(C_{2}&space;\right&space;)" title="P\left (C_{2} \right )" />以及資料在第一類的機率<img src="https://latex.codecogs.com/gif.latex?P(x\mid&space;C_{1})" title="P(x\mid C_{1})" />和第二類的機率<img src="https://latex.codecogs.com/gif.latex?P(x\mid&space;C_{2})" title="P(x\mid C_{2})" />，最後藉由上述這些機率去計算資料屬於第一類的機率<img src="https://latex.codecogs.com/gif.latex?P(x\mid&space;C_{1})=&space;\frac{P(x\mid&space;C_{1})P(C_{1})}{P(x\mid&space;C_{1})P(C_{1})&plus;P(x\mid&space;C_{2})P(C_{2})}" title="P(x\mid C_{1})= \frac{P(x\mid C_{1})P(C_{1})}{P(x\mid C_{1})P(C_{1})+P(x\mid C_{2})P(C_{2})}" />和第二類的機率<img src="https://latex.codecogs.com/gif.latex?1-P(x\mid&space;C_{1})" title="1-P(x\mid C_{1})" />，最後藉此機率決定資料類別。
 
@@ -36,3 +38,5 @@ Barry Becker從1994年的人口普查數據庫中進行了提取。
 ## Reference
 
 * [原始課程作業說明](https://docs.google.com/presentation/d/12wP13zwBWSmmYq4DufsxiMjmXociERW7VnjPWscXZO8/edit#slide=id.g1ef9a0916d_0_0)
+
+* [Naive Bayes Classifier](https://en.wikipedia.org/wiki/Naive_Bayes_classifier)
