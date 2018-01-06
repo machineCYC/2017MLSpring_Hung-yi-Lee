@@ -18,15 +18,20 @@ Barry Becker從1994年的人口普查數據庫中進行了提取。
 
 ## Summary 總結
 
-本次作業執行 generative model和discriminative model。
+本次作業執行 generative model 和 discriminative model。
 
-* Logistic Regression
+- generative model 的困難點在於要假設資料的分配和變數之間的關係，如果資料越符和假設的分配效果也就越好
+- discriminative model 的難點則是在於如果選選擇超參數
 
-一般對於二元分類最常用的方法為邏輯式回歸(Logistic Regression)，邏輯式回歸跟一般線性回歸差別只在於計算線性回歸之後再利用sigmoid函數將數值轉換到0~1之間，另外將轉換過的的數值透過門檻值來區分類別，而門檻值得設置可以根據資料的不同來做設計，常用門檻值為0.5。
+### Logistic Regression
 
-在這作業我們利用 Mini-batch Gradient Descent 來訓練邏輯式回歸的參數W和B，門檻值則用最一般的方式設置0.5，最後在測試集的預測精準度為85%。
+一般對於二元分類最常用的方法為邏輯式回歸(Logistic Regression)，其背後有一些統計的推導過程，在此就不多做說明，簡單說邏輯式回歸跟一般線性回歸差別只在於計算線性回歸之後再利用sigmoid函數將數值轉換到0~1之間，另外將轉換過的的數值透過門檻值來區分類別，而門檻值得設置可以根據資料的不同來做設計，常用門檻值為0.5。
 
-* Probabilstic Generative Model
+在這作業我們將所有的訓練資料中的20%當成驗證集，藉由另外80%的資料傑來訓練參數。並使用 Mini-batch Gradient Descent 演算法來訓練邏輯式回歸的參數W和B，門檻值則用最一般的方式設置0.5。由下圖可以清楚的看出隨著疊代次數越來越多，不論是訓練集或是驗證集的 Cross entropy 都越來越小，且趨近於一致。這也就說明了模型參數學習得不錯。最後在測試集的預測精準度為85%。
+
+![](02-Output/TrainProcess.png)
+
+### Probabilstic Generative Model
 
 由於我們的目標是將資料進行二元分類，可以假設年收入大於50(y=1)為<img src="https://latex.codecogs.com/gif.latex?C_{1}" title="C_{1}" />類別和年收入小於50(y=0)為<img src="https://latex.codecogs.com/gif.latex?C_{2}" title="C_{2}" />類別且各為106維的常態分配，且每個特徵是獨立的，其中變異數矩陣共用，最後藉由最大估計法直接計算參數<img src="https://latex.codecogs.com/gif.latex?\mu&space;_{1},&space;\mu&space;_{2},&space;\Sigma" title="\mu _{1}, \mu _{2}, \Sigma" />的最佳解。
 
