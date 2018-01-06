@@ -27,6 +27,11 @@ def getSigmoidValue(z):
     return np.clip(s, 1e-8, 1 - (1e-8))
 
 
+def getCrossEntropyValue(s, Y):
+    arrayCrossEntropy = -1 * (np.dot(np.transpose(Y), np.log(s)) + np.dot((1-np.transpose(Y)), np.log(1-s))) / len(Y)
+    return arrayCrossEntropy
+
+
 def getTrainAndValidData(arrayTrainAllX, arrayTrainAllY, percentage):
     intInputDataSize = len(arrayTrainAllX)
     intValidDataSize = int(np.floor(intInputDataSize * percentage))
@@ -52,18 +57,21 @@ def trainMBGD(arrayTrainX, arrayTrainY, intBatchSize, intEpochSize, floatLearnRa
     listValidCost = []
     for epoch in range(intEpochSize):
 
-        if epoch % 1 == 0:
+        if epoch > 0:
+            # train cost
             arrayTrainCost = arrayTotalLoss / (len(arrayTrainX))
             listTrainCost.append(arrayTrainCost)
             print("Epoch:{}, Epoch average loss:{} ".format(epoch, arrayTrainCost))
             
+            # vaild cost
             z = np.dot(arrayValidX, arrayW) + arrayB
             s = getSigmoidValue(z)
-            arrayVaildCrossEntropy = -1 * (np.dot(np.transpose(arrayValidY), np.log(s)) + np.dot((1-np.transpose(arrayValidY)), np.log(1-s))) / len(arrayValidX)
+            arrayPredict = makePredict(s)
+            arrayVaildCrossEntropy = getCrossEntropyValue(s, arrayValidY)
             listValidCost.append(arrayVaildCrossEntropy)
 
-            result = ((np.around(s)) == np.squeeze(arrayValidY))
-            arrayValidAccuracy = sum(result) / len(arrayValidY)
+            # vaild accuracy
+            arrayValidAccuracy = computeAccuracy(arrayPredict, arrayValidY)
             listValidAccuracy.append(arrayValidAccuracy)
             print("Validition Accuracy:{} ".format(arrayValidAccuracy))
             
@@ -78,8 +86,7 @@ def trainMBGD(arrayTrainX, arrayTrainY, intBatchSize, intEpochSize, floatLearnRa
             z = np.dot(X, arrayW) + arrayB
             s = getSigmoidValue(z)
 
-            arrayCrossEntropy = -1 * (np.dot(np.transpose(Y), np.log(s)) + np.dot((1-np.transpose(Y)), np.log(1-s)))
-
+            arrayCrossEntropy = getCrossEntropyValue(s, Y) * len(Y)
             arrayTotalLoss += arrayCrossEntropy
 
             # arrayGradientW = np.mean(-1 * X * (np.squeeze(Y) - s).reshape((intBatchSize,1)), axis=0) # need check
@@ -91,15 +98,29 @@ def trainMBGD(arrayTrainX, arrayTrainY, intBatchSize, intEpochSize, floatLearnRa
 
         # print("CrossEntropy:{} , TotalLoss{} ".format(arrayCrossEntropy, arrayTotalLoss))
 
-    plt.plot(np.arange(len(listValidCost)), listValidCost, "r--", label="vaild")
-    plt.plot(np.arange(len(listTrainCost)), listTrainCost, "b--", label="Train")
+    plt.plot(np.arange(len(listValidCost)), listValidCost, "r--", label="Vaild Cost")
+    plt.plot(np.arange(len(listTrainCost)), listTrainCost, "b--", label="Train Cost")
     plt.legend()
+    plt.savefig(os.path.join(os.path.dirname(__file__), "02-Output/TrainProcess"))
     plt.show()
     return arrayW, arrayB
 
 
+def makePredict(s):
+    pre = np.around(s)
+    return pre
+
+
+def computeAccuracy(Predict, Y):
+    result = (Predict == np.squeeze(Y))
+    Accuracy = sum(result) / len(Y)
+    return Accuracy
+
+
 if __name__ == "__main__":
-    
+
+    np.random.seed(1)
+
     # read Training data, Training label, Testing data
     dfTrainX = pd.read_csv(os.path.join(os.path.dirname(__file__), "01-Data/X_train_my.csv"))
     dfTrainY = pd.read_csv(os.path.join(os.path.dirname(__file__), "01-Data/Y_train_my.csv"))
@@ -120,18 +141,17 @@ if __name__ == "__main__":
     arrayTrainX, arrayTrainY, arrayValidX, arrayValidY = getTrainAndValidData(arrayTrainAllX, arrayTrainAllY, 0.2)
 
     ###---Train(mini batch gradient descent)---###
-    arrayW, arrayB = trainMBGD(arrayTrainX, arrayTrainY, intBatchSize=32, intEpochSize=300, floatLearnRate=0.001)
-
+    arrayW, arrayB = trainMBGD(arrayTrainX, arrayTrainY, intBatchSize=32, intEpochSize=500, floatLearnRate=0.0001)
 
     ###---Test---###
     ans = pd.read_csv(os.path.join(os.path.dirname(__file__), "correct_answer.csv"))
     Testz = (np.dot(arrayNormalizeTestX, arrayW) + arrayB)
-    predict = np.around(getSigmoidValue(Testz))
+    arrayPredict = makePredict(getSigmoidValue(Testz))
 
-    dictD = {"Predict":predict, "Target":ans["label"]}
+    dictD = {"Predict":arrayPredict, "Target":ans["label"]}
     ResultTable = pd.DataFrame(dictD, columns=dictD.keys())
     # print(ResultTable)
 
-    result = ((predict) == np.squeeze(ans["label"]))
-    print("Testing Accuracy:{} ".format(sum(result)/ len(ans)))
+    result = computeAccuracy(arrayPredict, np.squeeze(ans["label"]))
+    print("Testing Accuracy:{} ".format(result))
 
