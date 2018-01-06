@@ -22,6 +22,9 @@ Barry Becker從1994年的人口普查數據庫中進行了提取。
 
 * Logistic Regression
 
+一般對於二元分類最常用的方法為邏輯式回歸(Logistic Regression)，邏輯式回歸跟一般線性回歸差別只在於計算線性回歸之後再利用sigmoid函數將數值轉換到0~1之間，另外將轉換過的的數值透過門檻值來區分類別，而門檻值得設置可以根據資料的不同來做設計，常用門檻值為0.5。
+
+在這作業我們利用Mini-batch Gradient Descent來訓練邏輯式回歸的參數W和B，門檻值則用最一般的方式設置0.5，最後在測試集的預測精準度為81%。在執行Mini-batch時，cost function始終維持在特定的區域，目前找不出原因。
 
 * Probabilstic Generative Model
 
