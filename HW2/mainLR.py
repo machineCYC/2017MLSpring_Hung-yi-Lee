@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
+
 def getShuffleData(arrayX, arrayY):
     arrayRandomIndex = np.arange(len(arrayX))
     np.random.shuffle(arrayRandomIndex)
@@ -40,6 +41,63 @@ def getTrainAndValidData(arrayTrainAllX, arrayTrainAllY, percentage):
     return arrayTrainX, arrayTrainY, arrayValidX, arrayValidY
 
 
+def trainMBGD(arrayTrainX, arrayTrainY, intBatchSize, intEpochSize, floatLearnRate):
+    
+    arrayW = np.zeros((arrayTrainX.shape[1])) # (106, )
+    arrayB = np.zeros(1) # (1, )
+
+    arrayTotalLoss = 0.0
+    listTrainCost = []
+    listValidAccuracy = []
+    listValidCost = []
+    for epoch in range(intEpochSize):
+
+        if epoch % 1 == 0:
+            arrayTrainCost = arrayTotalLoss / (len(arrayTrainX))
+            listTrainCost.append(arrayTrainCost)
+            print("Epoch:{}, Epoch average loss:{} ".format(epoch, arrayTrainCost))
+            
+            z = np.dot(arrayValidX, arrayW) + arrayB
+            s = getSigmoidValue(z)
+            arrayVaildCrossEntropy = -1 * (np.dot(np.transpose(arrayValidY), np.log(s)) + np.dot((1-np.transpose(arrayValidY)), np.log(1-s))) / len(arrayValidX)
+            listValidCost.append(arrayVaildCrossEntropy)
+
+            result = ((np.around(s)) == np.squeeze(arrayValidY))
+            arrayValidAccuracy = sum(result) / len(arrayValidY)
+            listValidAccuracy.append(arrayValidAccuracy)
+            print("Validition Accuracy:{} ".format(arrayValidAccuracy))
+            
+            arrayTotalLoss = 0.0
+
+        arrayTrainX, arrayTrainY = getShuffleData(arrayX=arrayTrainX, arrayY=arrayTrainY)
+
+        for batch_iter in range(int(len(arrayTrainX)/intBatchSize)):
+            X = arrayTrainX[intBatchSize*batch_iter:intBatchSize*(batch_iter+1)] # (intBatchSize, 106)
+            Y = arrayTrainY[intBatchSize*batch_iter:intBatchSize*(batch_iter+1)] # (intBatchSize, 1)
+
+            z = np.dot(X, arrayW) + arrayB
+            s = getSigmoidValue(z)
+
+            arrayCrossEntropy = -1 * (np.dot(np.transpose(Y), np.log(s)) + np.dot((1-np.transpose(Y)), np.log(1-s)))
+
+            arrayTotalLoss += arrayCrossEntropy
+
+            # arrayGradientW = np.mean(-1 * X * (np.squeeze(Y) - s).reshape((intBatchSize,1)), axis=0) # need check
+            arrayGradientW = -1 * np.dot(np.transpose(X), (np.squeeze(Y) - s).reshape((intBatchSize,1))) 
+            arrayGradientB = np.mean(-1 * (np.squeeze(Y) - s))
+        
+            arrayW -= floatLearnRate * np.squeeze(arrayGradientW)
+            arrayB -= floatLearnRate * arrayGradientB
+
+        # print("CrossEntropy:{} , TotalLoss{} ".format(arrayCrossEntropy, arrayTotalLoss))
+
+    plt.plot(np.arange(len(listValidCost)), listValidCost, "r--", label="vaild")
+    plt.plot(np.arange(len(listTrainCost)), listTrainCost, "b--", label="Train")
+    plt.legend()
+    plt.show()
+    return arrayW, arrayB
+
+
 if __name__ == "__main__":
     
     # read Training data, Training label, Testing data
@@ -55,53 +113,14 @@ if __name__ == "__main__":
     # normalize the Training and Testing data
     arrayNormalizeTrainX, arrayNormalizeTestX = getNormalizeData(arrayTrainX, arrayTestX)
 
-    # Shuffling data index
+    # shuffling data index
     arrayTrainAllX, arrayTrainAllY = getShuffleData(arrayNormalizeTrainX, arrayTrainY)
 
     # take some training data to be validation data
     arrayTrainX, arrayTrainY, arrayValidX, arrayValidY = getTrainAndValidData(arrayTrainAllX, arrayTrainAllY, 0.2)
 
-
     ###---Train(mini batch gradient descent)---###
-    intBatchIterationNum = 100
-    intEpochNum = int(len(arrayTrainX)/intBatchIterationNum)
-    intBatchSize = 32
-    floatLearnRate = 0.1
-
-    arrayW = np.zeros((arrayTrainX.shape[1])) # (106, )
-    arrayB = np.zeros(1) # (1, )
-
-    floatTotalLoss = 0.0
-    for epoch in range(1, intEpochNum):
-
-        if epoch % 10 == 0:
-            print("Epoch:{}, Epoch average loss:{} ".format(epoch, float(floatTotalLoss) / (10.0*len(arrayTrainX))))
-            floatTotalLoss = 0.0
-            z = np.dot(arrayValidX, arrayW) + arrayB
-            result = ((np.around(getSigmoidValue(z))) == np.squeeze(arrayValidY))
-            print("Accuracy:{} ".format(float(result.sum())/ len(arrayValidY)))
-
-        arrayTrainX, arrayTrainY = getShuffleData(arrayX=arrayTrainX, arrayY=arrayTrainY)
-
-        for batch_iter in range(intBatchIterationNum):
-            X = arrayTrainX[intBatchSize*batch_iter:intBatchSize*(batch_iter+1)] # (intBatchSize, 106)
-            Y = arrayTrainY[intBatchSize*batch_iter:intBatchSize*(batch_iter+1)] # (intBatchSize, 1)
-
-            z = np.dot(X, arrayW) + arrayB
-            s = getSigmoidValue(z)
-
-            arrayCrossEntropy = -1 * (np.dot(np.transpose(Y), np.log(s)) + np.dot((1-np.transpose(Y)), np.log(1-s)))
-
-            floatTotalLoss += arrayCrossEntropy
-
-            # arrayGradientW = np.mean(-1 * X * (np.squeeze(Y) - s).reshape((intBatchSize,1)), axis=0) # need check
-            arrayGradientW = -1 * np.dot(np.transpose(X), (np.squeeze(Y) - s).reshape((intBatchSize,1))) 
-            arrayGradientB = np.mean(-1 * (np.squeeze(Y) - s))
-        
-            arrayW -= floatLearnRate * np.squeeze(arrayGradientW)
-            arrayB -= floatLearnRate * arrayGradientB
-
-        print("CrossEntropy:{} , TotalLoss{} ".format(arrayCrossEntropy, floatTotalLoss))
+    arrayW, arrayB = trainMBGD(arrayTrainX, arrayTrainY, intBatchSize=32, intEpochSize=300, floatLearnRate=0.001)
 
 
     ###---Test---###
@@ -109,10 +128,9 @@ if __name__ == "__main__":
     Testz = (np.dot(arrayNormalizeTestX, arrayW) + arrayB)
     predict = np.around(getSigmoidValue(Testz))
 
-
     dictD = {"Predict":predict, "Target":ans["label"]}
     ResultTable = pd.DataFrame(dictD, columns=dictD.keys())
-    print(ResultTable)
+    # print(ResultTable)
 
     result = ((predict) == np.squeeze(ans["label"]))
     print("Testing Accuracy:{} ".format(sum(result)/ len(ans)))
