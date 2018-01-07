@@ -10,4 +10,4 @@ The detail of each homework is in the below.
 
 [HW2](https://github.com/machineCYC/2017MLSpring_Hung-yi-Lee/tree/master/HW2)
 
-
+[HW3](https://github.com/machineCYC/2017MLSpring_Hung-yi-Lee/tree/master/HW3)
