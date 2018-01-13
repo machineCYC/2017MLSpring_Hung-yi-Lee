@@ -1,5 +1,6 @@
 import os, csv
 import numpy as np
+import pandas as pd
 
 
 def makeDataProcessing(Data):
@@ -9,7 +10,7 @@ def makeDataProcessing(Data):
     for index, strRow in enumerate(Data):
         strLabel, strImageVector = strRow.split(",")
         if index != 0:
-            arrayLabel = [int(strLabel)]
+            arrayLabel = int(strLabel)
             arrayImageVector = np.fromstring(strImageVector, dtype=int, sep=" ") # for dnn
             arrayImage = arrayImageVector.reshape(48, 48, 1) # for cnn
 
@@ -30,4 +31,4 @@ if __name__ == "__main__":
     np.savez(os.path.join(strProjectFolder, "01-Data/Train.npz"), Label=np.asarray(listTrainLabel), Image=np.asarray(listTrainImage))
 
     listTestLabel, listTestImageVector, listTestImage = makeDataProcessing(DataTest)
-    np.savez(os.path.join(strProjectFolder, "01-Data/Test.npz"), Label=np.asarray(listTestLabel), Image=np.asarray(listTestImage))
+    np.savez(os.path.join(strProjectFolder, "01-Data/Test.npz"), Image=np.asarray(listTestImage))
