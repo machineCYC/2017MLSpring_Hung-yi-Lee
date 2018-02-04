@@ -1,20 +1,19 @@
 import csv, os
 import pandas as pd
 import matplotlib.pyplot as plt   
-# from keras.utils.visualize_util import plot
+from keras.utils import plot_model
 from keras.models import load_model
 
 
-def PlotModel(mode):
+def plotModel(mode):
     strProjectFolder = os.path.dirname(__file__)
 
     emotion_classifier = load_model(os.path.join(strProjectFolder, "02-Output/"+mode+"model.h5"))
     emotion_classifier.summary()
-    plot(emotion_classifier, to_file=mode+"model.png")
+    plot_model(emotion_classifier, show_shapes=True, to_file=os.path.join(strProjectFolder, "02-Output/"+mode+"model.png"))
 
 
-def PlotLossAndAccuracyCurves(mode):
-
+def plotLossAndAccuracyCurves(mode):
     strProjectFolder = os.path.dirname(__file__)
 
     pdLog = pd.read_csv(os.path.join(strProjectFolder, "02-Output/"+mode+"log.csv"))
@@ -39,3 +38,6 @@ def PlotLossAndAccuracyCurves(mode):
     plt.title("Accuracy Curves", fontsize=16)
     plt.savefig(os.path.join(strProjectFolder, "02-Output/"+mode+"AccuracyCurves"))
     plt.show()
+
+    def plotConfusionMatrix():
+        pass

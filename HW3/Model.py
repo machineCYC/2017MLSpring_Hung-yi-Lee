@@ -16,25 +16,32 @@ def buildModel(mode):
 
     if mode == "dnn":
         
-        model.add(Dense(1024, input_dim=48*48))
+        model.add(Flatten(input_shape=(48, 48, 1)))
+
+        model.add(Dense(1024))
         model.add(BatchNormalization())
         model.add(Activation("relu"))
-        model.add(Dropout(0.2))
+        model.add(Dropout(0.5))
         
         model.add(Dense(1024))
         model.add(BatchNormalization())
         model.add(Activation("relu"))
-        model.add(Dropout(0.2))
+        model.add(Dropout(0.5))
 
-        model.add(Dense(512))
+        model.add(Dense(1024))
         model.add(BatchNormalization())
         model.add(Activation("relu"))
-        model.add(Dropout(0.2))
+        model.add(Dropout(0.5))
 
-        model.add(Dense(256))
-        model.add(BatchNormalization())
-        model.add(Activation("relu"))
-        model.add(Dropout(0.2))
+        # model.add(Dense(512))
+        # model.add(BatchNormalization())
+        # model.add(Activation("relu"))
+        # model.add(Dropout(0.5))
+
+        # model.add(Dense(256))
+        # model.add(BatchNormalization())
+        # model.add(Activation("relu"))
+        # model.add(Dropout(0.5))
 
         model.add(Dense(7))
         model.add(Activation("softmax"))
@@ -48,7 +55,7 @@ def buildModel(mode):
         # model.add(Convolution2D(64, kernel_size=3, strides=1, kernel_initializer=initializers.he_normal(seed=None)))
         # model.add(Activation("relu"))
         model.add(MaxPooling2D(pool_size=(2, 2), strides=2))
-        model.add(Dropout(0.2))
+        model.add(Dropout(0.3))
 
         model.add(Convolution2D(128, kernel_size=3, strides=1, padding="same", kernel_initializer=initializers.he_normal(seed=None)))
         model.add(BatchNormalization())
@@ -69,18 +76,16 @@ def buildModel(mode):
         model.add(Dropout(0.4))
 
         model.add(Flatten())
+
         model.add(Dense(512, kernel_initializer=initializers.he_normal(seed=None)))
         model.add(BatchNormalization())
         model.add(Activation("relu"))
         model.add(Dropout(0.5))
 
-        model.add(Dense(256, kernel_initializer=initializers.he_normal(seed=None)))
+        model.add(Dense(512, kernel_initializer=initializers.he_normal(seed=None)))
         model.add(BatchNormalization())
         model.add(Activation("relu"))
         model.add(Dropout(0.5))
-        # model.add(Dense(32, kernel_initializer=initializers.he_normal(seed=None), kernel_regularizer=regularizers.l2(0)))
-        # model.add(Dropout(0.2))
-        # model.add(Activation("relu"))
         
         model.add(Dense(7))
         model.add(Activation("softmax"))
