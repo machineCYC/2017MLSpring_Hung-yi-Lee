@@ -68,7 +68,7 @@
 
 模型總參數數量為 4,183,815，其中有 3968 個是 BatchNormalization() 的 non-trainable 個數。
 
-在 CNN model 訓練過程中，可以觀察到大約在 20 個 epoch 左右，validation loss 來到了低點，validation accuracy 似乎也到了極限 (63.86%)。在 20 個 epoch 之後 validation accuracy 只有稍為的提升，最好的 validation accuracy 為 66.16% 。
+在 CNN model 訓練過程中，可以觀察到大約在 20 個 epoch 左右，validation loss 來到了低點，validation accuracy 似乎也到了極限 (63.86%)。在 20 個 epoch 之後 validation accuracy 只有稍為的提升，最好的 validation accuracy 為 65.54% 。
 
 ![](02-Output/cnnLossCurves.png)
 
@@ -90,9 +90,36 @@ DNN model 模型架構如圖下所示，
 
 ![](02-Output/dnnAccuracyCurves.png)
 
+### Confusion Matrix
+
+![](02-Output/dnnConfusionMatrix.png)
+
+![](02-Output/cnnConfusionMatrix.png)
+
+
+### Saliency Map
+
+下列圖中最左邊的原圖分別從 5000 筆 validation data 中選出的各類別預測正確照片，由上到下 label 分別為 生氣 (Angry)#23, 厭惡 (Disgust)#189, 害怕 (Fear)#53, 開心 (Happy)#2, 傷心 (Sad)#6, 驚訝 (Surprise)#15, 中立 (Neutral)#4。
+
+從第四張類別 Happy 的 heatmap 可以發現在嘴巴部分有較高的值，可見模型在做分類時，是將重點放在偵測嘴巴的部分，而這張圖被判定為 Happy 的主要依據也是因為嘴巴的笑容。第七張類別 Surprise 的 heatmap 可以發現眼睛和嘴巴部位的值相對於其他部位來的高，很清楚的知道模型再對這類別做分類的重點是在眼睛和嘴巴，其他類別雖然沒有特別明顯的部位，但主要都將重點放在臉部。
+
+![](02-Output/cnnSaliencyMapAngry.png)
+
+![](02-Output/cnnSaliencyMapDisgust.png)
+
+![](02-Output/cnnSaliencyMapFear.png)
+
+![](02-Output/cnnSaliencyMapHappy.png)
+
+![](02-Output/cnnSaliencyMapNeutral.png)
+
+![](02-Output/cnnSaliencyMapSad.png)
+
+![](02-Output/cnnSaliencyMapSurprise.png)
+
 ### 心得:
 
-在做這份作業的過程中，如果沒有將pixel除以255，模型訓練效果會非常差，主要原因是因為沒有除以255導致模型訓練速度過慢，在沒有良好的設備和時間的情況下，結果都不會太優。而除以255之後pixel數值會分布在0~1之間，這樣可以加速模型的訓練，以至於在同樣的模型相同的鉉練次數結果會差很多。###要在驗證
+在做這份作業的過程中，如果沒有將pixel除以255，模型訓練效果會非常差，主要原因是因為沒有除以255導致模型訓練速度過慢，在沒有良好的設備和時間的情況下，結果都不會太優。而除以255之後 pixel 數值會分布在0~1之間，這樣可以加速模型的訓練，以至於在同樣的模型相同的訓練次數結果會差很多。###要在驗證
 
 隨著 Convolution 越來越多層，模型在訓練集的預測正確率可以高達90%以上，但在驗證集始終無法突破 55% 的預測正確率，這現象意味著模型過擬和訓練資料。面對這樣的問題我們採用 droupout 來抑制過擬合現象，首先在 fully connection 的部分採用 droupout，在驗證集的表現似乎有提升 3% ~ 5% 左右，但就是過不了 60% 。隨著 droupout 的強度越來越強，甚至對 Convolution 也進行 droupout 的過程中我們也可以發現在驗證集的正確預測率可以達到 65% 。
 
@@ -110,3 +137,6 @@ DNN model 模型架構如圖下所示，
 
 * [原始課程作業說明](https://docs.google.com/presentation/d/1QFK4-inv2QJ9UhuiUtespP4nC5ZqfBjd_jP2O41fpTc/edit?ts=58e452ff#slide=id.p)
 
+* [Keras Image Data Augmentation 個參數詳解](https://zhuanlan.zhihu.com/p/30197320)
+
+* [BatchNormalization](http://blog.csdn.net/hjimce/article/details/50866313)
