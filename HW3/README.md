@@ -6,6 +6,8 @@
 
 本次作業為人臉表情情緒分類，總共有七種可能的表情（0：生氣, 1：厭惡, 2：恐懼, 3：高興, 4：難過, 5：驚訝, 6：中立(難以區分為前六種的表情))。
 
+本次作業利用 training dataset 訓練一個 CNN model，預測出每張圖片的表情 label（同樣地，為 0~6 中的某一個)，並跟參數個數差不多的 DNN model 去進行比較。
+
 ## Data 簡介
 
 * training dataset 為兩萬八千張左右 48x48 pixel的圖片，以及每一張圖片的表情 label（注意：每張圖片都會唯一屬於一種表情）。
@@ -58,8 +60,6 @@
 
 ## Summary 總結
 
-本次作業利用 training dataset 訓練一個 CNN model，預測出每張圖片的表情 label（同樣地，為 0~6 中的某一個)，並跟參數個數差不多的 DNN model 去進行比較。
-
 在資料處理的部分，先將 training data 進行標準化，並取出最後 5000 資料當作 validation data (大約 20% 資料量)。
 
 首先 CNN model 模型架構如圖下所示，
@@ -91,14 +91,31 @@ DNN model 模型架構如圖下所示，
 
 ### Confusion Matrix
 
+這個部分分別針對 DNN 和 CNN model 計算 confusion matrix 並且利用視覺化的方式呈現結果。
+
+DNN model 的部分，根據 confusion matrix (下圖) 可以知道，
+
+- 唯獨開心 (Hppy) 和中立 (Neutral) 模型的正確辨識程度高過於 50%，這兩類剛好也是資料數量最多的兩類。
+- 模型似乎捕捉不到在各種情緒上的細微差異，導致各類別容易誤判成中立 (Neutral)。
+
+
 ![](02-Output/dnnConfusionMatrix.png)
+
+ CNN model，根據 confusion matrix (下圖) 來看，
+
+- 很清楚的知道各類別預測狀況相對於 DNN model 來說進步很多。
+- 害怕 (Fear) 很容易會誤判成傷心 (Sad)，誤判機率大約 22%。
+- 中立 (Neutral) 和傷心 (Sad) 相對於模型來說不容易分辨，彼此誤判的機率差不多 20%。
+- 生氣 (Angry) 會被誤判成傷心 (sad)，誤判機率大約 17%。
+- 厭惡 (Disgust) 會被誤判成生氣 (Angry)，誤判機率大約 16%。
+- 在開心 (Hppy) 和驚訝 (Surprise) 這種表情鮮明的類別，模型的辨識狀況相對而言就會比較好，而生氣 (Angry)、厭惡 (Disgust)、害怕 (Fear) 這種複雜的情緒對模型來說相對而言也比較難辨識其中差異，甚至連人類都不太容易分辨出差異點。
 
 ![](02-Output/cnnConfusionMatrix.png)
 
 
 ### Saliency Map
 
-下列圖中最左邊的原圖分別從 5000 筆 validation data 中選出的各類別預測正確照片，由上到下 label 分別為 生氣 (Angry)#23, 厭惡 (Disgust)#189, 害怕 (Fear)#53, 開心 (Happy)#2, 傷心 (Sad)#6, 驚訝 (Surprise)#15, 中立 (Neutral)#4。
+下列圖中最左邊的原圖分別從 5000 筆 validation data 中選出的各類別預測正確照片，由上到下 label 分別為 生氣 (Angry)#23、厭惡 (Disgust)#189、害怕 (Fear)#53、開心 (Happy)#2、傷心 (Sad)#6、驚訝 (Surprise)#15、中立 (Neutral)#4。
 
 從第四張類別 Happy 的 heatmap 可以發現在嘴巴部分有較高的值，可見模型在做分類時，是將重點放在偵測嘴巴的部分，而這張圖被判定為 Happy 的主要依據也是因為嘴巴的笑容。第七張類別 Surprise 的 heatmap 可以發現眼睛和嘴巴部位的值相對於其他部位來的高，很清楚的知道模型再對這類別做分類的重點是在眼睛和嘴巴，其他類別雖然沒有特別明顯的部位，但主要都將重點放在臉部。
 
