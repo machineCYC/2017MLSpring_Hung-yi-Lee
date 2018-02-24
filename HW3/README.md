@@ -70,9 +70,9 @@
 
 在 CNN model 訓練過程中，可以觀察到大約在 20 個 epoch 左右，validation loss 來到了低點，validation accuracy 似乎也到了極限 (63.86%)。在 20 個 epoch 之後 validation accuracy 只有稍為的提升，最好的 validation accuracy 為 65.54% 。
 
-![](02-Output/cnnLossCurves.png)
 
-![](02-Output/cnnAccuracyCurves.png)
+![](02-Output/cnnLossAccuracyCurves.png)
+
 
 DNN model 模型架構如圖下所示，
 
@@ -86,9 +86,8 @@ DNN model 模型架構如圖下所示，
 - 訓練速度上 DNN model 速度完勝於 CNN model 。 DNN model 一個 epoch 大約 20sec 而 CNN model 約 200sec。個人猜測主要原因為 Convolution 需要消耗比較多的運算。
 - 在 validation loss 部分似乎不是很樂觀，在 40 個 epoch 之後甚至有上升的趨勢。
 
-![](02-Output/dnnLossCurves.png)
+![](02-Output/dnnLossAccuracyCurves.png)
 
-![](02-Output/dnnAccuracyCurves.png)
 
 ### Confusion Matrix
 
@@ -116,6 +115,9 @@ DNN model 模型架構如圖下所示，
 ![](02-Output/cnnSaliencyMapSad.png)
 
 ![](02-Output/cnnSaliencyMapSurprise.png)
+
+### Visualizing Filters
+
 
 ### 心得:
 
