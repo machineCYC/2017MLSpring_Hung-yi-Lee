@@ -70,7 +70,6 @@
 
 在 CNN model 訓練過程中，可以觀察到大約在 20 個 epoch 左右，validation loss 來到了低點，validation accuracy 似乎也到了極限 (63.86%)。在 20 個 epoch 之後 validation accuracy 只有稍為的提升，最好的 validation accuracy 為 65.54% 。
 
-
 ![](02-Output/cnnLossAccuracyCurves.png)
 
 
