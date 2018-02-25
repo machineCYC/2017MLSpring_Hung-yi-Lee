@@ -116,7 +116,7 @@ DNN model 的部分，根據 confusion matrix (下圖) 可以知道，
 
 這部份主要是要觀察圖片每個 pixel 對於 CNN model 預測結果的影響力，藉此來了解模型在做分類時主要是 focus 在圖片哪個部分。
 
-做法其實很簡單，只要針對圖片的預測結果對每個 pxiel 進行微分，再取絕對值，就知道哪個 pxiel 對模型預測的影響力比較大。另外先定義符號，$\widehat{y}_{k}$ 為模型預測的 label，$X$ 為圖片，$x_{ij}$ 為圖片的 pixel ，數學上的表達為 $\left |\frac{\partial \widehat{y}_{k}}{\partial x_{ij}}  \right |$ 簡單說就是該值越大，代表影響力越大。
+做法其實很簡單，只要針對圖片的預測結果對每個 pxiel 進行微分，再取絕對值，就知道哪個 pxiel 對模型預測的影響力比較大。另外先定義符號，<a href="https://www.codecogs.com/eqnedit.php?latex=\widehat{y}_{k}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\widehat{y}_{k}" title="\widehat{y}_{k}" /></a> 為模型預測的 label，<a href="https://www.codecogs.com/eqnedit.php?latex=X" target="_blank"><img src="https://latex.codecogs.com/gif.latex?X" title="X" /></a> 為圖片，<a href="https://www.codecogs.com/eqnedit.php?latex=x_{ij}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?x_{ij}" title="x_{ij}" /></a> 為圖片的 pixel ，數學上的表達為 <a href="https://www.codecogs.com/eqnedit.php?latex=\left&space;|\frac{\partial&space;\widehat{y}_{k}}{\partial&space;x_{ij}}&space;\right&space;|" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\left&space;|\frac{\partial&space;\widehat{y}_{k}}{\partial&space;x_{ij}}&space;\right&space;|" title="\left |\frac{\partial \widehat{y}_{k}}{\partial x_{ij}} \right |" /></a> 簡單說就是該值越大，代表影響力越大。
 
 以下為將上述的內容用視覺化的方式表達出來。下列圖中最左邊的原圖分別從 5000 筆 validation data 中選出的各類別預測正確照片，由上到下 label 分別為 生氣 (Angry)#23、厭惡 (Disgust)#189、害怕 (Fear)#53、開心 (Happy)#2、傷心 (Sad)#6、驚訝 (Surprise)#15、中立 (Neutral)#4。
 
