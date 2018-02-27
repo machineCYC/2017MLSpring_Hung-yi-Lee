@@ -64,7 +64,7 @@
 
 首先 CNN model 模型架構如圖下所示，
 
-![](02-Output/cnnmodel.png)
+![](02-Output/Cnn.png)
 
 模型總參數數量為 4,183,815，其中有 3968 個是 BatchNormalization() 的 non-trainable 個數。
 
@@ -75,7 +75,7 @@
 
 DNN model 模型架構如圖下所示，
 
-![](02-Output/dnnmodel.png)
+![](02-Output/Dnn.png)
 
 模型總參數數量為 4,478,983，其中有 6,144 個是 BatchNormalization() 的 non-trainable 個數。
 
