@@ -11,7 +11,16 @@ from keras.callbacks import CSVLogger
 
 
 def buildModel(mode):
+     """
+    Implementation of the DNN the following architecture:
+    ( FULLY CONNECTION-> BATCHNORM -> RELU -> DROPOUT )*3
+    -> FULLY CONNECTION -> SOFTMAX
 
+    Implementation of the CNN the following architecture:
+    ( CONV2D -> BATCHNORM -> RELU -> MAXPOOL -> DROPOUT )*4 -> FLATTEN 
+    -> ( FULLY CONNECTION-> BATCHNORM -> RELU -> DROPOUT )*2 
+    -> FULLY CONNECTION -> SOFTMAX
+    """
     model = Sequential()
 
     if mode == "dnn":
@@ -33,16 +42,6 @@ def buildModel(mode):
         model.add(Activation("relu"))
         model.add(Dropout(0.5))
 
-        # model.add(Dense(512))
-        # model.add(BatchNormalization())
-        # model.add(Activation("relu"))
-        # model.add(Dropout(0.5))
-
-        # model.add(Dense(256))
-        # model.add(BatchNormalization())
-        # model.add(Activation("relu"))
-        # model.add(Dropout(0.5))
-
         model.add(Dense(7))
         model.add(Activation("softmax"))
         optim = Adam()
@@ -52,8 +51,6 @@ def buildModel(mode):
         model.add(Convolution2D(64, kernel_size=3, strides=1, padding="same", input_shape=(48, 48, 1), kernel_initializer=initializers.he_normal(seed=None)))
         model.add(BatchNormalization())
         model.add(Activation("relu"))
-        # model.add(Convolution2D(64, kernel_size=3, strides=1, kernel_initializer=initializers.he_normal(seed=None)))
-        # model.add(Activation("relu"))
         model.add(MaxPooling2D(pool_size=(2, 2), strides=2))
         model.add(Dropout(0.3))
 
