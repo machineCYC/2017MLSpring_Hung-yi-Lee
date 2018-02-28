@@ -62,7 +62,13 @@
 
 在資料處理的部分，先將 training data 進行標準化，並取出最後 5000 資料當作 validation data (大約 20% 資料量)。
 
-首先 CNN model 模型架構如圖下所示，
+首先 CNN model 模型架構如下圖所示，其中 C1、C2、C3、C4 為 Convolution layer，包含 Convolution2D()、BatchNormalization()、Activation()、MaxPooling2D() 和 Dropout()。
+
+- Convolution2D() : Filter Size 均為 (3,3)，Strides 均為 1
+- BatchNormalization() : 讓每批量的數據分布相似並達到加速收斂的效果，另一個目的為讓 training data、validation data 和 testing data 數據分布相似，提高模型的泛化能力和避免 overfitting
+- Activation() : 均使用 Relu
+- MaxPooling2D() : Pooling size 均為 (2,2)，Strides 均為 2
+- Dropout() : C1、C2、C3、C4、FC1、FC2 的 dropout rate 依序為 0.3, 0.3, 0.3, 0.4, 0.5, 0.5
 
 ![](02-Output/Cnn.png)
 
@@ -73,7 +79,11 @@
 ![](02-Output/cnnLossAccuracyCurves.png)
 
 
-DNN model 模型架構如圖下所示，
+DNN model 模型架構如圖下所示，其中 FC1、FC2、FC3、FC4 為 Fully Connection layer，包含 BatchNormalization()、Activation() 和 Dropout()。
+
+- BatchNormalization() : 目的為加速收斂和避免 overfitting
+- Activation() : 均使用 Relu
+- Dropout() : FC1、FC2、FC3 的 dropout rate 均為 0.5
 
 ![](02-Output/Dnn.png)
 
@@ -138,6 +148,8 @@ DNN model 的部分，根據 confusion matrix (下圖) 可以知道，
 
 ### Visualizing Filters
 
+
+### Data Augmentation
 
 ### 心得:
 
