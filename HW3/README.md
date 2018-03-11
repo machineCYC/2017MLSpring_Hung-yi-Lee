@@ -166,10 +166,10 @@ DNN model 的部分，根據 confusion matrix (下圖) 可以知道，
 
 
 <div class="half">
-    <img src="02-Output/cnnFiltersWhiteNoiseconv2d_2.png" height="450px" alt="第二層 convolution 後的 filter">
-    <img src="02-Output/cnnFiltersResultImage2conv2d_2.png" height="450px" alt="第二層 convolution 後的結果">
-    <img src="02-Output/cnnFiltersWhiteNoiseactivation_2.png" height="450px" alt="第二層 convolution block 後的 filter">
-    <img src="02-Output/cnnFiltersResultImage2activation_2.png" height="450px" alt="第二層 convolution block 後的結果">
+    <img src="02-Output/cnnFiltersWhiteNoiseconv2d_2.png" height="220px" width="220px" title="第二層 convolution 後的 filter">
+    <img src="02-Output/cnnFiltersResultImage2conv2d_2.png" height="220px" width="220px" title="第二層 convolution 後的結果">
+    <img src="02-Output/cnnFiltersWhiteNoiseactivation_2.png" height="220px" width="220px" title="第二層 convolution block 後的 filter">
+    <img src="02-Output/cnnFiltersResultImage2activation_2.png" height="220px" width="220px" title="第二層 convolution block 後的結果">
 </div>
 
 
