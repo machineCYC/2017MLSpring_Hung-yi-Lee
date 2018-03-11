@@ -157,7 +157,7 @@ DNN model 的部分，根據 confusion matrix (下圖) 可以知道，
     <img src="02-Output/cnnFiltersResultImage2conv2d_1.png" height="450px">
 </div>
 
-接下來將經過完整的 convolution block (convolution->batch normalization->activation) 後的 filter 取出來 (下圖左)。發現其實每個 filter 都是由基本的線條所組成且看起來很相似，但可以觀察到有個現象是，filter 中的線條似乎傾斜角度有不同(旋轉)，猜測可能是因為照片臉的角度有正臉、側臉等因素造成的，最後可以將這個 layer 理解成被基本的紋理所 activate。右圖則為經過第一個 convolution block 的結果。
+接下來將經過完整的 convolution block (convolution->batch normalization->activation->MaxPooling) 後的 filter 取出來 (下圖左)。發現其實每個 filter 都是由基本的線條所組成且看起來很相似，但可以觀察到有個現象是，filter 中的線條似乎傾斜角度有不同(旋轉)，猜測可能是因為照片臉的角度有正臉、側臉等因素造成的，最後可以將這個 layer 理解成被基本的紋理所 activate。右圖則為經過第一個 convolution block 的結果。
 
 <div class="half">
     <img src="02-Output/cnnFiltersWhiteNoiseactivation_1.png" height="450px">
@@ -202,17 +202,9 @@ DNN model 的部分，根據 confusion matrix (下圖) 可以知道，
     <img src="02-Output/cnnFiltersResultImage2activation_4.png" height="400px" width="400px" title="第四層 convolution block 後的結果">
 </div>
 
+由上面左邊一系列的圖可以得知越深層 convolution 的 filter 已經從之前的直線紋理演變成曲線紋理，意味著 filter 捕捉的特徵越來越複雜，convolution block 的 filter 也有相同的趨勢，但卻出現了許多不被激活的 filter (圖片下方 loss 為 0)，目前猜測是因為原本 convolution 的 filter 數值變化可能就不大又經過 BatchNormalization 之後將數值歸一化所導致(待驗證)。
 
-
-
-
-
-
-
-
-
-
-
+右邊一系列的圖，我們發現在第一層的 layer 中，filter 捕捉較大的範圍，人臉相當清晰，而第二層 layer 則捕捉人臉的輪廓、眼睛、頭髮、嘴巴...等等，更深層的 layer 則捕捉更局部更細微的特徵。在第四層 layer 可以很清楚的知道每個 filter 只針對特定的小方格去做特徵的提取。
 
 ### Data Augmentation
 
