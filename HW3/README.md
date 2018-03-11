@@ -166,11 +166,31 @@ DNN model 的部分，根據 confusion matrix (下圖) 可以知道，
 
 
 <div class="half">
-    <img src="02-Output/cnnFiltersWhiteNoiseactivation_1.png" height="450px">
-    <img src="02-Output/cnnFiltersResultImage2activation_1.png" height="450px">
+    <img src="02-Output/cnnFiltersWhiteNoiseconv2d_2.png" title="第二層 convolution 後的 filter" height="450px">
+    <img src="02-Output/cnnFiltersResultImage2conv2d_2.png" title="第二層 convolution 後的結果" height="450px">
+    <img src="02-Output/cnnFiltersWhiteNoiseactivation_2.png" title="第二層 convolution block 後的 filter" height="450px">
+    <img src="02-Output/cnnFiltersResultImage2activation_2.png" title="第二層 convolution block 後的結果" height="450px">
 </div>
 
 
+
+
+
+
+
+<div class="half">
+    <img src="02-Output/cnnFiltersWhiteNoiseconv2d_3.png" height="450px">
+    <img src="02-Output/cnnFiltersResultImage2conv2d_3.png" height="450px">
+    <img src="02-Output/cnnFiltersWhiteNoiseactivation_3.png" height="450px">
+    <img src="02-Output/cnnFiltersResultImage2activation_3.png" height="450px">
+</div>
+
+<div class="half">
+    <img src="02-Output/cnnFiltersWhiteNoiseconv2d_4.png" height="450px">
+    <img src="02-Output/cnnFiltersResultImage2conv2d_4.png" height="450px">
+    <img src="02-Output/cnnFiltersWhiteNoiseactivation_4.png" height="450px">
+    <img src="02-Output/cnnFiltersResultImage2activation_4.png" height="450px">
+</div>
 
 
 
