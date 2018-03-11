@@ -150,7 +150,7 @@ DNN model 的部分，根據 confusion matrix (下圖) 可以知道，
 
 利用 gradient ascent，觀察 filter 被 activate 的情況。
 
-下圖左邊為第一層 convolution 後的 filter，右邊為 validation data 中的第二筆資料 (Saliency Map Happy 類別的原圖)經過第一層 convolution 的結果。
+下圖左邊為第一層 convolution 後的 filter，右邊為 validation data 中的第二筆資料 (Saliency Map Happy 類別的原圖) 經過第一層 convolution 的結果。
 
 <div class="half">
     <img src="02-Output/cnnFiltersWhiteNoiseconv2d_1.png" height="450px">
@@ -164,32 +164,42 @@ DNN model 的部分，根據 confusion matrix (下圖) 可以知道，
     <img src="02-Output/cnnFiltersResultImage2activation_1.png" height="450px">
 </div>
 
+之後數層 convolution 後的 filter 和 convolution block 後的 filter 以及 validation data 中的第二筆資料相對應該層的輸出結果如下列所示:
 
+<figcaption>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;第二層 convolution 後的 filter &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第二層 validation data convolution 後的結果</figcaption>
 <div align="center">
     <img src="02-Output/cnnFiltersWhiteNoiseconv2d_2.png" height="400px" width="400px" title="第二層 convolution 後的 filter">
     <img src="02-Output/cnnFiltersResultImage2conv2d_2.png" height="400px" width="400px" title="第二層 convolution 後的結果">
+</div>
+
+<figcaption>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;第二層 convolution block 後的 filter &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第二層 validation data convolution block 後的結果</figcaption>
+<div align="center">
     <img src="02-Output/cnnFiltersWhiteNoiseactivation_2.png" height="400px" width="400px" title="第二層 convolution block 後的 filter">
     <img src="02-Output/cnnFiltersResultImage2activation_2.png" height="400px" width="400px" title="第二層 convolution block 後的結果">
 </div>
 
-
-
-
-
-
-
-<div class="half">
-    <img src="02-Output/cnnFiltersWhiteNoiseconv2d_3.png" height="450px">
-    <img src="02-Output/cnnFiltersResultImage2conv2d_3.png" height="450px">
-    <img src="02-Output/cnnFiltersWhiteNoiseactivation_3.png" height="450px">
-    <img src="02-Output/cnnFiltersResultImage2activation_3.png" height="450px">
+<figcaption>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;第三層 convolution 後的 filter &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第三層 validation data convolution 後的結果</figcaption>
+<div align="center">
+    <img src="02-Output/cnnFiltersWhiteNoiseconv2d_3.png" height="400px" width="400px" title="第三層 convolution 後的 filter">
+    <img src="02-Output/cnnFiltersResultImage2conv2d_3.png" height="400px" width="400px" title="第三層 convolution 後的結果">
 </div>
 
-<div class="half">
-    <img src="02-Output/cnnFiltersWhiteNoiseconv2d_4.png" height="450px">
-    <img src="02-Output/cnnFiltersResultImage2conv2d_4.png" height="450px">
-    <img src="02-Output/cnnFiltersWhiteNoiseactivation_4.png" height="450px">
-    <img src="02-Output/cnnFiltersResultImage2activation_4.png" height="450px">
+<figcaption>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;第三層 convolution block 後的 filter &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第三層 validation data convolution block 後的結果</figcaption>
+<div align="center">
+    <img src="02-Output/cnnFiltersWhiteNoiseactivation_3.png" height="400px" width="400px" title="第三層 convolution block 後的 filter">
+    <img src="02-Output/cnnFiltersResultImage2activation_3.png" height="400px" width="400px" title="第三層 convolution block 後的結果">
+</div>
+
+<figcaption>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;第四層 convolution 後的 filter &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第四層 validation data convolution 後的結果</figcaption>
+<div align="center">
+    <img src="02-Output/cnnFiltersWhiteNoiseconv2d_4.png" height="400px" width="400px" title="第四層 convolution block 後的結果">
+    <img src="02-Output/cnnFiltersResultImage2conv2d_4.png" height="400px" width="400px" title="第四層 convolution block 後的結果">
+</div>
+
+<figcaption>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;第四層 convolution block 後的 filter &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第四層 validation data convolution block 後的結果</figcaption>
+<div align="center">
+    <img src="02-Output/cnnFiltersWhiteNoiseactivation_4.png" height="400px" width="400px" title="第四層 convolution block 後的結果">
+    <img src="02-Output/cnnFiltersResultImage2activation_4.png" height="400px" width="400px" title="第四層 convolution block 後的結果">
 </div>
 
 
