@@ -160,10 +160,10 @@ DNN model 的部分，根據 confusion matrix (下圖) 可以知道，
 
 ![](02-Output/cnnFiltersResultImage2conv2d_1.png)
 
-<figure class="half">
-    <img src="{{ site.url }}/02-Output/cnnFiltersWhiteNoiseactivation_1.png">
-    <img src="{{ site.url }}/02-Output/cnnFiltersWhiteNoiseactivation_1.png">
-</figure>
+<div class="half">
+    <img src="02-Output/cnnFiltersWhiteNoiseactivation_1.png" height="250px">
+    <img src="02-Output/cnnFiltersWhiteNoiseactivation_1.png" height="250px">
+</div>
 
 
 
