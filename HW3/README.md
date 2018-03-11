@@ -102,15 +102,12 @@ DNN model 模型架構如圖下所示，其中 FC1、FC2、FC3、FC4 為 Fully C
 
 這個部分分別針對 DNN 和 CNN model 計算 confusion matrix 並且利用視覺化的方式呈現結果。
 
-DNN model 的部分，根據 confusion matrix (下圖) 可以知道，
+DNN model 的部分，根據 confusion matrix (下左圖) 可以知道，
 
 - 唯獨開心 (Hppy) 和中立 (Neutral) 模型的正確辨識程度高過於 50%，這兩類剛好也是資料數量最多的兩類。
 - 模型似乎捕捉不到在各種情緒上的細微差異，導致各類別容易誤判成中立 (Neutral)。
 
-
-![](02-Output/dnnConfusionMatrix.png)
-
- CNN model，根據 confusion matrix (下圖) 來看，
+ CNN model，根據 confusion matrix (下右圖) 來看，
 
 - 很清楚的知道各類別預測狀況相對於 DNN model 來說進步很多。
 - 害怕 (Fear) 很容易會誤判成傷心 (Sad)，誤判機率大約 22%。
@@ -119,7 +116,10 @@ DNN model 的部分，根據 confusion matrix (下圖) 可以知道，
 - 厭惡 (Disgust) 會被誤判成生氣 (Angry)，誤判機率大約 16%。
 - 在開心 (Hppy) 和驚訝 (Surprise) 這種表情鮮明的類別，模型的辨識狀況相對而言就會比較好，而生氣 (Angry)、厭惡 (Disgust)、害怕 (Fear) 這種複雜的情緒對模型來說相對而言也比較難辨識其中差異，甚至連人類都不太容易分辨出差異點。
 
-![](02-Output/cnnConfusionMatrix.png)
+<div class="half">
+    <img src="02-Output/dnnConfusionMatrix.png" height="400px">
+    <img src="02-Output/cnnConfusionMatrix.png" height="400px">
+</div>
 
 
 ### Saliency Map
