@@ -148,22 +148,22 @@ DNN model 的部分，根據 confusion matrix (下圖) 可以知道，
 
 ### Visualizing Filters
 
-利用 gradient ascent，觀察 filter 被 activate 的情況。首先將第一層 convolution 後的 filter 取出來。
+利用 gradient ascent，觀察 filter 被 activate 的情況。
 
-![](02-Output/cnnFiltersWhiteNoiseconv2d_1.png)
-
-接下來將經過完整的 convolution block(convolution->batch normalization->activation) 後的 filter 取出來。發現其實每個 filter 都是由基本的線條所組成且看起來很相似，但可以觀察到有個現象是，filter 中的線條似乎傾斜角度有不同(旋轉)，猜測可能是因為照片臉的角度有正臉、側臉等因素造成的，最後可以將這個 layer 理解成被基本的紋理所 activate。
-
-![](02-Output/cnnFiltersWhiteNoiseactivation_1.png)
-
-![](02-Output/cnnFiltersResultImage2activation_1.png)
-
-![](02-Output/cnnFiltersResultImage2conv2d_1.png)
+下圖左邊為第一層 convolution 後的 filter，右邊為 validation data 中的第二筆資料 (Saliency Map Happy 類別的原圖)經過第一層 convolution 的結果。
 
 <div class="half">
-    <img src="02-Output/cnnFiltersWhiteNoiseactivation_1.png" height="250px">
-    <img src="02-Output/cnnFiltersWhiteNoiseactivation_1.png" height="250px">
+    <img src="02-Output/cnnFiltersWhiteNoiseconv2d_1.png" height="450px">
+    <img src="02-Output/cnnFiltersResultImage2conv2d_1.png" height="450px">
 </div>
+
+接下來將經過完整的 convolution block(convolution->batch normalization->activation) 後的 filter 取出來 (下圖左邊)。發現其實每個 filter 都是由基本的線條所組成且看起來很相似，但可以觀察到有個現象是，filter 中的線條似乎傾斜角度有不同(旋轉)，猜測可能是因為照片臉的角度有正臉、側臉等因素造成的，最後可以將這個 layer 理解成被基本的紋理所 activate。右圖則為經過第一個 convolution block 的結果。
+
+<div class="half">
+    <img src="02-Output/cnnFiltersWhiteNoiseactivation_1.png" height="450px">
+    <img src="02-Output/cnnFiltersResultImage2activation_1.png" height="450px">
+</div>
+
 
 
 
