@@ -117,8 +117,8 @@ DNN model 的部分，根據 confusion matrix (下左圖) 可以知道，
 - 在開心 (Hppy) 和驚訝 (Surprise) 這種表情鮮明的類別，模型的辨識狀況相對而言就會比較好，而生氣 (Angry)、厭惡 (Disgust)、害怕 (Fear) 這種複雜的情緒對模型來說相對而言也比較難辨識其中差異，甚至連人類都不太容易分辨出差異點。
 
 <div class="half">
-    <img src="02-Output/dnnConfusionMatrix.png" height="350px">
-    <img src="02-Output/cnnConfusionMatrix.png" height="350px">
+    <img src="02-Output/dnnConfusionMatrix.png" height="300px">
+    <img src="02-Output/cnnConfusionMatrix.png" height="300px">
 </div>
 
 
