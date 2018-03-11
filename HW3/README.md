@@ -167,13 +167,13 @@ DNN model 的部分，根據 confusion matrix (下圖) 可以知道，
 之後數層 convolution 後的 filter 和 convolution block 後的 filter 以及 validation data 中的第二筆資料相對應該層的輸出結果如下列所示:
 
 <div align="center">
-    <figcaption>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;第二層 convolution 後的 filter &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第二層 validation data convolution 後的結果</figcaption>
+    <figcaption>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;第二層 convolution 後的 filter &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第二層 validation data convolution 後的結果</figcaption>
     <img src="02-Output/cnnFiltersWhiteNoiseconv2d_2.png" height="400px" width="400px" title="第二層 convolution 後的 filter">
     <img src="02-Output/cnnFiltersResultImage2conv2d_2.png" height="400px" width="400px" title="第二層 convolution 後的結果">
 </div>
 
 <div align="center">
-    <figcaption>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;第二層 convolution block 後的 filter &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第二層 validation data convolution block 後的結果</figcaption>
+    <figcaption>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;第二層 convolution block 後的 filter &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第二層 validation data convolution block 後的結果</figcaption>
     <img src="02-Output/cnnFiltersWhiteNoiseactivation_2.png" height="400px" width="400px" title="第二層 convolution block 後的 filter">
     <img src="02-Output/cnnFiltersResultImage2activation_2.png" height="400px" width="400px" title="第二層 convolution block 後的結果">
 </div>
