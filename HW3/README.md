@@ -121,6 +121,14 @@ DNN model 的部分，根據 confusion matrix (下左圖) 可以知道，
     <img src="02-Output/cnnConfusionMatrix.png" height="300px">
 </div>
 
+下圖我們將各類別預測錯誤且預測信心最高的圖片找出來，可以發現一些有趣的現象:
+
+- 我個人覺得一、三、六、七張測得都相對比 label 好，猜測是 label 標記錯誤
+- 從三、四、六、七隱約可以發現模型判斷 Happy 和 Surprise 之間的差別，Surprise 有點像是情緒放大版的 Happy，其中如果嘴巴形狀又是接近圓形更可能被絆訂為 Surprise
+- 第三張很難辦定是 Neutral 還是 Sad，好像也都可以。
+
+![](02-Output/cnnDisplayData.png)
+
 
 ### Saliency Map
 
