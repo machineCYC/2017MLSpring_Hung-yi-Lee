@@ -237,6 +237,7 @@ DNN model 的部分，根據 confusion matrix (下左圖) 可以知道，
 
 5. 4 個 conv + 2-3個 fc vail data ~60%~65% basic droupout 0.5 on fc layer 0.2 0.3 0.3 onconv   20epoch
 
+
 ## Reference
 
 * [原始課程作業說明](https://docs.google.com/presentation/d/1QFK4-inv2QJ9UhuiUtespP4nC5ZqfBjd_jP2O41fpTc/edit?ts=58e452ff#slide=id.p)
