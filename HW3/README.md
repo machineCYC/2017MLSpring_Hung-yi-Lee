@@ -161,7 +161,7 @@ DNN model 的部分，根據 confusion matrix (下左圖) 可以知道，
 接下來將經過完整的 convolution + batch normalization + activation 後的 filter 取出來 (下圖左)。發現其實每個 filter 都是由基本的線條所組成且看起來很相似，但可以觀察到有個現象是，filter 中的線條似乎傾斜角度有不同(旋轉)，猜測可能是因為照片臉的角度有正臉、側臉等因素造成的，最後可以將這個 layer 理解成被基本的紋理所 activate。右圖則為圖片經過相對應的 layer 所產生的結果。
 
 <div align="center">
-    <figcaption>&nbsp第一層 convolution + batch normalization + activation 後的 filter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第一層 validation data convolution block 後的結果</figcaption>
+    <figcaption>第一層 convolution + batch normalization + activation 後的 filter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第一層 validation data convolution block 後的結果</figcaption>
     <img src="02-Output/cnnFiltersWhiteNoiseactivation_1.png" height="460px">
     <img src="02-Output/cnnFiltersResultImage2activation_1.png" height="460px">
 </div>
@@ -175,7 +175,7 @@ DNN model 的部分，根據 confusion matrix (下左圖) 可以知道，
 </div>
 
 <div align="center">
-    <figcaption>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;第二層 convolution + batch normalization + activation 後的 filter &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第二層 validation data convolution block 後的結果</figcaption>
+    <figcaption>第二層 convolution + batch normalization + activation 後的 filter &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第二層 validation data convolution block 後的結果</figcaption>
     <img src="02-Output/cnnFiltersWhiteNoiseactivation_2.png" height="400px" width="400px" title="第二層 convolution + batch normalization + activation 後的 filter">
     <img src="02-Output/cnnFiltersResultImage2activation_2.png" height="400px" width="400px" title="第二層 convolution + batch normalization + activation 後的結果">
 </div>
@@ -187,7 +187,7 @@ DNN model 的部分，根據 confusion matrix (下左圖) 可以知道，
 </div>
 
 <div align="center">
-    <figcaption>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;第三層 convolution + batch normalization + activation 後的 filter &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第三層 validation data convolution block 後的結果</figcaption>
+    <figcaption>第三層 convolution + batch normalization + activation 後的 filter &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第三層 validation data convolution block 後的結果</figcaption>
     <img src="02-Output/cnnFiltersWhiteNoiseactivation_3.png" height="400px" width="400px" title="第三層 convolution + batch normalization + activation 後的 filter">
     <img src="02-Output/cnnFiltersResultImage2activation_3.png" height="400px" width="400px" title="第三層 convolution + batch normalization + activation 後的結果">
 </div>
@@ -199,7 +199,7 @@ DNN model 的部分，根據 confusion matrix (下左圖) 可以知道，
 </div>
 
 <div align="center">
-    <figcaption>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;第四層 convolution + batch normalization + activation 後的 filter &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第四層 validation data convolution block 後的結果</figcaption>
+    <figcaption>第四層 convolution + batch normalization + activation 後的 filter &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第四層 validation data convolution block 後的結果</figcaption>
     <img src="02-Output/cnnFiltersWhiteNoiseactivation_4.png" height="400px" width="400px" title="第四層 convolution + batch normalization + activation 後的結果">
     <img src="02-Output/cnnFiltersResultImage2activation_4.png" height="400px" width="400px" title="第四層 convolution + batch normalization + activation 後的結果">
 </div>
