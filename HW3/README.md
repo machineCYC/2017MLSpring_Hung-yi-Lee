@@ -216,6 +216,7 @@ DNN model 的部分，根據 confusion matrix (下左圖) 可以知道，
 
 右邊一系列的圖，我們發現在第一層的 layer 中，filter 捕捉較大的範圍，人臉相當清晰，而第二層 layer 則捕捉人臉的輪廓、眼睛、頭髮、嘴巴...等等，更深層的 layer 則捕捉更局部更細微的特徵。在第四層 layer 可以很清楚的知道每個 filter 只針對特定的小方格去做特徵的提取。
 
+
 ### Data Augmentation
 
 
