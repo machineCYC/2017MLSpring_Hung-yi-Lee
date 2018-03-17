@@ -175,7 +175,7 @@ DNN model 的部分，根據 confusion matrix (下左圖) 可以知道，
 </div>
 
 <div align="center">
-    <figcaption>第二層 convolution + batch normalization + activation 後的 filter &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第二層 validation data convolution block 後的結果</figcaption>
+    <figcaption>第二層 convolution + batch normalization + activation 後的 filter &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第二層 validation data convolution block 後的結果</figcaption>
     <img src="02-Output/cnnFiltersWhiteNoiseactivation_2.png" height="400px" width="400px" title="第二層 convolution + batch normalization + activation 後的 filter">
     <img src="02-Output/cnnFiltersResultImage2activation_2.png" height="400px" width="400px" title="第二層 convolution + batch normalization + activation 後的結果">
 </div>
@@ -187,7 +187,7 @@ DNN model 的部分，根據 confusion matrix (下左圖) 可以知道，
 </div>
 
 <div align="center">
-    <figcaption>第三層 convolution + batch normalization + activation 後的 filter &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第三層 validation data convolution block 後的結果</figcaption>
+    <figcaption>第三層 convolution + batch normalization + activation 後的 filter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第三層 validation data convolution block 後的結果</figcaption>
     <img src="02-Output/cnnFiltersWhiteNoiseactivation_3.png" height="400px" width="400px" title="第三層 convolution + batch normalization + activation 後的 filter">
     <img src="02-Output/cnnFiltersResultImage2activation_3.png" height="400px" width="400px" title="第三層 convolution + batch normalization + activation 後的結果">
 </div>
@@ -199,7 +199,7 @@ DNN model 的部分，根據 confusion matrix (下左圖) 可以知道，
 </div>
 
 <div align="center">
-    <figcaption>第四層 convolution + batch normalization + activation 後的 filter &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第四層 validation data convolution block 後的結果</figcaption>
+    <figcaption>第四層 convolution + batch normalization + activation 後的 filter &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第四層 validation data convolution block 後的結果</figcaption>
     <img src="02-Output/cnnFiltersWhiteNoiseactivation_4.png" height="400px" width="400px" title="第四層 convolution + batch normalization + activation 後的結果">
     <img src="02-Output/cnnFiltersResultImage2activation_4.png" height="400px" width="400px" title="第四層 convolution + batch normalization + activation 後的結果">
 </div>
