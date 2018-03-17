@@ -1,16 +1,19 @@
 import os
 from keras.callbacks import CSVLogger
 from keras.preprocessing.image import ImageDataGenerator
+from keras.models import load_model
 
 
-def getTrain(model, arrayTrainX, arrayTrainY, arrayValidX, arrayValidY, DataGenerator, strProjectFolder, strOutputPath):
+def getTrain(arrayTrainX, arrayTrainY, arrayValidX, arrayValidY, DataGenerator, strProjectFolder, strOutputPath):
 
     intEpochs = 100
     intBatchSize = 128
     floatZoomRange = 0.2
 
+    model = load_model(os.path.join(strProjectFolder, strOutputPath + "model.h5"))
+
     callbacks = []
-    csvLogger = CSVLogger(os.path.join(strProjectFolder, strOutputPath+"log.csv"), separator=",", append=False)
+    csvLogger = CSVLogger(os.path.join(strProjectFolder, strOutputPath + "log.csv"), separator=",", append=False)
     callbacks.append(csvLogger)
 
     if DataGenerator:
@@ -28,4 +31,4 @@ def getTrain(model, arrayTrainX, arrayTrainY, arrayValidX, arrayValidY, DataGene
     else:
         model.fit(arrayTrainX, arrayTrainY, epochs=intEpochs, batch_size=intBatchSize, verbose=2, validation_data=(arrayValidX, arrayValidY), callbacks=callbacks, shuffle=True)
 
-    model.save(os.path.join(strProjectFolder, strOutputPath+"model.h5"))
+    model.save(os.path.join(strProjectFolder, strOutputPath + "model.h5"))

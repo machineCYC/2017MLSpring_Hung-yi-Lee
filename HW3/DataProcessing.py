@@ -38,8 +38,8 @@ if __name__ == "__main__":
 
     listShowId = [0, 299, 2, 7, 3, 15, 4]
     listShowImage = [listTrainImage[i] for i in listShowId] 
-    listClasses=["Angry", "Disgust", "Fear", "Happy", "Sad", "Surprise", "Neutral"]
-    plotDigits(instances=listShowImage, intImagesPerRow=7, listClasses=listClasses, strProjectFolder=strProjectFolder, strOutputPath=strOutputPath)
+    listLabelX = ["Angry", "Disgust", "Fear", "Happy", "Sad", "Surprise", "Neutral"]
+    plotDigits(instances=listShowImage, intImagesPerRow=7, listLabelX=listLabelX, strProjectFolder=strProjectFolder, strOutputPath=strOutputPath)
 
 
 
