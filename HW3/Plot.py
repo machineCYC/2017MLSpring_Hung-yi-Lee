@@ -4,7 +4,6 @@ import pandas as pd
 import matplotlib.pyplot as plt   
 from keras.utils import plot_model
 from keras.models import load_model
-from sklearn.metrics import confusion_matrix
 from keras import backend as K
 from Base import deprocessImage, makeNormalize, trainGradAscent
 
@@ -32,9 +31,9 @@ def plotModel(mode, strProjectFolder, strOutputPath):
     """
     This function plots the model structure.
     """
-    model = load_model(os.path.join(strProjectFolder, strOutputPath+"model.h5"))
+    model = load_model(os.path.join(strProjectFolder, strOutputPath + "model.h5"))
     model.summary()
-    plot_model(model, show_shapes=True, to_file=os.path.join(strProjectFolder, strOutputPath+"model.png"))
+    plot_model(model, show_shapes=True, to_file=os.path.join(strProjectFolder, strOutputPath + "model.png"))
 
 
 def plotLossAccuracyCurves(mode, strProjectFolder, strOutputPath):
@@ -67,8 +66,8 @@ def plotConfusionMatrix(mode, confusionmatrix, listClasses, strProjectFolder, st
     """
     This function plots the confusion matrix.
     """  
-    title="ConfusionMatrix"
-    cmap=plt.cm.jet
+    title = "ConfusionMatrix"
+    cmap = plt.cm.jet
 
     confusionmatrix = confusionmatrix.astype("float") / confusionmatrix.sum(axis=1)[:, np.newaxis]
     plt.figure(figsize=(8, 6))
@@ -154,9 +153,9 @@ def plotWhiteNoiseActivateFilters(mode, strProjectFolder, strOutputPath):
     """
     This function plot Activate Filters with white noise as input images
     """
-    intRecordFrequent = 10
-    NUM_STEPS = 100
-    intIterationSteps = 100
+    intRecordFrequent = 20
+    intNumberSteps = 160
+    intIterationSteps = 160
 
     strModelPath = os.path.join(strProjectFolder, strOutputPath + "model.h5")
 
@@ -174,12 +173,12 @@ def plotWhiteNoiseActivateFilters(mode, strProjectFolder, strOutputPath):
             tensorTarget = K.mean(fn[:, :, :, i])
 
             tensorGradients = makeNormalize(K.gradients(tensorTarget, inputImage)[0])
-            iterate = K.function([inputImage, K.learning_phase()], [tensorTarget, tensorGradients])
+            targetFunction = K.function([inputImage, K.learning_phase()], [tensorTarget, tensorGradients])
 
             # activate filters
-            listFilterImages.append(trainGradAscent(intIterationSteps, arrayInputImage, iterate))
+            listFilterImages.append(trainGradAscent(intIterationSteps, arrayInputImage, targetFunction, intRecordFrequent))
         
-        for it in range(NUM_STEPS//intRecordFrequent):
+        for it in range(intNumberSteps//intRecordFrequent):
             print("In the #{}".format(it))
             fig = plt.figure(figsize=(16, 17))
             for i in range(intFilters):

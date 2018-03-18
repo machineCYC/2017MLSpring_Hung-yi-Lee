@@ -77,16 +77,14 @@ def makeNormalize(x):
     return x / (K.sqrt(K.mean(K.square(x))) + 1e-7)
 
 
-def trainGradAscent(intIterationSteps, arrayInputImageData, iter_func):
+def trainGradAscent(intIterationSteps, arrayInputImageData, targetFunction, intRecordFrequent):
     """
-    Implement gradient ascent in iter_func
+    Implement gradient ascent in targetFunction
     """
-    intRecordFrequent = 10
-
     listFilterImages = []
     floatLearningRate = 1e-2
     for i in range(intIterationSteps):
-        floatLossValue, arrayGradientsValue = iter_func([arrayInputImageData, 0])
+        floatLossValue, arrayGradientsValue = targetFunction([arrayInputImageData, 0])
         arrayInputImageData += arrayGradientsValue * floatLearningRate
         if i % intRecordFrequent == 0:
             listFilterImages.append((arrayInputImageData, floatLossValue))
