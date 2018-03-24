@@ -63,11 +63,11 @@
 
 - matrix factorization 的概念為，將上列表格式為一個 User-Movie matrix，並利用 svd 矩陣分解的概念將 User-Movie matrix 拆解成 User matrix 和 Movie matrix。
  - 首先假設 u 個 User、m 部 Movie、d 個 latent factor、User-Movie matrix 為 <img src="https://latex.codecogs.com/gif.latex?R_{u,m}" title="R_{u,m}" />、User matrix 為 <img src="https://latex.codecogs.com/gif.latex?U_{u,d}" title="U_{u,d}" />、Movie matrix 為 <img src="https://latex.codecogs.com/gif.latex?M_{d,m}" title="M_{d,m}" />。如下圖所示。![](02-Output/Instructions1.png)
-- 由於 User-Movie matrix 中存在遺失值，所以我們利用已知的評分去計算 loss function 
+- 由於 User-Movie matrix 中存在遺失值，所以我們利用已知的評分去計算 loss function   
 
-$$L=\sum_{u,m}^{ } \left ( R_{u,m}-U_{u,1:d}M_{1:d,m} \right )^{2}$$
+    <img src="https://latex.codecogs.com/gif.latex? L=\sum_{u,m}^{&space;}&space;\left&space;(&space;R_{u,m}-U_{u,1:d}M_{1:d,m}&space;\right&space;)^{2}" title="L=\sum_{u,m}^{ } \left ( R_{u,m}-U_{u,1:d}M_{1:d,m} \right )^{2}" /> 
 
-<img src="https://latex.codecogs.com/gif.latex?L=\sum_{u,m}^{&space;}&space;\left&space;(&space;R_{u,m}-U_{u,1:d}M_{1:d,m}&space;\right&space;)^{2}" title="L=\sum_{u,m}^{ } \left ( R_{u,m}-U_{u,1:d}M_{1:d,m} \right )^{2}" />。
+
 
 ## Data 簡介
 
