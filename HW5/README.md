@@ -8,7 +8,7 @@
 
 主要以 matrix factorization 的方法去預測 User-Movie matrix 的遺失值。下列利用一個簡單的例子來做說明。
 
-- 下表為 User A~E 對 Movie 1~4 的評分，本次目標就是利用這些評分去預測 ? 的部分。
+- 下表為 User A 到 E 對 Movie 1 到 4 的評分，本次目標就是利用這些評分去預測 ? 的部分。
   
 
 <table style="width:80%">
@@ -21,7 +21,7 @@
   </tr>
   
   <tr>
-    <td>User A</td>
+    <td>User 1</td>
     <td> 5 <img src="https://latex.codecogs.com/gif.latex?R_{11}" title="R_{11}" /></td> 
     <td> 3 </td> 
     <td> ? </td> 
@@ -29,7 +29,7 @@
   </tr>
   
   <tr>
-    <td>User B</td>
+    <td>User 2</td>
     <td> 4 </td> 
     <td> 3 </td> 
     <td> ? </td> 
@@ -37,7 +37,7 @@
   </tr>
 
   <tr>
-    <td>User C</td>
+    <td>User 3</td>
     <td> 1 </td> 
     <td> 1 </td> 
     <td> ? </td> 
@@ -45,7 +45,7 @@
   </tr>
 
   <tr>
-    <td>User D</td>
+    <td>User 4</td>
     <td> 1 </td> 
     <td> ? </td> 
     <td> 4 </td> 
@@ -53,7 +53,7 @@
   </tr>
 
   <tr>
-    <td>User E</td>
+    <td>User 5</td>
     <td> ? </td> 
     <td> 1 </td> 
     <td> 5 </td> 
@@ -63,7 +63,11 @@
 
 - matrix factorization 的概念為，將上列表格式為一個 User-Movie matrix，並利用 svd 矩陣分解的概念將 User-Movie matrix 拆解成 User matrix 和 Movie matrix。
  - 首先假設 u 個 User、m 部 Movie、d 個 latent factor、User-Movie matrix 為 <img src="https://latex.codecogs.com/gif.latex?R_{u,m}" title="R_{u,m}" />、User matrix 為 <img src="https://latex.codecogs.com/gif.latex?U_{u,d}" title="U_{u,d}" />、Movie matrix 為 <img src="https://latex.codecogs.com/gif.latex?M_{d,m}" title="M_{d,m}" />。如下圖所示。![](02-Output/Instructions1.png)
-- 由於 User-Movie matrix 中存在遺失值，所以我們利用已知的評分去計算 loss function <img src="https://latex.codecogs.com/gif.latex?L=\sum_{u,m}^{&space;}&space;\left&space;(&space;R_{u,m}-U_{u,1:d}M_{1:d,m}&space;\right&space;)^{2}" title="L=\sum_{u,m}^{ } \left ( R_{u,m}-U_{u,1:d}M_{1:d,m} \right )^{2}" />。
+- 由於 User-Movie matrix 中存在遺失值，所以我們利用已知的評分去計算 loss function 
+
+$$L=\sum_{u,m}^{ } \left ( R_{u,m}-U_{u,1:d}M_{1:d,m} \right )^{2}$$
+
+<img src="https://latex.codecogs.com/gif.latex?L=\sum_{u,m}^{&space;}&space;\left&space;(&space;R_{u,m}-U_{u,1:d}M_{1:d,m}&space;\right&space;)^{2}" title="L=\sum_{u,m}^{ } \left ( R_{u,m}-U_{u,1:d}M_{1:d,m} \right )^{2}" />。
 
 ## Data 簡介
 
