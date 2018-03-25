@@ -219,7 +219,13 @@ DNN model 的部分，根據 confusion matrix (下左圖) 可以知道，
 
 ### Data Augmentation
 
+這個部份我們針對原來 CNN Model 的部分，對訓練資料多做 Data Augmentation，藉此來說明 Data Augmentation 的效果。Data Augmentation 就是對圖片做平移、翻轉、選轉、縮放、推移...等等，進而獲得更多且更多元的訓練資料，使模型更強健和減少過擬和的狀況。
+由於使用 data augmentation 的緣故，我們設定在每一次 epoch 時所訓練的資料數為沒有使用 data augmentation 的三倍，讓模型可以完整的訓練完原來的資料和新生成的資料。
 
+訓練過程如下圖所示，可以觀察到經過 100 個 epoch，validation loss 和 validation accuracy 似乎還在遞減，雖然預測精準度大約只提升到 68%，但持續訓練下去或許就會突破 70%。另外訓練過程的曲線相較於沒有使用 data augmentation 來的完美，也間接說明模型訓練得比較好，很清楚地可以知道是 data augmentation 的功勞。
+最後如果希望預測精準度可以再提高，個人建議可以增加每一次 epoch 訓練資料的倍數(3倍提高到5倍之類的)，但這方法所需要付出的代價為花更多時間訓練模型。
+
+![](02-Output/gencnnLossAccuracyCurves.png)
 
 ### 心得:
 
