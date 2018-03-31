@@ -1,20 +1,38 @@
 import os
 import pandas as pd
-from Train import getTrain
+from Sources import Train, Plot
 
 
-strProjectFolder = os.path.dirname(__file__)
-strOutputPath = "02-Output/"
+def main(boolBias, boolNormalize):
+    strProjectFolder = os.path.dirname(__file__)
 
-DataTrain = pd.read_csv(os.path.join(strProjectFolder, "01-Data/train.csv"), usecols=["UserID", "MovieID", "Rating"])
-DataTrain = DataTrain.sample(frac=1)
-pdUserSize = len(DataTrain["UserID"].drop_duplicates())
-pdMovieSize = len(DataTrain["MovieID"].drop_duplicates())
+    if boolBias:
+        if boolNormalize:
+            strOutputPath = "02-Output/" + "Bias" + "Normal"
+        else:
+            strOutputPath = "02-Output/" + "Bias"
+    else:
+        if boolNormalize:
+            strOutputPath = "02-Output/" + "unBias" + "Normal"
+        else:
+            strOutputPath = "02-Output/" + "unBias"
 
-Users = DataTrain["UserID"].values
-Movies = DataTrain["MovieID"].values
-Rate = DataTrain["Rating"].values
+    DataTrain = pd.read_csv(os.path.join(strProjectFolder, "01-Data/train.csv"), usecols=["UserID", "MovieID", "Rating"])
+    DataTrain = DataTrain.sample(frac=1)
+    intUserSize = len(DataTrain["UserID"].drop_duplicates())
+    intMovieSize = len(DataTrain["MovieID"].drop_duplicates())
 
-getTrain(arrayUser=Users, arrayMovie=Movies, arrayRate=Rate, intUserSize=pdUserSize, intMovieSize=pdMovieSize, strProjectFolder=strProjectFolder, strOutputPath=strOutputPath)
+    Users = DataTrain["UserID"].values
+    Movies = DataTrain["MovieID"].values
+    Rate = DataTrain["Rating"].values
+
+    # Train.getTrain(arrayUser=Users, arrayMovie=Movies, arrayRate=Rate, intUserSize=intUserSize, intMovieSize=intMovieSize, boolBias=boolBias, boolNormalize=boolNormalize, strProjectFolder=strProjectFolder, strOutputPath=strOutputPath)
+
+    Plot.plotModel(strProjectFolder, strOutputPath)
+    # Plot.plotLossAccuracyCurves(strProjectFolder, strOutputPath)
+
+if __name__ == "__main__":
+    main(boolBias=True, boolNormalize=True)
+
 
 
