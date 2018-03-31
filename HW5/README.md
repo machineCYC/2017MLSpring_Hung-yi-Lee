@@ -8,7 +8,7 @@
 
 主要以 matrix factorization 的方法去預測 User-Movie matrix 的遺失值。下列利用一個簡單的例子來做說明。
 
-- 下表為 User A 到 E 對 Movie 1 到 4 的評分，本次目標就是利用這些評分去預測 ? 的部分。
+- 下表為 User A 到 E 對 Movie 1 到 4 的評分，本次目標就是利用這些已知評分去預測 ? 的部分。
   
 
 <table style="width:80%">
@@ -62,22 +62,111 @@
 </table>
 
 - matrix factorization 的概念為，將上列表格式為一個 User-Movie matrix，並利用 svd 矩陣分解的概念將 User-Movie matrix 拆解成 User matrix 和 Movie matrix。
- - 首先假設 u 個 User、m 部 Movie、d 個 latent factor、User-Movie matrix 為 <img src="https://latex.codecogs.com/gif.latex?R_{u,m}" title="R_{u,m}" />、User matrix 為 <img src="https://latex.codecogs.com/gif.latex?U_{u,d}" title="U_{u,d}" />、Movie matrix 為 <img src="https://latex.codecogs.com/gif.latex?M_{d,m}" title="M_{d,m}" />。如下圖所示。![](02-Output/Instructions1.png)
+- 首先假設 u 個 User、m 部 Movie、d 個 latent factor、User-Movie matrix 為 <img src="https://latex.codecogs.com/gif.latex?R_{u,m}" title="R_{u,m}" />、User matrix 為 <img src="https://latex.codecogs.com/gif.latex?U_{u,d}" title="U_{u,d}" />、Movie matrix 為 <img src="https://latex.codecogs.com/gif.latex?M_{d,m}" title="M_{d,m}" />。如下圖所示。![](02-Output/Instructions1.png)
 - 由於 User-Movie matrix 中存在遺失值，所以我們利用已知的評分去計算 loss function
-
 <img src="https://latex.codecogs.com/gif.latex?L=\sum_{u,m}^{&space;}&space;\left&space;(&space;R_{u,m}-U_{u,1:d}M_{1:d,m}&space;\right&space;)^{2}" title="L=\sum_{u,m}^{ } \left ( R_{u,m}-U_{u,1:d}M_{1:d,m} \right )^{2}" /> 
 
 
 
 ## Data 簡介
 
-* Training dataset 為 899873 筆資料，其中包含 XXX 位User 和 XXX 部電影。
+* Training dataset 為 899873 筆資料，其中包含 6040 位 User 和 3688 部電影。
 
-* Testing dataset 則是 100336筆資料， 其中一半為 kaggle
- private set。
+* Testing dataset 則是 100336 筆資料， 其中一半為 kaggle private set。
 
 
 ## Summary
+
+在這次大約 90 萬筆 Training dataset 裡面，我們將最後面 8 萬筆資料當作 validation set。
+
+一開始我們從最基本的 matrix factorization 出發，模型結構如下圖。
+
+![](02-Output/unBiasmodel.png)
+
+接下來我們增加模型的複雜度，在 User 和 Movie 分別增加 bias 項。
+
+![](02-Output/Biasmodel.png)
+
+1. 比較有無 Bias 項訓練的結果。
+   * latent factor 為 32
+   * Batch Size 為 4096
+   * dropout 為 0.8
+   
+<table style="width:80%">
+  <tr>
+    <td> </td> 
+    <td> Training Loss </td>
+    <td> Training RMSE </td> 
+    <td> Valid Loss </td> 
+    <td> Vaild RMSE </td> 
+  </tr>
+  
+  <tr>
+    <td>unBias</td>
+    <td> 2.48 </td> 
+    <td> 1.58 </td> 
+    <td> 1.49 </td> 
+    <td> 1.22 </td> 
+  </tr>
+
+  <tr>
+    <td>Bias</td>
+    <td> 0.86 </td> 
+    <td> 0.93 </td> 
+    <td> 0.88 </td> 
+    <td> 0.94 </td> 
+  </tr>
+</table>
+
+<div class="half">
+    <img src="02-Output/unBiasLossCurves.png" height="200px">
+    <img src="02-Output/BiasLossCurves.png" height="200px">
+</div>
+
+* 在模型有 Bias 項的情況下，比較有無 normalize(在 rating 上) 的差別。
+   * latent factor 為 32
+   * Batch Size 為 4096
+   * dropout 為 0.8
+
+<table style="width:80%">
+  <tr>
+    <td> </td> 
+    <td> Training Loss </td>
+    <td> Training RMSE </td> 
+    <td> Valid Loss </td> 
+    <td> Vaild RMSE </td> 
+  </tr>
+  
+  <tr>
+    <td>unNormalize</td>
+    <td> 0.8613 </td> 
+    <td> 0.9280 </td> 
+    <td> 0.8775 </td> 
+    <td> 0.9367 </td> 
+  </tr>
+
+  <tr>
+    <td>Normalize</td>
+    <td> 0.6363 </td> 
+    <td> 0.7976 </td> 
+    <td> 0.6389 </td> 
+    <td> 0.7993 </td> 
+  </tr>
+</table>
+
+
+<div class="half">
+    <img src="02-Output/BiasLossCurves.png" height="200px">
+    <img src="02-Output/BiasNormalLossCurves.png" height="200px">
+</div>
+
+*  比較不同的 latent dimension 的結果。
+
+
+
+* bias + normal droupout 要調高才會訓練的好
+
+## Stucture
 
 
 ## Reference
@@ -86,7 +175,4 @@
 
 * [Collaborative filtering in Keras](http://www.fenris.org/2016/03/07/index-html)
 
-
-- batch_size=100 120SEC
-batch_size=500 24SEC why??
-1000 12SEC
+* [Recommender Systems in Keras](https://nipunbatra.github.io/blog/2017/recommend-keras.html)
