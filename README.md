@@ -11,3 +11,5 @@ The detail of each homework is in the below.
 [Binary Classification](https://github.com/machineCYC/2017MLSpring_Hung-yi-Lee/tree/master/HW2)
 
 [Image Sentiment Classification](https://github.com/machineCYC/2017MLSpring_Hung-yi-Lee/tree/master/HW3)
+
+[Predict movie ratings](https://github.com/machineCYC/2017MLSpring_Hung-yi-Lee/tree/master/HW5)
