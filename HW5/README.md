@@ -65,7 +65,7 @@
 
 - 首先假設 u 個 User、m 部 Movie、d 個 latent factor、User-Movie matrix 為 <img src="https://latex.codecogs.com/gif.latex?R_{u,m}" title="R_{u,m}" />、User matrix 為 <img src="https://latex.codecogs.com/gif.latex?U_{u,d}" title="U_{u,d}" />、Movie matrix 為 <img src="https://latex.codecogs.com/gif.latex?M_{d,m}" title="M_{d,m}" />。如下圖所示。
 
-  ![](02-Output/Instructions1.png)
+    <img src="02-Output/Instructions1.png" height="220px" width="440">
 
 - 由於 User-Movie matrix 中存在遺失值，所以我們利用已知的評分去計算 loss function
 
@@ -86,11 +86,12 @@
 
 一開始我們從最基本的 matrix factorization 出發，模型結構如下圖，模型參數 311,296 個。
 
-![](02-Output/unBiasmodel.png)
+<img src="02-Output/unBiasmodel.png" height="220px" width="440">
 
 接下來我們增加模型的複雜度，在 User 和 Movie 分別增加 bias 項，模型參數 321,024 個。
 
-![](02-Output/Biasmodel.png)
+<img src="02-Output/Biasmodel.png" height="220px" width="440">
+
 
 * 比較有無 Bias 項訓練的結果。
    * latent factor 為 32
@@ -178,14 +179,41 @@
     <img src="02-Output/BiasNormalLossCurves.png" height="220px" width="440">
 </div>
 
-最後我們嘗試使用 DNN 的方法來比較 MF 和 DNN 之間的差異。模型結構如下圖所示
+最後我們嘗試使用 DNN 來預測 ratting。模型結構如下圖所示
 ，模型參數 345,441 個。
 
-![](02-Output/Deepmodel.png)
+<img src="02-Output/Deepmodel.png" height="220px" width="440">
 
-![](02-Output/DeepLossCurves.png)
-* 
+* 比較 DNN 和 MF(有Bias項) 的差別
+    * 沒有對 ratting 做 Normalize
+    * latent factor 為 32
+    * Batch Size 為 4096
+    * 針對所有的 training data 和 validation data 計算 MSE 和 RMSE
+        <table style="width:80%">
+          <tr>
+            <td> </td> 
+            <td> Training Loss </td>
+            <td> Training RMSE </td> 
+            <td> Valid Loss </td> 
+            <td> Vaild RMSE </td> 
+          </tr>
+          <tr>
+            <td>DNN</td>
+            <td> 0.7436 </td> 
+            <td> 0.8622 </td> 
+            <td> 0.7872 </td> 
+            <td> 0.8872 </td> 
+          </tr>
+          <tr>
+            <td>MF</td>
+            <td> 0.8182 </td> 
+            <td> 0.9045 </td> 
+            <td> 0.8234 </td> 
+            <td> 0.9077 </td> 
+          </tr>
+        </table>
 
+<img src="02-Output/DeepLossCurves.png" height="220px" width="440">
 
 *  比較不同的 latent dimension 的結果。
 
