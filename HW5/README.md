@@ -16,16 +16,14 @@
       <td> Movie 2 </td> 
       <td> Movie 3 </td> 
       <td> Movie 4 </td> 
-    </tr>
-    
+    </tr>  
     <tr>
       <td>User 1</td>
       <td> 5 <img src="https://latex.codecogs.com/gif.latex?R_{11}" title="R_{11}" /></td> 
       <td> 3 </td> 
       <td> ? </td> 
       <td> 1 </td> 
-    </tr>
-    
+    </tr>   
     <tr>
       <td>User 2</td>
       <td> 4 </td> 
@@ -33,7 +31,6 @@
       <td> ? </td> 
       <td> 1 </td> 
     </tr>
-
     <tr>
       <td>User 3</td>
       <td> 1 </td> 
@@ -41,7 +38,6 @@
       <td> ? </td> 
       <td> 5 </td> 
     </tr>
-
     <tr>
       <td>User 4</td>
       <td> 1 </td> 
@@ -49,7 +45,6 @@
       <td> 4 </td> 
       <td> 4 </td> 
     </tr>
-
     <tr>
       <td>User 5</td>
       <td> ? </td> 
@@ -64,9 +59,9 @@
 - matrix factorization 的概念為，將上列表格式為一個 User-Movie matrix，並利用 svd 矩陣分解的概念將 User-Movie matrix 拆解成 User matrix 和 Movie matrix。
 
 - 首先假設 u 個 User、m 部 Movie、d 個 latent factor、User-Movie matrix 為 <img src="https://latex.codecogs.com/gif.latex?R_{u,m}" title="R_{u,m}" />、User matrix 為 <img src="https://latex.codecogs.com/gif.latex?U_{u,d}" title="U_{u,d}" />、Movie matrix 為 <img src="https://latex.codecogs.com/gif.latex?M_{d,m}" title="M_{d,m}" />。如下圖所示。
-
+  <center>
     <img src="02-Output/Instructions1.png" height="220px" width="440">
-
+  </center>
 - 由於 User-Movie matrix 中存在遺失值，所以我們利用已知的評分去計算 loss function
 
   <img src="https://latex.codecogs.com/gif.latex?L=\sum_{u,m}^{&space;}&space;\left&space;(&space;R_{u,m}-U_{u,1:d}M_{1:d,m}&space;\right&space;)^{2}" title="L=\sum_{u,m}^{ } \left ( R_{u,m}-U_{u,1:d}M_{1:d,m} \right )^{2}" /> 
@@ -86,12 +81,15 @@
 
 一開始我們從最基本的 matrix factorization 出發，模型結構如下圖，模型參數 311,296 個。
 
-<img src="02-Output/unBiasmodel.png" height="220px" width="440">
+<center>
+  <img src="02-Output/unBiasmodel.png" height="220px" width="440">
+</center>
 
 接下來我們增加模型的複雜度，在 User 和 Movie 分別增加 bias 項，模型參數 321,024 個。
 
-<img src="02-Output/Biasmodel.png" height="220px" width="440">
-
+<center>
+  <img src="02-Output/Biasmodel.png" height="220px" width="440">
+</center>
 
 * 比較有無 Bias 項訓練的結果。
    * latent factor 為 32
@@ -123,10 +121,9 @@
           </tr>
         </table>
 
-下圖(左)為無 Bias 項的 MF，由 loss curves 可以得知模型大約在第 10 個 epoch 就已經收斂，RMSE 已經無法低於 2.8。下圖(右)為增加 Bias 項的 MF，增加 Bias 項提高模型的複雜度，使模型可以捕捉到更多訊息，這點可以在 loss curves 得知。RMSE 也由 2.8 降至 0.9，但也因為模型複雜度增加，模型大約到了第 40 個 epoch 才收斂。
+  下圖(左)為無 Bias 項的 MF，由 loss curves 可以得知模型大約在第 10 個 epoch 就已經收斂，RMSE 已經無法低於 2.8。下圖(右)為增加 Bias 項的 MF，增加 Bias 項提高模型的複雜度，使模型可以捕捉到更多訊息，這點可以在 loss curves 得知。RMSE 也由 2.8 降至 0.9，但也因為模型複雜度增加，模型大約到了第 40 個 epoch 才收斂。
 
-進一步解釋增加 Bias 項所帶來的效益，我們可以直觀的解釋成，每個 user 和 movie 對於 rate 都有不同的分布。更直觀的說就是 user 1 再給 rate 的時候可能以3分為基準，喜歡的電影就給4分，不喜歡則給2分，user 2 可能會是喜歡給5分，不喜歡給1分。增加 Bias 項，可以幫助模型捕捉到 user 之間對於給分傾向的差異，movie 的解釋也是雷同。
-
+  進一步解釋增加 Bias 項所帶來的效益，我們可以直觀的解釋成，每個 user 和 movie 對於 rate 都有不同的分布。更直觀的說就是 user 1 再給 rate 的時候可能以3分為基準，喜歡的電影就給4分，不喜歡則給2分，user 2 可能會是喜歡給5分，不喜歡給1分。增加 Bias 項，可以幫助模型捕捉到 user 之間對於給分傾向的差異，movie 的解釋也是雷同。
 
 <div class="half">
     <img src="02-Output/unBiasLossCurves.png" height="220px" width="440">
@@ -138,6 +135,15 @@
    * Batch Size 為 4096
    * dropout 為 0.3
    * L2 regularizer 0.01
+   * 針對 ratting 做 Normalize 的具體作法
+      * 算出 training data Ratting 的平均值 <a href="https://www.codecogs.com/eqnedit.php?latex=\mu" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\mu" title="\mu" /></a> 和標準差 <a href="https://www.codecogs.com/eqnedit.php?latex=\sigma" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\sigma" title="\sigma" /></a>
+      * 對 training data 的 Ratting 做標準化
+
+        <a href="https://www.codecogs.com/eqnedit.php?latex=R^{*}=\frac{R-\mu&space;}{\sigma&space;}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?R^{*}=\frac{R-\mu&space;}{\sigma&space;}" title="R^{*}=\frac{R-\mu }{\sigma }" /></a>
+
+      * 最後針對預測的 <a href="https://www.codecogs.com/eqnedit.php?latex=R^{*}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?R^{*}" title="R^{*}" /></a> 反算回去原來的 ratting <a href="https://www.codecogs.com/eqnedit.php?latex=R" target="_blank"><img src="https://latex.codecogs.com/gif.latex?R" title="R" /></a>
+
+        <a href="https://www.codecogs.com/eqnedit.php?latex=R=R^{*}\times&space;\sigma&space;&plus;&space;\mu" target="_blank"><img src="https://latex.codecogs.com/gif.latex?R=R^{*}\times&space;\sigma&space;&plus;&space;\mu" title="R=R^{*}\times \sigma + \mu" /></a>
    * 針對所有的 training data 和 validation data 計算 MSE 和 RMSE
         <table style="width:80%">
           <tr>
@@ -162,18 +168,11 @@
             <td> 0.9077 </td> 
           </tr>
         </table>
+  
+  根據上表可以得知有對 ratting 做 normalize 可以有效地降低 RMSE。
 
-  * 針對 ratting 做 Normalize 的具體作法
-    * 算出 training data Ratting 的平均值 <a href="https://www.codecogs.com/eqnedit.php?latex=\mu" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\mu" title="\mu" /></a> 和標準差 <a href="https://www.codecogs.com/eqnedit.php?latex=\sigma" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\sigma" title="\sigma" /></a>
-    * 對 training data 的 Ratting 做標準化
-
-        <a href="https://www.codecogs.com/eqnedit.php?latex=R^{*}=\frac{R-\mu&space;}{\sigma&space;}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?R^{*}=\frac{R-\mu&space;}{\sigma&space;}" title="R^{*}=\frac{R-\mu }{\sigma }" /></a>
-
-    * 最後針對預測的 <a href="https://www.codecogs.com/eqnedit.php?latex=R^{*}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?R^{*}" title="R^{*}" /></a> 反算回去原來的 ratting <a href="https://www.codecogs.com/eqnedit.php?latex=R" target="_blank"><img src="https://latex.codecogs.com/gif.latex?R" title="R" /></a>
-
-        <a href="https://www.codecogs.com/eqnedit.php?latex=R=R^{*}\times&space;\sigma&space;&plus;&space;\mu" target="_blank"><img src="https://latex.codecogs.com/gif.latex?R=R^{*}\times&space;\sigma&space;&plus;&space;\mu" title="R=R^{*}\times \sigma + \mu" /></a>
-
-
+  下圖(左)為無 normalize 的 MF，RMSE 極限大約是0.9左右，下圖(右)為 normalize 的 MF，RMSE 下降至0.82，主要原因是因為對 ratting 做 normalize 所造成，也因為這樣做使得比較基準不一樣，但是由 loss curves 的斜率可以確定的是增加 normalize 使得收斂的速度比較快。
+  
 <div class="half">
     <img src="02-Output/BiasLossCurves.png" height="220px" width="440">
     <img src="02-Output/BiasNormalLossCurves.png" height="220px" width="440">
@@ -182,7 +181,9 @@
 最後我們嘗試使用 DNN 來預測 ratting。模型結構如下圖所示
 ，模型參數 345,441 個。
 
-<img src="02-Output/Deepmodel.png" height="220px" width="440">
+<center>
+  <img src="02-Output/Deepmodel.png" height="220px" width="440">
+</center>
 
 * 比較 DNN 和 MF(有Bias項) 的差別
     * 沒有對 ratting 做 Normalize
@@ -191,35 +192,31 @@
     * 針對所有的 training data 和 validation data 計算 MSE 和 RMSE
         <table style="width:80%">
           <tr>
-            <td> </td> 
-            <td> Training Loss </td>
-            <td> Training RMSE </td> 
-            <td> Valid Loss </td> 
-            <td> Vaild RMSE </td> 
+           <td> </td> 
+           <td> Training Loss </td>
+           <td> Training RMSE </td> 
+           <td> Valid Loss </td> 
+           <td> Vaild RMSE </td> 
           </tr>
           <tr>
-            <td>DNN</td>
-            <td> 0.7436 </td> 
-            <td> 0.8622 </td> 
-            <td> 0.7872 </td> 
-            <td> 0.8872 </td> 
+           <td>DNN</td>
+           <td> 0.7436 </td> 
+           <td> 0.8622 </td> 
+           <td> 0.7872 </td> 
+           <td> 0.8872 </td> 
           </tr>
           <tr>
-            <td>MF</td>
-            <td> 0.8182 </td> 
-            <td> 0.9045 </td> 
-            <td> 0.8234 </td> 
-            <td> 0.9077 </td> 
+           <td>MF</td>
+           <td> 0.8182 </td> 
+           <td> 0.9045 </td> 
+           <td> 0.8234 </td> 
+           <td> 0.9077 </td> 
           </tr>
         </table>
 
 <img src="02-Output/DeepLossCurves.png" height="220px" width="440">
 
 *  比較不同的 latent dimension 的結果。
-
-
-
-* bias + normal droupout 要調高才會訓練的好
 
 
 ## File Stucture
