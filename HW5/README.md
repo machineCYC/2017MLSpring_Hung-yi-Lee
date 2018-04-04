@@ -128,8 +128,8 @@
 
 
 <div class="half">
-    <img src="02-Output/unBiasLossCurves.png" height="230px" width="460">
-    <img src="02-Output/BiasLossCurves.png" height="230px" width="460">
+    <img src="02-Output/unBiasLossCurves.png" height="225px" width="450">
+    <img src="02-Output/BiasLossCurves.png" height="225px" width="450">
 </div>
 
 * 在模型有 Bias 項的情況下，比較有無 normalize(在 rating 上) 的差別。
@@ -165,11 +165,14 @@
   * 針對 ratting 做 Normalize 的具體作法
     * 算出 training data Ratting 的平均值 <a href="https://www.codecogs.com/eqnedit.php?latex=\mu" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\mu" title="\mu" /></a> 和標準差 <a href="https://www.codecogs.com/eqnedit.php?latex=\sigma" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\sigma" title="\sigma" /></a>
     * 對 training data 的 Ratting 做標準化
+        <a href="https://www.codecogs.com/eqnedit.php?latex=R^{*}=\frac{R-\mu&space;}{\sigma&space;}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?R^{*}=\frac{R-\mu&space;}{\sigma&space;}" title="R^{*}=\frac{R-\mu }{\sigma }" /></a>
+    * 最後針對預測的 <a href="https://www.codecogs.com/eqnedit.php?latex=R^{*}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?R^{*}" title="R^{*}" /></a> 反算回去原來的 ratting <a href="https://www.codecogs.com/eqnedit.php?latex=R" target="_blank"><img src="https://latex.codecogs.com/gif.latex?R" title="R" /></a>
+        <a href="https://www.codecogs.com/eqnedit.php?latex=R=R^{*}\times&space;\sigma&space;&plus;&space;\mu" target="_blank"><img src="https://latex.codecogs.com/gif.latex?R=R^{*}\times&space;\sigma&space;&plus;&space;\mu" title="R=R^{*}\times \sigma + \mu" /></a>
 
 
 <div class="half">
-    <img src="02-Output/BiasLossCurves.png" height="250px" width="500">
-    <img src="02-Output/BiasNormalLossCurves.png" height="250px" width="500">
+    <img src="02-Output/BiasLossCurves.png" height="225px" width="450">
+    <img src="02-Output/BiasNormalLossCurves.png" height="225px" width="450">
 </div>
 
 最後我們嘗試使用 DNN 的方法來比較 MF 和 DNN 之間的差異。模型結構如下圖所示
