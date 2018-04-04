@@ -9,55 +9,55 @@
 - 下表為 User A 到 E 對 Movie 1 到 4 的評分，本次目標就是利用這些已知評分去預測 ? 的部分。
   
 
-<table style="width:80%">
-  <tr>
-    <td> </td> 
-    <td> Movie 1 </td>
-    <td> Movie 2 </td> 
-    <td> Movie 3 </td> 
-    <td> Movie 4 </td> 
-  </tr>
-  
-  <tr>
-    <td>User 1</td>
-    <td> 5 <img src="https://latex.codecogs.com/gif.latex?R_{11}" title="R_{11}" /></td> 
-    <td> 3 </td> 
-    <td> ? </td> 
-    <td> 1 </td> 
-  </tr>
-  
-  <tr>
-    <td>User 2</td>
-    <td> 4 </td> 
-    <td> 3 </td> 
-    <td> ? </td> 
-    <td> 1 </td> 
-  </tr>
+  <table style="width:80%">
+    <tr>
+      <td> </td> 
+      <td> Movie 1 </td>
+      <td> Movie 2 </td> 
+      <td> Movie 3 </td> 
+      <td> Movie 4 </td> 
+    </tr>
+    
+    <tr>
+      <td>User 1</td>
+      <td> 5 <img src="https://latex.codecogs.com/gif.latex?R_{11}" title="R_{11}" /></td> 
+      <td> 3 </td> 
+      <td> ? </td> 
+      <td> 1 </td> 
+    </tr>
+    
+    <tr>
+      <td>User 2</td>
+      <td> 4 </td> 
+      <td> 3 </td> 
+      <td> ? </td> 
+      <td> 1 </td> 
+    </tr>
 
-  <tr>
-    <td>User 3</td>
-    <td> 1 </td> 
-    <td> 1 </td> 
-    <td> ? </td> 
-    <td> 5 </td> 
-  </tr>
+    <tr>
+      <td>User 3</td>
+      <td> 1 </td> 
+      <td> 1 </td> 
+      <td> ? </td> 
+      <td> 5 </td> 
+    </tr>
 
-  <tr>
-    <td>User 4</td>
-    <td> 1 </td> 
-    <td> ? </td> 
-    <td> 4 </td> 
-    <td> 4 </td> 
-  </tr>
+    <tr>
+      <td>User 4</td>
+      <td> 1 </td> 
+      <td> ? </td> 
+      <td> 4 </td> 
+      <td> 4 </td> 
+    </tr>
 
-  <tr>
-    <td>User 5</td>
-    <td> ? </td> 
-    <td> 1 </td> 
-    <td> 5 </td> 
-    <td> 4 </td> 
-  </tr>
-</table>
+    <tr>
+      <td>User 5</td>
+      <td> ? </td> 
+      <td> 1 </td> 
+      <td> 5 </td> 
+      <td> 4 </td> 
+    </tr>
+  </table>
 
 主要以 matrix factorization 的方法去預測 User-Movie matrix 的遺失值。下列利用一個簡單的例子來做說明。
 
@@ -98,31 +98,31 @@
    * dropout 為 0.3
    * L2 regularizer 0.01
    
-<table style="width:80%">
-  <tr>
-    <td> </td> 
-    <td> Training Loss </td>
-    <td> Training RMSE </td> 
-    <td> Valid Loss </td> 
-    <td> Vaild RMSE </td> 
-  </tr>
-  
-  <tr>
-    <td>unBias</td>
-    <td> 2.4846 </td> 
-    <td> 1.5762 </td> 
-    <td> 1.4903 </td> 
-    <td> 1.2206 </td> 
-  </tr>
+  <table style="width:80%">
+    <tr>
+      <td> </td> 
+      <td> Training Loss </td>
+      <td> Training RMSE </td> 
+      <td> Valid Loss </td> 
+      <td> Vaild RMSE </td> 
+    </tr>
+    
+    <tr>
+      <td>unBias</td>
+      <td> 2.4846 </td> 
+      <td> 1.5762 </td> 
+      <td> 1.4903 </td> 
+      <td> 1.2206 </td> 
+    </tr>
 
-  <tr>
-    <td>Bias</td>
-    <td> 0.8613 </td> 
-    <td> 0.9279 </td> 
-    <td> 0.8775 </td> 
-    <td> 0.9367 </td> 
-  </tr>
-</table>
+    <tr>
+      <td>Bias</td>
+      <td> 0.8613 </td> 
+      <td> 0.9279 </td> 
+      <td> 0.8775 </td> 
+      <td> 0.9367 </td> 
+    </tr>
+  </table>
 
 下圖(左)為無 Bias 項的 MF，由 loss curves 可以得知模型大約在第 10 個 epoch 就已經收斂，RMSE 已經無法低於 2.8。下圖(右)為增加 Bias 項的 MF，增加 Bias 項提高模型的複雜度，使模型可以捕捉到更多訊息，這點可以在 loss curves 得知。RMSE 也由 2.8 降至 0.9，但也因為模型複雜度增加，模型大約到了第 40 個 epoch 才收斂。
 
@@ -130,8 +130,8 @@
 
 
 <div class="half">
-    <img src="02-Output/unBiasLossCurves.png" height="180px">
-    <img src="02-Output/BiasLossCurves.png" height="180px">
+    <img src="02-Output/unBiasLossCurves.png" height="200px" width="400">
+    <img src="02-Output/BiasLossCurves.png" height="200px" width="400">
 </div>
 
 * 在模型有 Bias 項的情況下，比較有無 normalize(在 rating 上) 的差別。
