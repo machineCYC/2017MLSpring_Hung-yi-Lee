@@ -130,8 +130,8 @@
 
 
 <div class="half">
-    <img src="02-Output/unBiasLossCurves.png" height="200px">
-    <img src="02-Output/BiasLossCurves.png" height="200px">
+    <img src="02-Output/unBiasLossCurves.png" height="180px">
+    <img src="02-Output/BiasLossCurves.png" height="180px">
 </div>
 
 * 在模型有 Bias 項的情況下，比較有無 normalize(在 rating 上) 的差別。
