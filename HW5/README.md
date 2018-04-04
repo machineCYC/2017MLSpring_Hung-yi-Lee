@@ -82,13 +82,13 @@
 一開始我們從最基本的 matrix factorization 出發，模型結構如下圖，模型參數 311,296 個。
 
 <center>
-  <img src="02-Output/unBiasmodel.png" height="220px" width="440">
+ <img src="02-Output/unBiasmodel.png" height="300px" width="600">
 </center>
 
 接下來我們增加模型的複雜度，在 User 和 Movie 分別增加 bias 項，模型參數 321,024 個。
 
 <center>
-  <img src="02-Output/Biasmodel.png" height="220px" width="440">
+  <img src="02-Output/Biasmodel.png" height="300px" width="600">
 </center>
 
 * 比較有無 Bias 項訓練的結果。
@@ -171,7 +171,9 @@
   
   根據上表可以得知有對 ratting 做 normalize 可以有效地降低 RMSE。
 
-  下圖(左)為無 normalize 的 MF，RMSE 極限大約是0.9左右，下圖(右)為 normalize 的 MF，RMSE 下降至0.82，主要原因是因為對 ratting 做 normalize 所造成，也因為這樣做使得比較基準不一樣，但是由 loss curves 的斜率可以確定的是增加 normalize 使得收斂的速度比較快。
+  下圖(左)為無 normalize 的 MF，RMSE 極限大約是0.9左右，下圖(右)為 normalize 的 MF，RMSE 下降至0.82，是因為對 ratting 做 normalize 使得 ratting 從原本的0、1...4、5變成接近0的數字，因此讓 RMSE 變小。在這種情況下比較 RMSE 是沒有意義的，但可以由 loss curves 的斜率可以確定的是增加 normalize 使得收斂的速度比較快。
+  
+  另外針對有做 normalize MF 的 loss curves 可以進行更進一步的調參，使訓練過程收斂更漂亮，在這沒有進一步調參主要是因為想要觀察在模型固定得情況下對 ratting normalize 所造成的影響。
   
 <div class="half">
     <img src="02-Output/BiasLossCurves.png" height="220px" width="440">
@@ -182,7 +184,7 @@
 ，模型參數 345,441 個。
 
 <center>
-  <img src="02-Output/Deepmodel.png" height="220px" width="440">
+  <img src="02-Output/Deepmodel.png" height="400px" width="600">
 </center>
 
 * 比較 DNN 和 MF(有Bias項) 的差別
@@ -213,8 +215,13 @@
            <td> 0.9077 </td> 
           </tr>
         </table>
+   下圖(左)為 DNN，RMSE 到第40個 epoch 似乎達到極限0.88左右，相較於右圖 MF，RMSE 明顯較小，整體而已 DNN 似乎表現得比較優異，但訓練時間 DNN 相對就比較耗時。 
 
-<img src="02-Output/DeepLossCurves.png" height="220px" width="440">
+<div class="half">
+    <img src="02-Output/DeepLossCurves.png" height="220px" width="440">
+    <img src="02-Output/BiasLossCurves.png" height="220px" width="440">
+</div>
+
 
 *  比較不同的 latent dimension 的結果。
 
