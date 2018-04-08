@@ -88,7 +88,7 @@
 接下來我們增加模型的複雜度，在 User 和 Movie 分別增加 bias 項，模型參數 321,024 個。
 
 <center>
-  <img src="02-Output/Biasmodel.png" height="300px" width="600">
+  <img src="02-Output/Biasmodel.png" height="350px" width="800">
 </center>
 
 * 比較有無 Bias 項訓練的結果。
@@ -129,6 +129,65 @@
     <img src="02-Output/unBiasLossCurves.png" height="220px" width="440">
     <img src="02-Output/BiasLossCurves.png" height="220px" width="440">
 </div>
+
+*  在有 Bias 的模型情況下，比較不同的 latent dimension 的結果。
+    * 有 Bias 項
+    * Batch Size 為 4096
+    * dropout 為 0.3
+    * L2 regularizer 0.01
+    * 針對所有的 training data 和 validation data 在不同的 latent factor 計算 MSE 和 RMSE
+        <table style="width:80%">
+          <tr>
+           <td> Latent Factor</td> 
+           <td> Training Loss </td>
+           <td> Training RMSE </td> 
+           <td> Valid Loss </td> 
+           <td> Vaild RMSE </td> 
+           <td> time/epoch </td>
+          </tr>
+          <tr>
+           <td> 16 </td>
+           <td> 0.8788 </td> 
+           <td> 0.9375 </td> 
+           <td> 0.9192 </td> 
+           <td> 0.9587 </td> 
+           <td> 4 sec </td> 
+          </tr>
+          <tr>
+           <td> 32 </td>
+           <td> 0.8824 </td> 
+           <td> 0.9393 </td> 
+           <td> 0.8813 </td> 
+           <td> 0.9388 </td> 
+           <td> 5 sec </td>
+          </tr>
+          <tr>
+           <td> 128 </td>
+           <td> 0.8806 </td> 
+           <td> 0.9384 </td> 
+           <td> 0.9016 </td> 
+           <td> 0.9495 </td> 
+           <td> 10 sec </td>
+          </tr>
+          <tr>
+           <td> 256 </td>
+           <td> 0.8800 </td> 
+           <td> 0.9381 </td> 
+           <td> 0.9063 </td> 
+           <td> 0.9520 </td> 
+           <td> 16 sec </td>
+          </tr>
+          <tr>
+           <td> 512 </td>
+           <td> 0.8812 </td> 
+           <td> 0.9387 </td> 
+           <td> 0.8920 </td> 
+           <td> 0.9444 </td>
+           <td> 29 sec </td> 
+          </tr>
+        </table>
+    在上述的設定下，latent factor 設定依序為16、32、128、256、512。根據上表可以得知不同 latent factor 似乎對於 RMSE 影響不大。但在訓練時間上差異就相當明顯，這結果也很值觀， latent factor 越大，代表模型參數越多，運算就更複雜，反之亦然。
+
 
 * 在模型有 Bias 項的情況下，比較有無 normalize(在 rating 上) 的差別。
    * latent factor 為 32
@@ -184,7 +243,7 @@
 ，模型參數 345,441 個。
 
 <center>
-  <img src="02-Output/Deepmodel.png" height="400px" width="600">
+  <img src="02-Output/Deepmodel.png" height="500px" width="600">
 </center>
 
 * 比較 DNN 和 MF(有Bias項) 的差別
@@ -221,9 +280,6 @@
     <img src="02-Output/DeepLossCurves.png" height="220px" width="440">
     <img src="02-Output/BiasLossCurves.png" height="220px" width="440">
 </div>
-
-
-*  比較不同的 latent dimension 的結果。
 
 
 ## File Stucture
