@@ -284,6 +284,26 @@
 
 ## File Stucture
 
+```
+HW5
+|    README.md
+|    main.py
+|
+└─── Base
+|      __init__.py
+|      Utility.py
+|      Model.py
+|      Train.py
+|      Plot.py
+|      Predict.py
+|
+└─── 01-Data
+|       train.csv
+|       users.csv
+|       movies.csv
+|
+└─── 02-Output
+```
 
 ## Reference
 
@@ -292,3 +312,5 @@
 * [Collaborative filtering in Keras](http://www.fenris.org/2016/03/07/index-html)
 
 * [Recommender Systems in Keras](https://nipunbatra.github.io/blog/2017/recommend-keras.html)
+
+* [T-SNE](https://medium.com/@luckylwk/visualising-high-dimensional-datasets-using-pca-and-t-sne-in-python-8ef87e7915b)
