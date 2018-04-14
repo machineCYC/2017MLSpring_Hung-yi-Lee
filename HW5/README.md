@@ -85,7 +85,7 @@
  <img src="02-Output/unBiasmodel.png" height="300px" width="600">
 </center>
 
-接下來我們增加模型的複雜度，在 User 和 Movie 分別增加 bias 項，模型參數 329,736 個。
+接下來我們增加模型的複雜度，在 User 和 Movie 分別增加 bias 項，模型參數 321,024 個。
 
 <center>
   <img src="02-Output/Biasmodel.png" height="350px" width="800">
@@ -308,6 +308,7 @@ HW5
 |
 └─── 02-Output
 |       ...
+|___
 ```
 
 ## Reference
