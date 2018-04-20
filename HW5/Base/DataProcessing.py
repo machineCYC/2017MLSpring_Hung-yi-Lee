@@ -6,7 +6,7 @@ from Utility import countLabelCorrespondMovieNum, countSingleLabelCorrespondMovi
 
 strProjectFolder = os.path.dirname(os.path.dirname(__file__))
 
-DataTrain = pd.read_csv(os.path.join(strProjectFolder, "01-Data/train.csv"), usecols=["UserID", "MovieID", "Rating"])
+DataUser = pd.read_csv(os.path.join(strProjectFolder, "01-Data/users.csv"), sep="::", engine="python", usecols=["UserID", "Gender", "Age", "Occupation", "Zip-code"])
 DataMovie = pd.read_csv(os.path.join(strProjectFolder, "01-Data/movies.csv"), sep="::", engine="python", usecols=["movieID", "Title", "Genres"])
 DataMovie = DataMovie.rename(index=str, columns={'movieID':'MovieID'})
 
@@ -32,5 +32,5 @@ for d in DataMovie["Genres"]:
     listMovieLabel.append(strLabel)
 
 DataMovie["Label"] = listMovieLabel  
-Data = pd.merge(DataTrain, DataMovie, on="MovieID", how="left") 
-Data.to_csv(os.path.join(strProjectFolder, "02-Output/train.csv"))  
+DataMovie.to_csv(os.path.join(strProjectFolder, "02-Output/movies.csv"))
+DataUser.to_csv(os.path.join(strProjectFolder, "02-Output/users.csv"))

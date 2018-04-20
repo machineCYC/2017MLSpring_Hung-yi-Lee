@@ -44,7 +44,8 @@ def plotMovieEmbeddingTSNE(dictLabel, strProjectFolder, strOutputPath):
     arrayVisualizationData = TSNE(n_components=2).fit_transform(arrayMovieEmbedding)
     arrayVisualizationX = arrayVisualizationData[:, 0]
     arrayVisualizationY = arrayVisualizationData[:, 1]
-    
+
+    fig = plt.figure(figsize=(6, 6))
     cm = plt.cm.get_cmap("RdYlBu")
     plt.scatter(arrayVisualizationX, arrayVisualizationY, c=dictLabel["LabelEncoder"], cmap=cm)
     plt.colorbar()

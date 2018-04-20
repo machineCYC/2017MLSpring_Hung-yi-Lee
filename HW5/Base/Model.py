@@ -39,17 +39,17 @@ def MFDeepNN(intUserSize, intMovieSize, intLatentSize):
     UserInput = Input(shape=(1, ), name="UserInput")
     UserEmbedding = Embedding(intUserSize, intLatentSize, embeddings_initializer="random_normal", embeddings_regularizer=l2(0.001), name="UserEmbedding")(UserInput)
     UserEmbedding = Flatten()(UserEmbedding)
-    UserEmbedding = Dropout(0.5)(UserEmbedding)
+    UserEmbedding = Dropout(0.3)(UserEmbedding)
 
     MovieInput = Input(shape=(1, ), name="MovieInput")
     MovieEmbedding = Embedding(intMovieSize, intLatentSize, embeddings_initializer="random_normal", embeddings_regularizer=l2(0.001), name="MovieEmbedding")(MovieInput)
     MovieEmbedding = Flatten()(MovieEmbedding)
-    MovieEmbedding = Dropout(0.5)(MovieEmbedding)
+    MovieEmbedding = Dropout(0.3)(MovieEmbedding)
 
     hidden = Concatenate()([UserEmbedding, MovieEmbedding])
-    hidden = Dense(256, activation="relu")(hidden)
-    hidden = Dense(64, activation="relu")(hidden)
-    hidden = Dense(16, activation="relu")(hidden)
+    hidden = Dense(512, activation="relu")(hidden)
+    hidden = Dense(128, activation="relu")(hidden)
+    hidden = Dense(32, activation="relu")(hidden)
 
     RattingHat = Dense(1, activation="relu")(hidden)
     

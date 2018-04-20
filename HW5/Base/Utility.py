@@ -6,23 +6,14 @@ def getRMSE(arrayPredict, arrayTrue):
     return K.sqrt(K.mean(K.pow(arrayTrue - arrayPredict, 2))) 
 
 
-def getMovieCorrespondLabel(arrayMovies, arrayLabel):
+def getLabelEncoder(DataMovies):
     '''
     This function finds the Movie correspond Label and return a dictionary order by MovieID from trainind data
-    '''
-    arraySortLabel = arrayLabel[np.argsort(arrayMovies)]
-    arraySortMovies = arrayMovies[np.argsort(arrayMovies)]
-
-    dictLabel = {"MovieID":[], "Label":[]}
-    for i, m in enumerate(arraySortMovies):
-        if m not in dictLabel["MovieID"]:
-            dictLabel["MovieID"].append(m)
-            dictLabel["Label"].append(arraySortLabel[i])
-            
+    '''          
     from sklearn.preprocessing import LabelEncoder
     LE = LabelEncoder()
-    dictLabel["LabelEncoder"] = LE.fit_transform(dictLabel["Label"])
-    return dictLabel
+    DataMovies["LabelEncoder"] = LE.fit_transform(DataMovies["Label"])
+    return DataMovies
 
 
 def countLabelCorrespondMovieNum(pdDataLableColumn):
