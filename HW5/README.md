@@ -70,7 +70,11 @@
 
 ## Data 簡介
 
-* Training dataset 為 899873 筆資料，其中包含 6040 位 User 和 3688 部電影。
+* Training dataset 為 899873 筆資料，其中包含 6040 位 User 和 3883 部電影，其中 3688 部電影有評分資料。
+
+* Movies dataset 中 movie ID 最大為 3952 但資料筆數只有 3883 部電影。
+
+* User dataset 中 user ID 最大為 6040，資料筆數也有 6040 為使用者。
 
 * Testing dataset 則是 100336 筆資料， 其中一半為 kaggle private set。
 
