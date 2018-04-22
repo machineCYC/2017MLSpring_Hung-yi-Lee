@@ -2,6 +2,8 @@ import os, json
 from keras.preprocessing.text import Tokenizer
 import _pickle as pk
 from keras.preprocessing.sequence import pad_sequences
+import numpy as np
+from keras.utils import to_categorical
 
 
 strProjectFolder = os.path.dirname(os.path.dirname(__file__))
@@ -12,22 +14,22 @@ class executeETL():
     def __init__(self):
         self.dictTrainData = {}
 
-    def cleanData(self, strDataFile, boolLabel):
+    def cleanData(self, strDataFileName, boolLabel):
         listLabel = []
         listText = []
-        with open(os.path.join(strRAWDataFolder, strDataFile), "r", encoding="utf8") as data:
+        with open(os.path.join(strRAWDataFolder, strDataFileName), "r", encoding="utf8") as data:
             for d in data:
                 if boolLabel:
-                    listRow = d.split(" +++$+++ ")
+                    listRow = d.strip().split(" +++$+++ ")
                     listLabel.append(int(listRow[0]))
                     listText.append(listRow[1])
                 else:
                     listText.append(d)
 
             if boolLabel:
-                self.dictTrainData["LabelData"] = [listText, listLabel]
+                self.dictTrainData["Data"] = [listText, listLabel]
             else:
-                self.dictTrainData["LabelData"] = [listText]
+                self.dictTrainData["Data"] = [listText]
 
     def doTokenizer(self, intVocabSize):
         self.tokenizer = Tokenizer(num_words=intVocabSize)
@@ -44,29 +46,18 @@ class executeETL():
     def convertWords2Sequence(self, intSequenceLength):
         for key in self.dictTrainData:
             listSequence = self.tokenizer.texts_to_sequences(self.dictTrainData[key][0])
-            self.dictTrainData[key][0] = pad_sequences(listSequence, maxlen=intSequenceLength)
+            self.dictTrainData[key][0] = np.array(pad_sequences(listSequence, maxlen=intSequenceLength))
+    
+    def convertLabel2Onehot(self):
+        for key in self.dictTrainData:
+            if len(self.dictTrainData[key]) == 2:
+                self.dictTrainData[key][1] = np.array(to_categorical(self.dictTrainData[key][1]))
 
+    def splitData(self, floatRatio):
+        data = self.dictTrainData["Data"]
+        X = data[0]
+        Y = data[1]
+        intDataSize = len(X)
+        intValidationSize = int(intDataSize * floatRatio)
+        return (X[intValidationSize:], Y[intValidationSize:]), (X[:intValidationSize], Y[:intValidationSize])
 
-
-
-
-
-
-ETL = executeETL()
-ETL.cleanData(strDataFile="training_label.txt", boolLabel=True)
-ETL.doTokenizer(intVocabSize=20000)
-ETL.dictTrainData["LabelData"][0][0]
-# ETL.saveTokenizer(strTokenizerFile="TokenizerDictionary")
-ETL.loadTokenizer(strTokenizerFile="TokenizerDictionary")
-ETL.convertWords2Sequence(intSequenceLength=40)
-dictTrainData = ETL.dictTrainData
-
-
-
-
-
-
-
-with open(os.path.join(strAPDataFolder, "training_label.json")) as json_data:
-    d = json.load(json_data)
-    json_data.close()
