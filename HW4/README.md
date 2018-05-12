@@ -25,11 +25,7 @@
 HW4
 |    README.md
 |    main.py
-|
-└─── Base
-|      __init__.py
-|      DataProcessing.py
-|      Model.py
+|    Test.py
 |
 └─── 01-RAWData
 |       training_label.txt
@@ -40,6 +36,19 @@ HW4
 └─── 02-APData
 |       TokenizerDictionary
 |
+└─── 03-Output
+|       model.h5
+|       log.csv
+|       LossAccuracyCurves.png
+|       submission.csv
+|
+└─── Base
+|      __init__.py
+|      DataProcessing.py
+|      Model.py
+|      Train.py
+|      Predict.py
+|      Utility.py
 |___
 ```
 
@@ -47,4 +56,8 @@ HW4
 ## Reference
 
 * [原始課程作業說明](https://docs.google.com/presentation/d/1HnyZowEamy8N4cUT0gY4aoRZuBTluIuoe8uYQdFxhI0/edit#slide=id.p)
+
+* [Deep learning for NLP](https://pageperso.lis-lab.fr/benoit.favre/dl4nlp/tutorials/03-sentiment.pdf)
+
+* [Sequence Classification with LSTM Recurrent Neural Networks in Python with Keras](https://machinelearningmastery.com/sequence-classification-lstm-recurrent-neural-networks-python-keras/)
 
