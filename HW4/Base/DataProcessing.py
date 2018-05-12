@@ -12,7 +12,7 @@ strAPDataFolder = os.path.join(strProjectFolder, "02-APData")
 
 class executeETL():
     def __init__(self):
-        self.dictTrainData = {}
+        self.dictData = {}
 
     def cleanData(self, strDataFileName, boolLabel):
         listLabel = []
@@ -24,40 +24,53 @@ class executeETL():
                     listLabel.append(int(listRow[0]))
                     listText.append(listRow[1])
                 else:
-                    listText.append(d)
+                    listRow = d.strip().split(",", 1)[1]
+                    if listRow != "text":
+                        listText.append(listRow)
 
             if boolLabel:
-                self.dictTrainData["Data"] = [listText, listLabel]
+                self.dictData["Data"] = [listText, listLabel]
             else:
-                self.dictTrainData["Data"] = [listText]
+                self.dictData["Data"] = [listText]
 
     def doTokenizer(self, intVocabSize):
         self.tokenizer = Tokenizer(num_words=intVocabSize)
-        for key in self.dictTrainData:
-            listTexts = self.dictTrainData[key][0]
+        for key in self.dictData:
+            listTexts = self.dictData[key][0]
             self.tokenizer.fit_on_texts(listTexts)
 
-    def saveTokenizer(self, strTokenizerFile):
-        pk.dump(self.tokenizer, open(os.path.join(strAPDataFolder, strTokenizerFile), "wb"))
+    def saveTokenizer(self, strTokenizerFileName):
+        pk.dump(self.tokenizer, open(os.path.join(strAPDataFolder, strTokenizerFileName), "wb"))
 
-    def loadTokenizer(self, strTokenizerFile):
-        self.tokenizer = pk.load(open(os.path.join(strAPDataFolder, strTokenizerFile), "rb"))
+    def loadTokenizer(self, strTokenizerFileName):
+        self.tokenizer = pk.load(open(os.path.join(strAPDataFolder, strTokenizerFileName), "rb"))
 
     def convertWords2Sequence(self, intSequenceLength):
-        for key in self.dictTrainData:
-            listSequence = self.tokenizer.texts_to_sequences(self.dictTrainData[key][0])
-            self.dictTrainData[key][0] = np.array(pad_sequences(listSequence, maxlen=intSequenceLength))
+        for key in self.dictData:
+            listSequence = self.tokenizer.texts_to_sequences(self.dictData[key][0])
+            print("text count start")
+            listTextCount = []
+            for t in listSequence:
+                listTextCount.append(len(t))     
+            
+            import pandas as pd
+            print(pd.Series(listTextCount).value_counts())         
+
+            self.dictData[key][0] = np.array(pad_sequences(listSequence, maxlen=intSequenceLength))
     
     def convertLabel2Onehot(self):
-        for key in self.dictTrainData:
-            if len(self.dictTrainData[key]) == 2:
-                self.dictTrainData[key][1] = np.array(to_categorical(self.dictTrainData[key][1]))
+        for key in self.dictData:
+            if len(self.dictData[key]) == 2:
+                self.dictData[key][1] = np.array(to_categorical(self.dictData[key][1]))
 
     def splitData(self, floatRatio):
-        data = self.dictTrainData["Data"]
+        data = self.dictData["Data"]
         X = data[0]
         Y = data[1]
         intDataSize = len(X)
         intValidationSize = int(intDataSize * floatRatio)
         return (X[intValidationSize:], Y[intValidationSize:]), (X[:intValidationSize], Y[:intValidationSize])
+
+    def getData(self):
+        return self.dictData["Data"]
 

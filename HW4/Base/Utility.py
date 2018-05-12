@@ -40,4 +40,4 @@ class recordsAccLossHistory(Callback):
         plt.legend()
         plt.title("accuracy process")
         plt.tight_layout()
-        plt.savefig(os.path.join(strOutputFolder, "LossAcccracyCurves"))
+        plt.savefig(os.path.join(strOutputFolder, "LossAccuracyCurves"))
