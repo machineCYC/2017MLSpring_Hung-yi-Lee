@@ -17,6 +17,19 @@
 
 ## Summary
 
+資料處理的部分，先將 training data 句子中的縮寫處理成完整的句子，像是 i'm 就會變成 i am, you're 則會變成 you are。
+
+### RNN Model
+
+先將 training data 中的每個字做統計並編碼，並取最多數量的前 10000 個字當做字典。
+
+根據我們的字典將句子轉換成一串數字，且透過 padding 的方式將每個句子調整成相同長度。
+
+接著透過 embedding layer 將句子中的字轉換成向量成為 RNN 的 input。
+
+兩層 GRU 使用的 dropout rate 均為 0.5，再接兩層Hidden layer，最後再透 sigmoid 輸出預測
+
+### 
 
 
 ## File Stucture
@@ -61,3 +74,4 @@ HW4
 
 * [Sequence Classification with LSTM Recurrent Neural Networks in Python with Keras](https://machinelearningmastery.com/sequence-classification-lstm-recurrent-neural-networks-python-keras/)
 
+* [keras：LSTM函數詳解](https://blog.csdn.net/jiangpeng59/article/details/77646186)
