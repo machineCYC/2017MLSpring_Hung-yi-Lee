@@ -27,9 +27,13 @@
 
 接著透過 embedding layer 將句子中的字轉換成向量成為 RNN 的 input。
 
-兩層 GRU 使用的 dropout rate 均為 0.5，再接兩層Hidden layer，最後再透 sigmoid 輸出預測
+兩層 GRU 使用的 dropout rate 均為 0.5，再接兩層 Hidden layer，最後再透 sigmoid 輸出預測
 
-### 
+### BOW Model
+
+根據前面提到的字典，我們將每個句子傳換成跟字典一樣維度的向量，並計算字典中每個字出現在句子的個數。以此向量來代表句子。
+
+接著透過 fully connection 的 layer，最後再透過 sigmoid 的輸出建構 Bow Model。
 
 
 ## File Stucture
