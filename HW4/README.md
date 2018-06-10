@@ -36,6 +36,18 @@
 接著透過 fully connection 的 layer，最後再透過 sigmoid 的輸出建構 Bow Model。
 
 
+### 比較 RNN and BOW model 對於類似的句子但情緒不一樣
+
+對於 "today is a good day, but it is hot" 這句話情緒為負面，而透過 RNN Model 可以得知模型預測為 0.53547215 稍微偏向正面。
+
+而 "today is hot, but it is a good day" 這句話情緒為正面，而 RNN Model 預測結果為 0.97617346，有相當的信心為正面。
+
+BOW Model 預測為兩具句子都為 0.47XXX 偏向負面。這點可以說明 BOW Model 忽略了單字之間的順序，加上兩個句子單字結構是一樣所以預測結果也是一樣。
+
+也因為忽略了單字間的順序，以至於情緒分類效果相對於 RNN Model 遜色一點。
+
+
+
 ## File Stucture
 
 ```
