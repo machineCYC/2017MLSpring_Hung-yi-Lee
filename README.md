@@ -12,4 +12,8 @@ The detail of each homework is in the below.
 
 [Image Sentiment Classification](https://github.com/machineCYC/2017MLSpring_Hung-yi-Lee/tree/master/HW3)
 
+[Text Sentiment Classification](https://github.com/machineCYC/2017MLSpring_Hung-yi-Lee/tree/master/HW4)
+
 [Predict movie ratings](https://github.com/machineCYC/2017MLSpring_Hung-yi-Lee/tree/master/HW5)
+
+[Unsupervised learning & dimension reduction](https://github.com/machineCYC/2017MLSpring_Hung-yi-Lee/tree/master/HW6)
