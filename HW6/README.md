@@ -5,6 +5,7 @@
 ### PART1: PCA of colored faces
 
 #### Data 簡介
+
 [數據集](https://drive.google.com/file/d/1IfPN_emmgGKZVqACjNj8fymDqwsDECyJ/view?usp=drive_open)來自 Aberdeen University 的 Prof. Ian Craw，並經過挑選及對齊，總共有 415 張 600 X 600 X 3 的彩圖。
 
 #### Summary
@@ -15,16 +16,29 @@
   
 另外為了可以從低維度的 <a href="https://www.codecogs.com/eqnedit.php?latex=Z" target="_blank"><img src="https://latex.codecogs.com/gif.latex?Z" title="Z" /></a> 重建回 <a href="https://www.codecogs.com/eqnedit.php?latex=X" target="_blank"><img src="https://latex.codecogs.com/gif.latex?X" title="X" /></a>，所以將 <a href="https://www.codecogs.com/eqnedit.php?latex=Z" target="_blank"><img src="https://latex.codecogs.com/gif.latex?Z" title="Z" /></a> 乘上 <a href="https://www.codecogs.com/eqnedit.php?latex=V^{T}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?V^{T}" title="V^{T}" /></a> 可得 <a href="https://www.codecogs.com/eqnedit.php?latex=\widehat{X}=&space;ZV^{T}=&space;XVV^{T}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\widehat{X}=&space;ZV^{T}=&space;XVV^{T}" title="\widehat{X}= ZV^{T}= XVV^{T}" /></a>。但別忘了一開始有扣掉平均照片 <a href="https://www.codecogs.com/eqnedit.php?latex=\mu" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\mu" title="\mu" /></a> 。所以 <a href="https://www.codecogs.com/eqnedit.php?latex=\widehat{X}_{reconstruction}=&space;ZV^{T}&space;&plus;&space;\mu" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\widehat{X}_{reconstruction}=&space;ZV^{T}&space;&plus;&space;\mu" title="\widehat{X}_{reconstruction}= ZV^{T} + \mu" /></a> 。
 
-
+![](Output/pca/AvgFace.png)
 
 ### PART2: Visualization of Chinese word embedding
 
 #### Data 簡介
 
+[數據集](https://drive.google.com/open?id=1E5lElPutaWqKYPhSYLmVfw6olHjKDgdK) 來自於課堂上 project 資料的彙整。用 '。’ 或 ‘\n’ 當做句子之間的分界，然後去掉長度小於 6 的總共有 578810 句。
 
 
 #### Summary 
 
+
+這次先使用 jieba 將句子做段詞，例如: "我叫你閉上眼睛" --> "妳 叫 我 閉上眼睛 \n"。再將段詞過後的詞，利用 gensim.model.word2vec 轉成向量。使用參數如下:
+
+'''
+Word2Vec(lines, size=300, min_count=16, iter=20)
+'''
+
+lines 為斷詞過後的句子，size 為每個詞的維度，min_count 為至少要出現超過這數字的詞才會被拿來 train， iter 為 training 迭代次數。
+
+下圖為將每個詞的 vector 利用 TSNE 降維到 2，方便去做視覺化的呈現。
+
+![](Output/word2vec/visWord2vec.png)
 
 ### PART3: Image clustering
 
@@ -33,6 +47,36 @@
 
 #### Summary 
 
+## File Stucture
+
+```
+HW5/
+|    README.md
+|    pca.py
+|    word2vec.py
+|
+└─── 01-RAWData/
+|       Aberdeen/
+|       image.npy
+|       all_sents.txt
+|
+└─── Output/
+|       pca/
+|          AvgFace.png
+|          .png
+|          .png
+|       .
+|       .
+|       .
+|       word2vec/
+|          visWord2vec.png
+|          corpus_Seg.txt
+|       .
+|       .
+|       .    
+|___
+```
+
 ## Reference
 
 * [原始課程作業說明](https://docs.google.com/presentation/d/1v2aJnjqplnQ5YSprp6IXbWM_VPavtolqpgbGWM4HidY/edit)
@@ -40,3 +84,7 @@
 * [人臉識別算法-特徵臉方法（Eigenface）及 python 實現](https://blog.csdn.net/u010006643/article/details/46417127)
 
 * [PCA](https://stats.stackexchange.com/questions/229092/how-to-reverse-pca-and-reconstruct-original-variables-from-several-principal-com)
+
+* [Word2vec](https://medium.com/pyladies-taiwan/%E8%87%AA%E7%84%B6%E8%AA%9E%E8%A8%80%E8%99%95%E7%90%86%E5%85%A5%E9%96%80-word2vec%E5%B0%8F%E5%AF%A6%E4%BD%9C-f8832d9677c8)
+
+* [Matplotlib 顯示中文](https://codertw.com/%E4%BA%BA%E5%B7%A5%E6%99%BA%E6%85%A7/95662/)
