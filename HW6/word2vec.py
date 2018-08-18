@@ -42,7 +42,7 @@ if not os.path.exists(os.path.join(strModelPath, "word2vec")):
             lines.append(s)
 
     print("Training word2vec...")
-    w2v = Word2Vec(lines, size=300, min_count=16, workers=8, iter=20)
+    w2v = Word2Vec(lines, size=300, min_count=20, iter=20)
     w2v.save(os.path.join(strModelPath, "word2vec"))
 else:
     w2v = Word2Vec.load(os.path.join(strModelPath, "word2vec"))
@@ -54,7 +54,7 @@ def tsne_plot(model):
     tokens = []
 
     for word in model.wv.vocab:
-        if 8000 >= w2v.wv.vocab[word].count >= 2000:
+        if 6000 >= w2v.wv.vocab[word].count >= 3000:
             tokens.append(model[word])
             labels.append(word)
     
@@ -72,10 +72,10 @@ def tsne_plot(model):
         plt.scatter(x[i], y[i])
         plt.annotate(labels[i],
                      xy=(x[i], y[i]),
+                     textcoords="offset points",
                      xytext=(5, 2),
-                     textcoords='offset points',
-                     ha='right',
-                     va='bottom')
+                     ha="right",
+                     va="bottom")
 
     plt.savefig(os.path.join(strOutputPath, "visWord2vec.png"))
 
