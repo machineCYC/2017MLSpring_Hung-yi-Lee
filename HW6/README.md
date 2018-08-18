@@ -30,15 +30,17 @@
 
 這次先使用 jieba 將句子做段詞，例如: "我叫你閉上眼睛" --> "妳 叫 我 閉上眼睛 \n"。再將段詞過後的詞，利用 gensim.model.word2vec 轉成向量。使用參數如下:
 
-'''
+```
 Word2Vec(lines, size=300, min_count=16, iter=20)
-'''
+```
 
 lines 為斷詞過後的句子，size 為每個詞的維度，min_count 為至少要出現超過這數字的詞才會被拿來 train， iter 為 training 迭代次數。
 
 下圖為將每個詞的 vector 利用 TSNE 降維到 2，方便去做視覺化的呈現。
 
-![](Output/word2vec/visWord2vec.png)
+![](Output/word2vec/visWord2vecModify.png)
+
+藍色圓圈為數字的部分，紅色為城市階級，綠色為稱呼。整體來說詞意越接近會越靠近。
 
 ### PART3: Image clustering
 
