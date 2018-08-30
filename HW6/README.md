@@ -29,6 +29,31 @@
     <img src="Output/pca/Top3EigenFaces.png" height="200px">
 </div>
 
+
+* 比例分別為
+<table style="width:50%">
+  <tr>
+    <td>Top 1 Eigen Faces </td> 
+    <td> 0.352 </td> 
+  </tr>
+  
+  <tr>
+    <td>Top 2 Eigen Faces</td>
+    <td> 0.252 </td> 
+  </tr>
+  
+  <tr>
+    <td>Top 3 Eigen Faces</td>
+    <td> 0.206 </td> 
+  </tr>
+
+  <tr>
+    <td>Top 4 Eigen Faces</td>
+    <td> 0.189 </td> 
+  </tr>
+  
+</table>
+
 下列展示為第 100、200、300、400 張原始照片。
 
 <div class="half">

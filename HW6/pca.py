@@ -80,7 +80,7 @@ if __name__ == "__main__":
     pca = PCA(n_components=4)
     pca.fit(X=list_Images_Vector)
 
-    list_Random_Index = [100, 200, 300, 400]
+    list_Random_Index = [100, 200, 128, 400]
     list_Random_Images_Vectors = [list_Images_Vector[i] for i in list_Random_Index]
     array_Recon_Images_Vectors = pca.inverse_transform(X=list_Random_Images_Vectors)
     ReconImage = array_Recon_Images_Vectors + pca.mean_
@@ -96,6 +96,4 @@ if __name__ == "__main__":
     for i in range(len(list_Random_Index)):
         io.imsave(os.path.join(strOutputPath, "Recon_img{}_{}Eigen.png".format(list_Random_Index[i], pca.n_components)), get_Img_Clip(ReconImage[i]))
         io.imsave(os.path.join(strOutputPath, "Origin_img{}.png".format(list_Random_Index[i])), list_Images_Vector[list_Random_Index[i]].reshape(128, 128, 3))
-
-
 
