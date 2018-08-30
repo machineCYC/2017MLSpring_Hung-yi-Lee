@@ -29,6 +29,7 @@
     <img src="Output/pca/Top3EigenFaces.png" height="200px">
 </div>
 
+由下表可以很清楚的知道，前 4 個 eigen face 已經包含了絕大部分的資訊，可以理解成前幾個 eigen face 負責圖片的主要輪廓，而所剩的 eigen face 所負責的部分為照片中較細節的紋理。
 
 * 比例分別為
 <table style="width:50%">
