@@ -16,7 +16,11 @@
   
 另外為了可以從低維度的 <a href="https://www.codecogs.com/eqnedit.php?latex=Z" target="_blank"><img src="https://latex.codecogs.com/gif.latex?Z" title="Z" /></a> 重建回 <a href="https://www.codecogs.com/eqnedit.php?latex=X" target="_blank"><img src="https://latex.codecogs.com/gif.latex?X" title="X" /></a>，所以將 <a href="https://www.codecogs.com/eqnedit.php?latex=Z" target="_blank"><img src="https://latex.codecogs.com/gif.latex?Z" title="Z" /></a> 乘上 <a href="https://www.codecogs.com/eqnedit.php?latex=V^{T}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?V^{T}" title="V^{T}" /></a> 可得 <a href="https://www.codecogs.com/eqnedit.php?latex=\widehat{X}=&space;ZV^{T}=&space;XVV^{T}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\widehat{X}=&space;ZV^{T}=&space;XVV^{T}" title="\widehat{X}= ZV^{T}= XVV^{T}" /></a>。但別忘了一開始有扣掉平均照片 <a href="https://www.codecogs.com/eqnedit.php?latex=\mu" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\mu" title="\mu" /></a> 。所以 <a href="https://www.codecogs.com/eqnedit.php?latex=\widehat{X}_{reconstruction}=&space;ZV^{T}&space;&plus;&space;\mu" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\widehat{X}_{reconstruction}=&space;ZV^{T}&space;&plus;&space;\mu" title="\widehat{X}_{reconstruction}= ZV^{T} + \mu" /></a> 。
 
+下圖為平均臉。
+
 ![](Output/pca/AvgFace.png)
+
+下列展示為前 4 個 eigen face。
 
 <div class="half">
     <img src="Output/pca/Top0EigenFaces.png" height="200px">
@@ -25,12 +29,25 @@
     <img src="Output/pca/Top3EigenFaces.png" height="200px">
 </div>
 
+下列展示為第 100、200、300、400 張原始照片。
+
+<div class="half">
+    <img src="Output/pca/Origin_img100.png" height="200px">
+    <img src="Output/pca/Origin_img200.png" height="200px">
+    <img src="Output/pca/Origin_img300.png" height="200px">
+    <img src="Output/pca/Origin_img400.png" height="200px">
+</div>
+
+下列展示為第 100、200、300、400 經過前 4 個 eigen face 所重建的照片。
+
 <div class="half">
     <img src="Output/pca/Recon_img100_4Eigen.png" height="200px">
     <img src="Output/pca/Recon_img200_4Eigen.png" height="200px">
     <img src="Output/pca/Recon_img300_4Eigen.png" height="200px">
     <img src="Output/pca/Recon_img400_4Eigen.png" height="200px">
 </div>
+
+下列展示為第 100、200、300、400 經過前 100 個 eigen face 所重建的照片。
 
 <div class="half">
     <img src="Output/pca/Recon_img100_100Eigen.png" height="200px">
