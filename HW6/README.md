@@ -18,6 +18,27 @@
 
 ![](Output/pca/AvgFace.png)
 
+<div class="half">
+    <img src="Output/pca/Top0EigenFaces.png" height="200px">
+    <img src="Output/pca/Top1EigenFaces.png" height="200px">
+    <img src="Output/pca/Top2EigenFaces.png" height="200px">
+    <img src="Output/pca/Top3EigenFaces.png" height="200px">
+</div>
+
+<div class="half">
+    <img src="Output/pca/Recon_img100_4Eigen.png" height="200px">
+    <img src="Output/pca/Recon_img200_4Eigen.png" height="200px">
+    <img src="Output/pca/Recon_img300_4Eigen.png" height="200px">
+    <img src="Output/pca/Recon_img400_4Eigen.png" height="200px">
+</div>
+
+<div class="half">
+    <img src="Output/pca/Recon_img100_100Eigen.png" height="200px">
+    <img src="Output/pca/Recon_img200_100Eigen.png" height="200px">
+    <img src="Output/pca/Recon_img300_100Eigen.png" height="200px">
+    <img src="Output/pca/Recon_img400_100Eigen.png" height="200px">
+</div>
+
 ### PART2: Visualization of Chinese word embedding
 
 #### Data 簡介
@@ -44,7 +65,17 @@ lines 為斷詞過後的句子，size 為每個詞的維度，min_count 為至�
 
 ### PART3: Image clustering
 
+這次希望透過這個小傳案可以達到，分辨給定的兩張 images 是否來自同一個 datase。
+
 #### Data 簡介
+
+- image.npy.zip: 資料維度 140000 x 784, 共有 140000 張照片，每張照片 28x28。
+
+- visualization.npy: 10000 x 784, 共有 10000 張照片，每張照片 28x28。前 5000 張來自於 datasets A，後 5000 張來自於 datasets B。
+
+- test_case.csv: 
+
+- sample_submission.csv: 
 
 
 #### Summary 
