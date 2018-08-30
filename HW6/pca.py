@@ -42,6 +42,7 @@ class PCA(object):
         self.S = S[0:self.n_components]
         self.U = U[:, 0:self.n_components] # (D, n_components)
         self.explained_variance_ratio_ = np.round(self.S / np.sum(self.S), 3)
+        print(self.explained_variance_ratio_)
         return
     
     def transform(self, X):
